@@ -1,0 +1,1122 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>4-4반 은행 관리 프로그램</title>
+    <style>
+        /* 우주 느낌의 배경 및 기본 설정 */
+        body {
+            font-family: 'Malgun Gothic', '맑은 고딕', sans-serif;
+            background: #090a0f linear-gradient(135deg, #090e1a 0%, #081b2e 40%, #002b4d 70%, #090a0f 100%);
+            background-attachment: fixed;
+            margin: 0;
+            padding: 20px;
+            color: #e2e8f0;
+            position: relative;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* 별빛 반짝이는 배경 효과 */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: radial-gradient(2px 2px at 20px 30px, #ffffff, rgba(0,0,0,0)),
+                        radial-gradient(2px 2px at 40px 70px, #38bdf8, rgba(0,0,0,0)),
+                        radial-gradient(1px 1px at 90px 40px, #ffffff, rgba(0,0,0,0)),
+                        radial-gradient(2px 2px at 160px 120px, #60a5fa, rgba(0,0,0,0)),
+                        radial-gradient(1.5px 1.5px at 230px 190px, #fff, rgba(0,0,0,0)),
+                        radial-gradient(2px 2px at 310px 80px, #38bdf8, rgba(0,0,0,0));
+            background-repeat: repeat;
+            background-size: 350px 350px;
+            opacity: 0.6;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* 글래스모피즘 컨테이너 */
+        .container {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+            margin: 0 auto;
+            background: rgba(13, 25, 48, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            padding: 25px;
+            border-radius: 20px;
+            box-shadow: 0 0 25px rgba(56, 189, 248, 0.25), inset 0 0 15px rgba(56, 189, 248, 0.1);
+            border: 1px solid rgba(56, 189, 248, 0.4);
+        }
+
+        .header-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            color: #38bdf8;
+            margin: 0;
+            font-size: 24px;
+            text-shadow: 0 0 12px rgba(56, 189, 248, 0.6);
+            letter-spacing: 1px;
+        }
+
+        .admin-open-btn {
+            background: linear-gradient(135deg, #ef4444 0%, #b91c1c 100%);
+            color: #fff;
+            border: 1px solid #fca5a5;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 0 10px rgba(239, 68, 68, 0.4);
+            transition: all 0.2s;
+        }
+
+        .admin-open-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 15px rgba(239, 68, 68, 0.8);
+        }
+
+        /* 예금 규칙 박스 */
+        .rule-info {
+            background: rgba(6, 78, 59, 0.35);
+            border: 1px solid rgba(52, 211, 153, 0.5);
+            padding: 14px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            font-size: 13.5px;
+            color: #6ee7b7;
+            line-height: 1.6;
+            box-shadow: inset 0 0 10px rgba(52, 211, 153, 0.1);
+        }
+
+        .rule-info .highlight {
+            color: #fde047;
+            font-weight: bold;
+        }
+
+        /* 알림 섹션 스타일 */
+        .notification-section {
+            background: rgba(124, 58, 237, 0.2);
+            border: 1px solid rgba(167, 139, 250, 0.5);
+            padding: 15px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            box-shadow: 0 0 15px rgba(167, 139, 250, 0.2);
+        }
+
+        .notification-title {
+            color: #c084fc;
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .notification-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .notification-item {
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid rgba(167, 139, 250, 0.3);
+            padding: 10px 14px;
+            border-radius: 8px;
+            margin-bottom: 8px;
+            font-size: 14px;
+            color: #e2e8f0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .notification-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .notification-item strong {
+            color: #fde047;
+        }
+
+        .empty-notification {
+            color: #94a3b8;
+            font-size: 13.5px;
+            text-align: center;
+            padding: 5px 0;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 6px;
+            color: #7dd3fc;
+            font-size: 14px;
+            text-shadow: 0 0 5px rgba(125, 211, 252, 0.3);
+        }
+
+        input, select {
+            width: 100%;
+            padding: 12px;
+            background: rgba(15, 23, 42, 0.8);
+            border: 1px solid #0284c7;
+            border-radius: 10px;
+            box-sizing: border-box;
+            font-size: 15px;
+            color: #f1f5f9;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        input:focus, select:focus {
+            border-color: #38bdf8;
+            box-shadow: 0 0 10px rgba(56, 189, 248, 0.5);
+        }
+
+        select option {
+            background: #0f172a;
+            color: #f1f5f9;
+        }
+
+        /* 저금하기 버튼 */
+        button.add-btn {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+            color: #ffffff;
+            border: 1px solid #38bdf8;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+            box-shadow: 0 0 15px rgba(2, 132, 199, 0.4);
+        }
+
+        button.add-btn:hover {
+            background: linear-gradient(135deg, #0369a1 0%, #0284c7 100%);
+            box-shadow: 0 0 20px rgba(56, 189, 248, 0.8);
+            transform: translateY(-1px);
+        }
+
+        /* 리더보드 섹션 */
+        .leaderboard-section {
+            margin-top: 35px;
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid rgba(56, 189, 248, 0.3);
+            border-radius: 16px;
+            padding: 20px;
+        }
+
+        .leaderboard-title {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            border-bottom: 2px solid rgba(56, 189, 248, 0.3);
+            padding-bottom: 10px;
+        }
+
+        .leaderboard-title h2 {
+            color: #fde047;
+            font-size: 20px;
+            margin: 0;
+            text-shadow: 0 0 10px rgba(253, 224, 71, 0.4);
+        }
+
+        .tab-group {
+            display: flex;
+            gap: 8px;
+        }
+
+        .tab-btn {
+            background: rgba(30, 41, 59, 0.8);
+            color: #94a3b8;
+            border: 1px solid rgba(148, 163, 184, 0.3);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .tab-btn.active {
+            background: #38bdf8;
+            color: #0f172a;
+            border-color: #38bdf8;
+            box-shadow: 0 0 10px rgba(56, 189, 248, 0.5);
+        }
+
+        .board-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .board-card {
+            background: rgba(30, 41, 59, 0.5);
+            border: 1px solid rgba(56, 189, 248, 0.2);
+            border-radius: 12px;
+            padding: 12px;
+        }
+
+        .board-card h3 {
+            font-size: 15px;
+            margin: 0 0 10px 0;
+            padding-bottom: 6px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+        }
+
+        .board-card.deposit h3 { color: #38bdf8; }
+        .board-card.savings h3 { color: #a78bfa; }
+        .board-card.total h3 { color: #fde047; }
+
+        .rank-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .rank-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 6px 4px;
+            font-size: 13px;
+            border-bottom: 1px dashed rgba(255, 255, 255, 0.05);
+        }
+
+        .rank-item:last-child {
+            border-bottom: none;
+        }
+
+        .rank-number {
+            font-weight: bold;
+            width: 25px;
+            display: inline-block;
+        }
+
+        .rank-1 { color: #fde047; font-weight: bold; }
+        .rank-2 { color: #e2e8f0; font-weight: bold; }
+        .rank-3 { color: #f97316; font-weight: bold; }
+
+        .empty-rank {
+            text-align: center;
+            color: #64748b;
+            font-size: 12px;
+            padding: 10px 0;
+        }
+
+        /* 목록 헤더 */
+        .list-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 35px;
+            border-bottom: 1px solid rgba(56, 189, 248, 0.3);
+            padding-bottom: 8px;
+        }
+
+        h2.list-title {
+            color: #7dd3fc;
+            font-size: 18px;
+            margin: 0;
+            text-shadow: 0 0 8px rgba(125, 211, 252, 0.4);
+        }
+
+        .clear-all-btn {
+            background: rgba(239, 68, 68, 0.2);
+            color: #fca5a5;
+            border: 1px solid rgba(239, 68, 68, 0.4);
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .clear-all-btn:hover {
+            background: rgba(239, 68, 68, 0.4);
+            color: #ffffff;
+        }
+
+        /* 테이블 스타일 */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        th, td {
+            padding: 12px 10px;
+            text-align: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            font-size: 14px;
+        }
+
+        th {
+            background-color: rgba(14, 165, 233, 0.15);
+            color: #38bdf8;
+            font-weight: 600;
+        }
+
+        td {
+            color: #cbd5e1;
+        }
+
+        td strong {
+            color: #38bdf8;
+        }
+
+        .delete-btn {
+            background-color: rgba(244, 63, 94, 0.2);
+            color: #fecdd3;
+            border: 1px solid rgba(244, 63, 94, 0.4);
+            padding: 5px 10px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .delete-btn:hover {
+            background-color: #e11d48;
+            color: white;
+        }
+
+        /* 푸터 스타일 */
+        footer {
+            margin-top: 30px;
+            text-align: center;
+            font-size: 12px;
+            color: #94a3b8;
+            border-top: 1px dashed rgba(56, 189, 248, 0.2);
+            padding-top: 15px;
+        }
+
+        /* 관리자 패널 모달 스타일 */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0, 0, 0, 0.75);
+            backdrop-filter: blur(5px);
+            z-index: 100;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-card {
+            background: #0f172a;
+            border: 2px solid #ef4444;
+            border-radius: 16px;
+            width: 90%;
+            max-width: 650px;
+            max-height: 85vh;
+            overflow-y: auto;
+            padding: 25px;
+            box-shadow: 0 0 30px rgba(239, 68, 68, 0.4);
+            position: relative;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #334155;
+            padding-bottom: 12px;
+            margin-bottom: 20px;
+        }
+
+        .modal-title {
+            color: #f87171;
+            font-size: 20px;
+            margin: 0;
+            font-weight: bold;
+        }
+
+        .modal-close {
+            background: transparent;
+            border: none;
+            color: #94a3b8;
+            font-size: 20px;
+            cursor: pointer;
+        }
+
+        .admin-section {
+            background: rgba(30, 41, 59, 0.6);
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+
+        .admin-section-title {
+            color: #fde047;
+            font-size: 15px;
+            font-weight: bold;
+            margin-bottom: 12px;
+        }
+
+        .admin-btn-group {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-top: 10px;
+        }
+
+        .admin-btn {
+            padding: 8px 12px;
+            border-radius: 6px;
+            border: none;
+            font-size: 13px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-danger { background: #ef4444; color: white; }
+        .btn-success { background: #10b981; color: white; }
+        .btn-warning { background: #f59e0b; color: white; }
+        .btn-info { background: #06b6d4; color: white; }
+
+        .admin-btn:hover { opacity: 0.9; transform: translateY(-1px); }
+
+        .badge {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: bold;
+            margin-left: 5px;
+        }
+
+        .badge-red { background: rgba(239, 68, 68, 0.3); color: #fca5a5; border: 1px solid #ef4444; }
+        .badge-green { background: rgba(16, 185, 129, 0.3); color: #6ee7b7; border: 1px solid #10b981; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header-bar">
+        <h1>✨ 4-4반 은행 관리 프로그램 ✨</h1>
+        <button class="admin-open-btn" onclick="openAdminModal()">⚙️ Admin 로그인</button>
+    </div>
+    
+    <!-- 규칙 안내 -->
+    <div class="rule-info">
+        <strong>🚀 예금 규칙</strong><br>
+        • <strong>정기예금</strong>: 1회 <strong>최대 1,000원</strong>까지, 1인당 총 합계 <strong>최대 3,000원</strong>까지 가능<br>
+        • <strong>정기적금</strong>: 1인당 <strong>일주일에 1번만</strong>, 1회 <strong>최대 200원</strong>까지만 가능<br>
+        <span class="highlight">🎁 혜택: 정기적금으로 200원씩 총 3번 저금한 학생은 4주째에 800원으로 돌려받게 됩니다!</span>
+    </div>
+
+    <!-- 알림 영역 (적금 만기 환급 대상) -->
+    <div class="notification-section">
+        <div class="notification-title">
+            🔔 알림 (적금 만기 및 반환 예정 목록)
+        </div>
+        <ul class="notification-list" id="notificationList">
+            <!-- 알림 항목이 자동으로 생성됩니다 -->
+        </ul>
+    </div>
+
+    <!-- 입력 양식 -->
+    <div class="form-group">
+        <label for="date">날짜</label>
+        <input type="date" id="date">
+    </div>
+
+    <!-- 이름 선택 (드롭다운) -->
+    <div class="form-group">
+        <label for="name">이름 선택</label>
+        <select id="name">
+            <option value="">-- 이름을 선택하세요 --</option>
+            <option value="김예은">김예은</option>
+            <option value="김윤솔">김윤솔</option>
+            <option value="김재은">김재은</option>
+            <option value="나혜지">나혜지</option>
+            <option value="박솔아">박솔아</option>
+            <option value="박주아">박주아</option>
+            <option value="박준희">박준희</option>
+            <option value="송지아">송지아</option>
+            <option value="신다원">신다원</option>
+            <option value="전소현">전소현</option>
+            <option value="전시은">전시은</option>
+            <option value="주예진">주예진</option>
+            <option value="김규담">김규담</option>
+            <option value="김성현">김성현</option>
+            <option value="김지유ADMIN">김지유ADMIN</option>
+            <option value="김혜준">김혜준</option>
+            <option value="박서한">박서한</option>
+            <option value="박우준">박우준</option>
+            <option value="신유찬">신유찬</option>
+            <option value="안재현">안재현</option>
+            <option value="이서빈">이서빈</option>
+            <option value="이승운">이승운</option>
+            <option value="이시우">이시우</option>
+            <option value="장재훈">장재훈</option>
+            <option value="전지훈">전지훈</option>
+            <option value="정유재">정유재</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="amount">금액 (원)</label>
+        <input type="number" id="amount" placeholder="금액을 입력하세요" min="1">
+    </div>
+
+    <div class="form-group">
+        <label for="type">예금 종류</label>
+        <select id="type">
+            <option value="정기예금">🪐 정기예금 (1회 1,000원 제한, 총 3,000원 한도)</option>
+            <option value="정기적금">🌟 정기적금 (주 1회, 최대 200원)</option>
+        </select>
+    </div>
+
+    <button class="add-btn" onclick="addRecord()">통장에 저금 기록하기!</button>
+
+    <!-- 명예의 전당 (리더보드) -->
+    <div class="leaderboard-section">
+        <div class="leaderboard-title">
+            <h2>🏆 저금왕 TOP 10 리더보드</h2>
+            <div class="tab-group">
+                <button class="tab-btn active" onclick="switchPeriod('today', this)">오늘</button>
+                <button class="tab-btn" onclick="switchPeriod('week', this)">이번 주</button>
+                <button class="tab-btn" onclick="switchPeriod('month', this)">이번 달</button>
+                <button class="tab-btn" onclick="switchPeriod('all', this)">전체</button>
+            </div>
+        </div>
+
+        <div class="board-grid">
+            <!-- 예금 TOP 10 -->
+            <div class="board-card deposit">
+                <h3>🪐 정기예금 TOP 10</h3>
+                <ol class="rank-list" id="depositRankList"></ol>
+            </div>
+
+            <!-- 적금 TOP 10 -->
+            <div class="board-card savings">
+                <h3>🌟 정기적금 TOP 10</h3>
+                <ol class="rank-list" id="savingsRankList"></ol>
+            </div>
+
+            <!-- 통합 저금왕 TOP 10 -->
+            <div class="board-card total">
+                <h3>👑 통합 저금왕 TOP 10</h3>
+                <ol class="rank-list" id="totalRankList"></ol>
+            </div>
+        </div>
+    </div>
+
+    <!-- 저금 내역 출력 영역 -->
+    <div class="list-header">
+        <h2 class="list-title">🌠 전체 통장 기록</h2>
+        <button class="clear-all-btn" onclick="clearAllRecords()">전체 삭제</button>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>날짜</th>
+                <th>이름</th>
+                <th>예금 종류</th>
+                <th>금액</th>
+                <th>삭제</th>
+            </tr>
+        </thead>
+        <tbody id="recordList">
+            <!-- 데이터가 들어오는 공간 -->
+        </tbody>
+    </table>
+
+    <!-- 하단 라이선스 및 이용 안내 문구 -->
+    <footer>
+        김지유개발AI활용 수익목적이 아닌 경우 수정하거나 이용할 수 있습니다
+    </footer>
+</div>
+
+<!-- ADMIN 관리자 패널 모달 -->
+<div class="modal-overlay" id="adminModal">
+    <div class="modal-card">
+        <div class="modal-header">
+            <h2 class="modal-title">🛠️ 관리자(Admin) 제어 패널</h2>
+            <button class="modal-close" onclick="closeAdminModal()">✕</button>
+        </div>
+
+        <!-- 1. 학생 상태 설정 (금지/해제/한도) -->
+        <div class="admin-section">
+            <div class="admin-section-title">👤 학생별 권한 및 제한 설정</div>
+            <div class="form-group">
+                <label for="adminStudentSelect">학생 선택</label>
+                <select id="adminStudentSelect" onchange="renderStudentAdminStatus()">
+                    <option value="">-- 학생 선택 --</option>
+                </select>
+            </div>
+
+            <div id="studentStatusInfo" style="margin-bottom: 12px; font-size: 13.5px; color: #cbd5e1;">
+                학생을 선택하세요.
+            </div>
+
+            <div class="admin-btn-group">
+                <button class="admin-btn btn-danger" onclick="toggleStudentSetting('blockDeposit', true)">🚫 예금 금지</button>
+                <button class="admin-btn btn-success" onclick="toggleStudentSetting('blockDeposit', false)">✅ 예금 금지 해제</button>
+                <button class="admin-btn btn-danger" onclick="toggleStudentSetting('blockSavings', true)">🚫 적금 금지</button>
+                <button class="admin-btn btn-success" onclick="toggleStudentSetting('blockSavings', false)">✅ 적금 금지 해제</button>
+                <button class="admin-btn btn-warning" onclick="toggleStudentSetting('unlimitDeposit', true)">🔓 예금한도 풀기(무제한)</button>
+                <button class="admin-btn btn-info" onclick="toggleStudentSetting('unlimitDeposit', false)">🔒 예금한도 복구(3,000원)</button>
+            </div>
+        </div>
+
+        <!-- 2. 리더보드/저금액 직접 수정 -->
+        <div class="admin-section">
+            <div class="admin-section-title">📊 학생 리더보드/저금액 직접 수정</div>
+            <div class="form-group">
+                <label for="editType">수정할 예금 종류</label>
+                <select id="editType">
+                    <option value="정기예금">🪐 정기예금</option>
+                    <option value="정기적금">🌟 정기적금</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="editAmount">변경할 금액 (원)</label>
+                <input type="number" id="editAmount" placeholder="추가/변경할 금액 입력">
+            </div>
+            <div class="admin-btn-group">
+                <button class="admin-btn btn-warning" onclick="modifyStudentBalance('add')">➕ 입력 금액만큼 추가기록</button>
+                <button class="admin-btn btn-danger" onclick="modifyStudentBalance('subtract')">➖ 입력 금액만큼 감액기록</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    let currentPeriod = 'today';
+    let isAdminLoggedIn = false;
+
+    // 학생 전체 목록
+    const studentList = [
+        "김예은", "김윤솔", "김재은", "나혜지", "박솔아", "박주아", "박준희", "송지아", 
+        "신다원", "전소현", "전시은", "주예진", "김규담", "김성현", "김지유ADMIN", "김혜준", 
+        "박서한", "박우준", "신유찬", "안재현", "이서빈", "이승운", "이시우", "장재훈", 
+        "전지훈", "정유재"
+    ];
+
+    // 오늘 날짜 기본 설정
+    document.getElementById('date').value = new Date().toISOString().substring(0, 10);
+
+    // 페이지 시작 시 기존 저장된 데이터 불러오기
+    window.onload = function() {
+        loadRecords();
+        updateLeaderboards();
+        updateNotifications();
+        initAdminStudentSelect();
+    };
+
+    // 저장 함수 (LocalStorage)
+    function saveRecords(records) {
+        localStorage.setItem('classBankRecords', JSON.stringify(records));
+    }
+
+    // 관리자 설정 불러오기 및 저장
+    function getAdminSettings() {
+        return JSON.parse(localStorage.getItem('classBankAdminSettings')) || {};
+    }
+
+    function saveAdminSettings(settings) {
+        localStorage.setItem('classBankAdminSettings', JSON.stringify(settings));
+    }
+
+    // 목록 화면 출력 함수
+    function loadRecords() {
+        const records = JSON.parse(localStorage.getItem('classBankRecords')) || [];
+        const tbody = document.getElementById('recordList');
+        tbody.innerHTML = '';
+
+        records.forEach((item, index) => {
+            const formattedAmount = Number(item.amount).toLocaleString() + '원';
+            const newRow = document.createElement('tr');
+
+            newRow.innerHTML = `
+                <td>${item.date}</td>
+                <td>${item.name}</td>
+                <td>${item.type}</td>
+                <td><strong>${formattedAmount}</strong></td>
+                <td><button class="delete-btn" onclick="deleteRecord(${index})">삭제</button></td>
+            `;
+
+            tbody.appendChild(newRow);
+        });
+    }
+
+    // 알림 업데이트 함수 (200원씩 정기적금 3회 달성 학생 체크)
+    function updateNotifications() {
+        const records = JSON.parse(localStorage.getItem('classBankRecords')) || [];
+        const notificationList = document.getElementById('notificationList');
+        notificationList.innerHTML = '';
+
+        const savingsCountMap = {};
+
+        records.forEach(item => {
+            if (item.type === '정기적금' && Number(item.amount) === 200) {
+                savingsCountMap[item.name] = (savingsCountMap[item.name] || 0) + 1;
+            }
+        });
+
+        let hasTarget = false;
+
+        Object.keys(savingsCountMap).forEach(name => {
+            if (savingsCountMap[name] >= 3) {
+                hasTarget = true;
+                const li = document.createElement('li');
+                li.className = 'notification-item';
+                li.innerHTML = `
+                    <span>🎉 <strong>${name}</strong> 학생은 200원씩 정기적금을 3회 이상 완료했습니다!</span>
+                    <span><strong>800원</strong>으로 돌려받을 예정입니다.</span>
+                `;
+                notificationList.appendChild(li);
+            }
+        });
+
+        if (!hasTarget) {
+            notificationList.innerHTML = '<li class="empty-notification">현재 800원 반환 대상 학생이 없습니다.</li>';
+        }
+    }
+
+    // 기간 탭 전환
+    function switchPeriod(period, btnElement) {
+        currentPeriod = period;
+        document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+        btnElement.classList.add('active');
+        updateLeaderboards();
+    }
+
+    // 기간 필터링 로직
+    function filterRecordsByPeriod(records, period) {
+        const today = new Date();
+        const todayStr = today.toISOString().substring(0, 10);
+
+        return records.filter(item => {
+            if (!item.date) return false;
+            const itemDate = new Date(item.date);
+
+            if (period === 'today') {
+                return item.date === todayStr;
+            } else if (period === 'week') {
+                const day = today.getDay();
+                const diffToMon = today.getDate() - day + (day === 0 ? -6 : 1);
+                const startOfWeek = new Date(today.setDate(diffToMon));
+                startOfWeek.setHours(0, 0, 0, 0);
+
+                const endOfWeek = new Date(startOfWeek);
+                endOfWeek.setDate(startOfWeek.getDate() + 6);
+                endOfWeek.setHours(23, 59, 59, 999);
+
+                return itemDate >= startOfWeek && itemDate <= endOfWeek;
+            } else if (period === 'month') {
+                return itemDate.getFullYear() === today.getFullYear() && itemDate.getMonth() === today.getMonth();
+            } else {
+                return true;
+            }
+        });
+    }
+
+    // 리더보드 업데이트
+    function updateLeaderboards() {
+        const records = JSON.parse(localStorage.getItem('classBankRecords')) || [];
+        const filtered = filterRecordsByPeriod(records, currentPeriod);
+
+        const depositMap = {};
+        const savingsMap = {};
+        const totalMap = {};
+
+        filtered.forEach(item => {
+            const amt = Number(item.amount) || 0;
+            
+            totalMap[item.name] = (totalMap[item.name] || 0) + amt;
+
+            if (item.type === '정기예금') {
+                depositMap[item.name] = (depositMap[item.name] || 0) + amt;
+            } else if (item.type === '정기적금') {
+                savingsMap[item.name] = (savingsMap[item.name] || 0) + amt;
+            }
+        });
+
+        renderRankList('depositRankList', depositMap);
+        renderRankList('savingsRankList', savingsMap);
+        renderRankList('totalRankList', totalMap);
+    }
+
+    // 순위 렌더링 도우미
+    function renderRankList(elementId, dataMap) {
+        const listEl = document.getElementById(elementId);
+        listEl.innerHTML = '';
+
+        const sorted = Object.keys(dataMap)
+            .map(name => ({ name, amount: dataMap[name] }))
+            .sort((a, b) => b.amount - a.amount)
+            .slice(0, 10);
+
+        if (sorted.length === 0) {
+            listEl.innerHTML = '<li class="empty-rank">기록이 없습니다.</li>';
+            return;
+        }
+
+        sorted.forEach((item, index) => {
+            const rankClass = index === 0 ? 'rank-1' : index === 1 ? 'rank-2' : index === 2 ? 'rank-3' : '';
+            const li = document.createElement('li');
+            li.className = 'rank-item';
+            li.innerHTML = `
+                <span><span class="rank-number ${rankClass}">${index + 1}.</span> <span class="${rankClass}">${item.name}</span></span>
+                <strong>${item.amount.toLocaleString()}원</strong>
+            `;
+            listEl.appendChild(li);
+        });
+    }
+
+    // 기록 추가 함수 (검증 및 관리자 금지 규칙 적용)
+    function addRecord() {
+        const dateInput = document.getElementById('date').value;
+        const name = document.getElementById('name').value;
+        const amount = Number(document.getElementById('amount').value);
+        const type = document.getElementById('type').value;
+
+        // 1. 기본 빈칸 체크
+        if (!dateInput) { alert('날짜를 선택해 주세요!'); return; }
+        if (!name) { alert('이름을 선택해 주세요!'); return; }
+        if (!amount || amount <= 0) { alert('올바른 금액을 입력해 주세요!'); return; }
+
+        const adminSettings = getAdminSettings();
+        const userSetting = adminSettings[name] || {};
+
+        // 2. Admin 패널 금지 상태 체크
+        if (type === '정기예금' && userSetting.blockDeposit) {
+            alert(`[접근 제한] '${name}' 대원은 현재 관리자에 의해 '정기예금'이 금지되어 있습니다.`);
+            return;
+        }
+
+        if (type === '정기적금' && userSetting.blockSavings) {
+            alert(`[접근 제한] '${name}' 대원은 현재 관리자에 의해 '정기적금'이 금지되어 있습니다.`);
+            return;
+        }
+
+        const records = JSON.parse(localStorage.getItem('classBankRecords')) || [];
+
+        // 3. 정기예금 규칙 검증 (1회 최대 1,000원 & 총 3,000원 제한, 관리자 한도풀기 적용)
+        if (type === '정기예금') {
+            if (amount > 1000) {
+                alert('[경고] 정기예금은 1회에 최대 1,000원까지만 저금할 수 있습니다!');
+                return;
+            }
+
+            const currentDepositTotal = records
+                .filter(item => item.name === name && item.type === '정기예금')
+                .reduce((sum, item) => sum + Number(item.amount), 0);
+
+            // 한도 제한이 안 풀려 있는 경우에만 3000원 체크
+            if (!userSetting.unlimitDeposit && (currentDepositTotal + amount > 3000)) {
+                const available = 3000 - currentDepositTotal;
+                if (available <= 0) {
+                    alert(`[경고] '${name}' 대원은 이미 정기예금 총 한도(3,000원)를 모두 채웠습니다!`);
+                } else {
+                    alert(`[경고] 정기예금 총 한도는 3,000원입니다.
+현재 기존 저금액: ${currentDepositTotal.toLocaleString()}원
+남은 저금 가능 금액: ${available.toLocaleString()}원`);
+                }
+                return;
+            }
+        }
+
+        // 4. 정기적금 규칙 검증 (주 1회, 1회 최대 200원 제한)
+        if (type === '정기적금') {
+            if (amount > 200) {
+                alert('[경고] 정기적금은 1회에 최대 200원까지만 저금할 수 있습니다!');
+                return;
+            }
+
+            const inputDate = new Date(dateInput);
+            
+            const hasSavingsThisWeek = records.some(item => {
+                if (item.name === name && item.type === '정기적금') {
+                    const recordDate = new Date(item.date);
+                    const diffTime = Math.abs(inputDate - recordDate);
+                    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+                    return diffDays < 7;
+                }
+                return false;
+            });
+
+            if (hasSavingsThisWeek) {
+                alert(`[경고] '${name}' 대원은 최근 7일 내에 이미 정기적금을 넣었습니다.
+정기적금은 일주일에 한 번만 가능합니다!`);
+                return;
+            }
+        }
+
+        // 조건 통과 시 데이터 저장
+        records.unshift({
+            date: dateInput,
+            name: name,
+            amount: amount,
+            type: type
+        });
+
+        saveRecords(records);
+        loadRecords();
+        updateLeaderboards();
+        updateNotifications();
+
+        document.getElementById('amount').value = '';
+        document.getElementById('name').value = '';
+    }
+
+    // 단일 항목 삭제
+    function deleteRecord(index) {
+        if (confirm('이 기록을 삭제하시겠습니까?')) {
+            const records = JSON.parse(localStorage.getItem('classBankRecords')) || [];
+            records.splice(index, 1);
+            saveRecords(records);
+            loadRecords();
+            updateLeaderboards();
+            updateNotifications();
+        }
+    }
+
+    // 전체 삭제
+    function clearAllRecords() {
+        if (confirm('모든 통장 기록을 지우시겠습니까? (복구할 수 없습니다)')) {
+            localStorage.removeItem('classBankRecords');
+            loadRecords();
+            updateLeaderboards();
+            updateNotifications();
+        }
+    }
+
+    /* --- ADMIN 관리자 패널 관련 함수 --- */
+
+    function openAdminModal() {
+        if (!isAdminLoggedIn) {
+            const password = prompt('🔑 Admin 비밀번호를 입력하세요:');
+            if (password === '442026') {
+                isAdminLoggedIn = true;
+                alert('비밀번호가 확인되었습니다.');
+            } else {
+                if (password !== null) alert('❌ 비밀번호가 올바르지 않습니다!');
+                return;
+            }
+        }
+        document.getElementById('adminModal').style.display = 'flex';
+        renderStudentAdminStatus();
+    }
+
+    function closeAdminModal() {
+        document.getElementById('adminModal').style.display = 'none';
+    }
+
+    function initAdminStudentSelect() {
+        const select = document.getElementById('adminStudentSelect');
+        select.innerHTML = '<option value="">-- 학생 선택 --</option>';
+        studentList.forEach(name => {
+            const opt = document.createElement('option');
+            opt.value = name;
+            opt.textContent = name;
+            select.appendChild(opt);
+        });
+    }
+
+    function renderStudentAdminStatus() {
+        const name = document.getElementById('adminStudentSelect').value;
+        const infoDiv = document.getElementById('studentStatusInfo');
+        if (!name) {
+            infoDiv.innerHTML = '학생을 선택하세요.';
+            return;
+        }
+
+        const adminSettings = getAdminSettings();
+        const userSetting = adminSettings[name] || {};
+
+        const depStatus = userSetting.blockDeposit 
+            ? '<span class="badge badge-red">예금 금지중</span>' 
+            : '<span class="badge badge-green">예금 가능</span>';
+            
+        const savStatus = userSetting.blockSavings 
+            ? '<span class="badge badge-red">적금 금지중</span>' 
+            : '<span class="badge badge-green">적금 가능</span>';
+
+        const limitStatus = userSetting.unlimitDeposit 
+            ? '<span class="badge badge-green">한도 해제됨 (무제한)</span>' 
+            : '<span class="badge badge-red">한도 제한중 (3,000원)</span>';
+
+        infoDiv.innerHTML = `<strong>${name}</strong> 학생 상태: ${depStatus} ${savStatus} ${limitStatus}`;
+    }
+
+    function toggleStudentSetting(key, status) {
+        const name = document.getElementById('adminStudentSelect').value;
+        if (!name) {
+            alert('학생을 먼저 선택해 주세요!');
+            return;
+        }
+
+        const adminSettings = getAdminSettings();
+        if (!adminSettings[name]) adminSettings[name] = {};
+
+        adminSettings[name][key] = status;
+        saveAdminSettings(adminSettings);
+        renderStudentAdminStatus();
+        alert(`'${name}' 학생의 설정이 업데이트되었습니다.`);
+    }
+
+    function modifyStudentBalance(action) {
+        const name = document.getElementById('adminStudentSelect').value;
+        const type = document.getElementById('editType').value;
+        const amount = Number(document.getElementById('editAmount').value);
+
+        if (!name) { alert('학생을 선택해 주세요!'); return; }
+        if (!amount || amount <= 0) { alert('올바른 금액을 입력해 주세요!'); return; }
+
+        const records = JSON.parse(localStorage.getItem('classBankRecords')) || [];
+        const todayStr = new Date().toISOString().substring(0, 10);
+
+        if (action === 'add') {
+            records.unshift({
+                date: todayStr,
+                name: name,
+                amount: amount,
+                type: type
+            });
+            alert(`[관리자] '${name}' 학생에게 ${type} ${amount.toLocaleString()}원이 추가되었습니다.`);
+        } else if (action === 'subtract') {
+            records.unshift({
+                date: todayStr,
+                name: name,
+                amount: -amount,
+                type: type
+            });
+            alert(`[관리자] '${name}' 학생의 ${type}에서 ${amount.toLocaleString()}원이 차감 기록되었습니다.`);
+        }
+
+        saveRecords(records);
+        loadRecords();
+        updateLeaderboards();
+        updateNotifications();
+        document.getElementById('editAmount').value = '';
+    }
+</script>
+
+</body>
+</html>
