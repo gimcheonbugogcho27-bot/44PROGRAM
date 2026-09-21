@@ -402,14 +402,24 @@
         /* 푸터 스타일 */
         footer {
             margin-top: 30px;
-            text-align: center;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             font-size: 12px;
             color: #94a3b8;
             border-top: 1px dashed rgba(56, 189, 248, 0.2);
             padding-top: 15px;
+            flex-wrap: wrap;
+            gap: 10px;
         }
 
-        /* 관리자 패널 모달 스타일 */
+        .footer-company {
+            color: #38bdf8;
+            font-weight: bold;
+            text-shadow: 0 0 5px rgba(56, 189, 248, 0.3);
+        }
+
+        /* 모달 공통 스타일 */
         .modal-overlay {
             display: none;
             position: fixed;
@@ -456,6 +466,56 @@
             color: #94a3b8;
             font-size: 20px;
             cursor: pointer;
+        }
+
+        /* 최초 1회 업데이트 알림 모달 카드 */
+        .update-modal-card {
+            background: #0b1329;
+            border: 2px solid #38bdf8;
+            border-radius: 16px;
+            width: 90%;
+            max-width: 480px;
+            padding: 25px;
+            box-shadow: 0 0 35px rgba(56, 189, 248, 0.4);
+            text-align: center;
+        }
+
+        .update-modal-title {
+            color: #38bdf8;
+            font-size: 20px;
+            margin-top: 0;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+
+        .update-modal-body {
+            color: #e2e8f0;
+            font-size: 14.5px;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            text-align: left;
+            background: rgba(30, 41, 59, 0.5);
+            padding: 15px;
+            border-radius: 10px;
+            border: 1px solid rgba(56, 189, 248, 0.2);
+        }
+
+        .update-confirm-btn {
+            background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+            color: #fff;
+            border: 1px solid #38bdf8;
+            padding: 10px 25px;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 15px;
+            cursor: pointer;
+            box-shadow: 0 0 10px rgba(56, 189, 248, 0.4);
+            transition: all 0.2s;
+        }
+
+        .update-confirm-btn:hover {
+            transform: scale(1.03);
+            box-shadow: 0 0 15px rgba(56, 189, 248, 0.8);
         }
 
         .admin-section {
@@ -647,8 +707,21 @@
 
     <!-- 하단 라이선스 및 이용 안내 문구 -->
     <footer>
-        김지유개발AI활용 수익목적이 아닌 경우 수정하거나 이용할 수 있습니다
+        <span>수익목적이 아닌 경우 수정하거나 이용할 수 있습니다</span>
+        <span class="footer-company">김지유COMPANY제작,지원</span>
     </footer>
+</div>
+
+<!-- 최초 1회 업데이트 안내 팝업 모달 -->
+<div class="modal-overlay" id="updateNoticeModal">
+    <div class="update-modal-card">
+        <h2 class="update-modal-title">🎉 시스템 업데이트 안내</h2>
+        <div class="update-modal-body">
+            • <strong>정기적금 주간 중복 로직 개선</strong>: 날짜를 선택하여 저금할 때 동일한 주(월~일) 중복 여부를 정확하게 계산하도록 수정되었습니다.<br><br>
+            • <strong>Admin 강제 입력 날짜 지정 기능 추가</strong>: 관리자 패널에서 저금액 추가/감액 시 원하는 날짜를 직접 선택할 수 있습니다.
+        </div>
+        <button class="update-confirm-btn" onclick="closeUpdateNotice()">확인하였습니다</button>
+    </div>
 </div>
 
 <!-- ADMIN 관리자 패널 모달 -->
@@ -687,6 +760,10 @@
         <div class="admin-section">
             <div class="admin-section-title">📊 학생 리더보드/저금액 직접 수정</div>
             <div class="form-group">
+                <label for="adminDate">날짜 선택</label>
+                <input type="date" id="adminDate">
+            </div>
+            <div class="form-group">
                 <label for="editType">수정할 예금 종류</label>
                 <select id="editType">
                     <option value="정기예금">🪐 정기예금</option>
@@ -718,15 +795,32 @@
     ];
 
     // 오늘 날짜 기본 설정
-    document.getElementById('date').value = new Date().toISOString().substring(0, 10);
+    const todayISO = new Date().toISOString().substring(0, 10);
+    document.getElementById('date').value = todayISO;
+    document.getElementById('adminDate').value = todayISO;
 
-    // 페이지 시작 시 기존 저장된 데이터 불러오기
+    // 페이지 시작 시 작동
     window.onload = function() {
+        checkUpdateNotice(); // 최초 1회 업데이트 알림 체크
         loadRecords();
         updateLeaderboards();
         updateNotifications();
         initAdminStudentSelect();
     };
+
+    // 최초 1회 업데이트 알림 확인 함수
+    function checkUpdateNotice() {
+        const hasSeenNotice = localStorage.getItem('hasSeenUpdateNotice_v2');
+        if (!hasSeenNotice) {
+            document.getElementById('updateNoticeModal').style.display = 'flex';
+        }
+    }
+
+    // 업데이트 알림 닫기
+    function closeUpdateNotice() {
+        localStorage.setItem('hasSeenUpdateNotice_v2', 'true');
+        document.getElementById('updateNoticeModal').style.display = 'none';
+    }
 
     // 저장 함수 (LocalStorage)
     function saveRecords(records) {
@@ -740,6 +834,16 @@
 
     function saveAdminSettings(settings) {
         localStorage.setItem('classBankAdminSettings', JSON.stringify(settings));
+    }
+
+    // 주차(Week) 고유 키 구하기
+    function getWeekKey(dateObj) {
+        const d = new Date(dateObj);
+        d.setHours(0, 0, 0, 0);
+        const day = d.getDay();
+        const diffToMon = d.getDate() - day + (day === 0 ? -6 : 1);
+        const monday = new Date(d.setDate(diffToMon));
+        return monday.toISOString().substring(0, 10);
     }
 
     // 목록 화면 출력 함수
@@ -764,7 +868,7 @@
         });
     }
 
-    // 알림 업데이트 함수 (200원씩 정기적금 3회 달성 학생 체크)
+    // 알림 업데이트 함수
     function updateNotifications() {
         const records = JSON.parse(localStorage.getItem('classBankRecords')) || [];
         const notificationList = document.getElementById('notificationList');
@@ -818,16 +922,7 @@
             if (period === 'today') {
                 return item.date === todayStr;
             } else if (period === 'week') {
-                const day = today.getDay();
-                const diffToMon = today.getDate() - day + (day === 0 ? -6 : 1);
-                const startOfWeek = new Date(today.setDate(diffToMon));
-                startOfWeek.setHours(0, 0, 0, 0);
-
-                const endOfWeek = new Date(startOfWeek);
-                endOfWeek.setDate(startOfWeek.getDate() + 6);
-                endOfWeek.setHours(23, 59, 59, 999);
-
-                return itemDate >= startOfWeek && itemDate <= endOfWeek;
+                return getWeekKey(itemDate) === getWeekKey(today);
             } else if (period === 'month') {
                 return itemDate.getFullYear() === today.getFullYear() && itemDate.getMonth() === today.getMonth();
             } else {
@@ -889,14 +984,13 @@
         });
     }
 
-    // 기록 추가 함수 (검증 및 관리자 금지 규칙 적용)
+    // 기록 추가 함수
     function addRecord() {
         const dateInput = document.getElementById('date').value;
         const name = document.getElementById('name').value;
         const amount = Number(document.getElementById('amount').value);
         const type = document.getElementById('type').value;
 
-        // 1. 기본 빈칸 체크
         if (!dateInput) { alert('날짜를 선택해 주세요!'); return; }
         if (!name) { alert('이름을 선택해 주세요!'); return; }
         if (!amount || amount <= 0) { alert('올바른 금액을 입력해 주세요!'); return; }
@@ -904,7 +998,6 @@
         const adminSettings = getAdminSettings();
         const userSetting = adminSettings[name] || {};
 
-        // 2. Admin 패널 금지 상태 체크
         if (type === '정기예금' && userSetting.blockDeposit) {
             alert(`[접근 제한] '${name}' 대원은 현재 관리자에 의해 '정기예금'이 금지되어 있습니다.`);
             return;
@@ -917,7 +1010,6 @@
 
         const records = JSON.parse(localStorage.getItem('classBankRecords')) || [];
 
-        // 3. 정기예금 규칙 검증 (1회 최대 1,000원 & 총 3,000원 제한, 관리자 한도풀기 적용)
         if (type === '정기예금') {
             if (amount > 1000) {
                 alert('[경고] 정기예금은 1회에 최대 1,000원까지만 저금할 수 있습니다!');
@@ -928,7 +1020,6 @@
                 .filter(item => item.name === name && item.type === '정기예금')
                 .reduce((sum, item) => sum + Number(item.amount), 0);
 
-            // 한도 제한이 안 풀려 있는 경우에만 3000원 체크
             if (!userSetting.unlimitDeposit && (currentDepositTotal + amount > 3000)) {
                 const available = 3000 - currentDepositTotal;
                 if (available <= 0) {
@@ -942,33 +1033,29 @@
             }
         }
 
-        // 4. 정기적금 규칙 검증 (주 1회, 1회 최대 200원 제한)
         if (type === '정기적금') {
             if (amount > 200) {
                 alert('[경고] 정기적금은 1회에 최대 200원까지만 저금할 수 있습니다!');
                 return;
             }
 
-            const inputDate = new Date(dateInput);
+            const inputWeekKey = getWeekKey(new Date(dateInput));
             
-            const hasSavingsThisWeek = records.some(item => {
+            const hasSavingsInSameWeek = records.some(item => {
                 if (item.name === name && item.type === '정기적금') {
-                    const recordDate = new Date(item.date);
-                    const diffTime = Math.abs(inputDate - recordDate);
-                    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-                    return diffDays < 7;
+                    const recordWeekKey = getWeekKey(new Date(item.date));
+                    return recordWeekKey === inputWeekKey;
                 }
                 return false;
             });
 
-            if (hasSavingsThisWeek) {
-                alert(`[경고] '${name}' 대원은 최근 7일 내에 이미 정기적금을 넣었습니다.
-정기적금은 일주일에 한 번만 가능합니다!`);
+            if (hasSavingsInSameWeek) {
+                alert(`[경고] '${name}' 대원은 선택하신 주(${dateInput} 포함 주)에 이미 정기적금을 넣었습니다.
+정기적금은 주당 한 번만 가능합니다!`);
                 return;
             }
         }
 
-        // 조건 통과 시 데이터 저장
         records.unshift({
             date: dateInput,
             name: name,
@@ -1083,31 +1170,32 @@
 
     function modifyStudentBalance(action) {
         const name = document.getElementById('adminStudentSelect').value;
+        const adminDate = document.getElementById('adminDate').value;
         const type = document.getElementById('editType').value;
         const amount = Number(document.getElementById('editAmount').value);
 
         if (!name) { alert('학생을 선택해 주세요!'); return; }
+        if (!adminDate) { alert('날짜를 선택해 주세요!'); return; }
         if (!amount || amount <= 0) { alert('올바른 금액을 입력해 주세요!'); return; }
 
         const records = JSON.parse(localStorage.getItem('classBankRecords')) || [];
-        const todayStr = new Date().toISOString().substring(0, 10);
 
         if (action === 'add') {
             records.unshift({
-                date: todayStr,
+                date: adminDate,
                 name: name,
                 amount: amount,
                 type: type
             });
-            alert(`[관리자] '${name}' 학생에게 ${type} ${amount.toLocaleString()}원이 추가되었습니다.`);
+            alert(`[관리자] '${name}' 학생에게 (${adminDate}) 기준 ${type} ${amount.toLocaleString()}원이 추가되었습니다.`);
         } else if (action === 'subtract') {
             records.unshift({
-                date: todayStr,
+                date: adminDate,
                 name: name,
                 amount: -amount,
                 type: type
             });
-            alert(`[관리자] '${name}' 학생의 ${type}에서 ${amount.toLocaleString()}원이 차감 기록되었습니다.`);
+            alert(`[관리자] '${name}' 학생의 (${adminDate}) 기준 ${type}에서 ${amount.toLocaleString()}원이 차감 기록되었습니다.`);
         }
 
         saveRecords(records);
