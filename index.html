@@ -338,6 +338,13 @@
             font-size: 18px;
             margin: 0;
             text-shadow: 0 0 8px rgba(125, 211, 252, 0.4);
+            cursor: pointer;
+            user-select: none;
+            transition: transform 0.1s;
+        }
+
+        h2.list-title:active {
+            transform: scale(0.97);
         }
 
         .clear-all-btn {
@@ -468,15 +475,15 @@
             cursor: pointer;
         }
 
-        /* 최초 1회 업데이트 알림 모달 카드 */
+        /* 업데이트 안내 팝업 전용 디자인 */
         .update-modal-card {
             background: #0b1329;
             border: 2px solid #38bdf8;
             border-radius: 16px;
             width: 90%;
-            max-width: 480px;
+            max-width: 500px;
             padding: 25px;
-            box-shadow: 0 0 35px rgba(56, 189, 248, 0.4);
+            box-shadow: 0 0 35px rgba(56, 189, 248, 0.5);
             text-align: center;
         }
 
@@ -490,14 +497,27 @@
 
         .update-modal-body {
             color: #e2e8f0;
-            font-size: 14.5px;
+            font-size: 14px;
             line-height: 1.6;
             margin-bottom: 20px;
             text-align: left;
-            background: rgba(30, 41, 59, 0.5);
+            background: rgba(30, 41, 59, 0.6);
             padding: 15px;
             border-radius: 10px;
-            border: 1px solid rgba(56, 189, 248, 0.2);
+            border: 1px solid rgba(56, 189, 248, 0.3);
+        }
+
+        .update-modal-body ul {
+            margin: 0;
+            padding-left: 20px;
+        }
+
+        .update-modal-body li {
+            margin-bottom: 8px;
+        }
+
+        .update-modal-body li:last-child {
+            margin-bottom: 0;
         }
 
         .update-confirm-btn {
@@ -568,6 +588,56 @@
 
         .badge-red { background: rgba(239, 68, 68, 0.3); color: #fca5a5; border: 1px solid #ef4444; }
         .badge-green { background: rgba(16, 185, 129, 0.3); color: #6ee7b7; border: 1px solid #10b981; }
+
+        /* 이스터에그 별똥별 애니메이션 스타일 */
+        .shooting-star {
+            position: fixed;
+            width: 120px;
+            height: 2px;
+            background: linear-gradient(90deg, #ffffff, rgba(255, 255, 255, 0));
+            border-radius: 50%;
+            filter: drop-shadow(0 0 6px #38bdf8);
+            transform: rotate(-35deg);
+            pointer-events: none;
+            z-index: 9999;
+            animation: starFall 1.2s linear forwards;
+        }
+
+        @keyframes starFall {
+            0% {
+                opacity: 1;
+                transform: translateX(0) translateY(0) rotate(-35deg);
+            }
+            100% {
+                opacity: 0;
+                transform: translateX(-600px) translateY(600px) rotate(-35deg);
+            }
+        }
+
+        /* 별똥별 소원 메세지 토스트 알림 */
+        .wish-toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(50px);
+            background: rgba(15, 23, 42, 0.9);
+            border: 2px solid #fde047;
+            color: #fde047;
+            padding: 12px 24px;
+            border-radius: 25px;
+            font-weight: bold;
+            font-size: 15px;
+            box-shadow: 0 0 20px rgba(253, 224, 71, 0.6);
+            z-index: 10000;
+            opacity: 0;
+            transition: all 0.5s ease;
+            pointer-events: none;
+        }
+
+        .wish-toast.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
     </style>
 </head>
 <body>
@@ -684,9 +754,9 @@
         </div>
     </div>
 
-    <!-- 저금 내역 출력 영역 -->
+    <!-- 저금 내역 출력 영역 (이스터에그 트리거) -->
     <div class="list-header">
-        <h2 class="list-title">🌠 전체 통장 기록</h2>
+        <h2 class="list-title" id="easterEggTrigger" onclick="triggerShootingStars()">🌠 전체 통장 기록</h2>
         <button class="clear-all-btn" onclick="clearAllRecords()">전체 삭제</button>
     </div>
 
@@ -701,24 +771,30 @@
             </tr>
         </thead>
         <tbody id="recordList">
-            <!-- 데이터가 들어오는 공간 -->
+            <!-- 데이터 출력 공간 -->
         </tbody>
     </table>
 
-    <!-- 하단 라이선스 및 이용 안내 문구 -->
+    <!-- 푸터 영역 -->
     <footer>
         <span>수익목적이 아닌 경우 수정하거나 이용할 수 있습니다</span>
         <span class="footer-company">김지유COMPANY제작,지원</span>
     </footer>
 </div>
 
-<!-- 최초 1회 업데이트 안내 팝업 모달 -->
+<!-- 이스터에그 소원 토스트 메시지 -->
+<div class="wish-toast" id="wishToast">✨ 4-4반의 소원이 이루어집니다! ✨</div>
+
+<!-- 📢 최신 업데이트 안내 팝업 모달 -->
 <div class="modal-overlay" id="updateNoticeModal">
     <div class="update-modal-card">
-        <h2 class="update-modal-title">🎉 시스템 업데이트 안내</h2>
+        <h2 class="update-modal-title">🎉 최신 업데이트 안내</h2>
         <div class="update-modal-body">
-            • <strong>정기적금 주간 중복 로직 개선</strong>: 날짜를 선택하여 저금할 때 동일한 주(월~일) 중복 여부를 정확하게 계산하도록 수정되었습니다.<br><br>
-            • <strong>Admin 강제 입력 날짜 지정 기능 추가</strong>: 관리자 패널에서 저금액 추가/감액 시 원하는 날짜를 직접 선택할 수 있습니다.
+            <ul>
+                <li><strong>🌠 비밀 이스터에그 추가</strong>: <u>'전체 통장 기록'</u> 글씨를 3초 안에 3번 클릭하면 하늘에서 별똥별이 떨어집니다!</li>
+                <li><strong>📅 적금 주간 중복 검사 개선</strong>: 선택한 날짜 기준(월~일)으로 주 1회 중복 여부를 더욱 정확하게 구분합니다.</li>
+                <li><strong>🛠️ Admin 날짜 지정 기능</strong>: 관리자 모드에서 원하는 날짜를 직접 선택해 잔액을 추가/차감할 수 있습니다.</li>
+            </ul>
         </div>
         <button class="update-confirm-btn" onclick="closeUpdateNotice()">확인하였습니다</button>
     </div>
@@ -732,7 +808,7 @@
             <button class="modal-close" onclick="closeAdminModal()">✕</button>
         </div>
 
-        <!-- 1. 학생 상태 설정 (금지/해제/한도) -->
+        <!-- 1. 학생 상태 설정 -->
         <div class="admin-section">
             <div class="admin-section-title">👤 학생별 권한 및 제한 설정</div>
             <div class="form-group">
@@ -799,30 +875,32 @@
     document.getElementById('date').value = todayISO;
     document.getElementById('adminDate').value = todayISO;
 
-    // 페이지 시작 시 작동
+    // 페이지 진입 시 즉시 실행
     window.onload = function() {
-        checkUpdateNotice(); // 최초 1회 업데이트 알림 체크
+        showUpdateNotice(); // 접속 시 업데이트 팝업 자동 활성화
         loadRecords();
         updateLeaderboards();
         updateNotifications();
         initAdminStudentSelect();
     };
 
-    // 최초 1회 업데이트 알림 확인 함수
-    function checkUpdateNotice() {
-        const hasSeenNotice = localStorage.getItem('hasSeenUpdateNotice_v2');
-        if (!hasSeenNotice) {
-            document.getElementById('updateNoticeModal').style.display = 'flex';
+    // 업데이트 안내 팝업 띄우기 함수
+    function showUpdateNotice() {
+        const modal = document.getElementById('updateNoticeModal');
+        if (modal) {
+            modal.style.display = 'flex';
         }
     }
 
-    // 업데이트 알림 닫기
+    // 업데이트 안내 팝업 닫기 함수
     function closeUpdateNotice() {
-        localStorage.setItem('hasSeenUpdateNotice_v2', 'true');
-        document.getElementById('updateNoticeModal').style.display = 'none';
+        const modal = document.getElementById('updateNoticeModal');
+        if (modal) {
+            modal.style.display = 'none';
+        }
     }
 
-    // 저장 함수 (LocalStorage)
+    // 데이터 저장 (LocalStorage)
     function saveRecords(records) {
         localStorage.setItem('classBankRecords', JSON.stringify(records));
     }
@@ -836,7 +914,7 @@
         localStorage.setItem('classBankAdminSettings', JSON.stringify(settings));
     }
 
-    // 주차(Week) 고유 키 구하기
+    // 주차(Week) 고유 키 구하기 (월요일 기준)
     function getWeekKey(dateObj) {
         const d = new Date(dateObj);
         d.setHours(0, 0, 0, 0);
@@ -1084,13 +1162,69 @@
         }
     }
 
-    // 전체 삭제
+    // 비밀번호 입력 후 전체 삭제
     function clearAllRecords() {
-        if (confirm('모든 통장 기록을 지우시겠습니까? (복구할 수 없습니다)')) {
-            localStorage.removeItem('classBankRecords');
-            loadRecords();
-            updateLeaderboards();
-            updateNotifications();
+        const password = prompt('🔑 전체 삭제를 위한 비밀번호를 입력하세요:');
+        
+        if (password === null) return;
+
+        if (password === '442026') {
+            if (confirm('모든 통장 기록을 지우시겠습니까? (복구할 수 없습니다)')) {
+                localStorage.removeItem('classBankRecords');
+                loadRecords();
+                updateLeaderboards();
+                updateNotifications();
+                alert('모든 통장 기록이 삭제되었습니다.');
+            }
+        } else {
+            alert('❌ 비밀번호가 올바르지 않습니다!');
+        }
+    }
+
+    /* ⭐ 이스터에그 : 3번 클릭 시 별똥별 떨어지는 함수 ⭐ */
+    let titleClickCount = 0;
+    let titleClickTimer = null;
+
+    function triggerShootingStars() {
+        titleClickCount++;
+
+        clearTimeout(titleClickTimer);
+        titleClickTimer = setTimeout(() => {
+            titleClickCount = 0;
+        }, 3000); // 3초 내 3번 연속 클릭
+
+        if (titleClickCount >= 3) {
+            titleClickCount = 0;
+            createStarsEffect();
+        }
+    }
+
+    function createStarsEffect() {
+        // 소원 토스트 팝업 띄우기
+        const toast = document.getElementById('wishToast');
+        toast.classList.add('show');
+        setTimeout(() => toast.classList.remove('show'), 3500);
+
+        // 별똥별 15개 연쇄 생성
+        for (let i = 0; i < 15; i++) {
+            setTimeout(() => {
+                const star = document.createElement('div');
+                star.className = 'shooting-star';
+                
+                // 화면 우측 상단 무작위 위치 설정
+                const startTop = Math.random() * (window.innerHeight * 0.6);
+                const startLeft = window.innerWidth * 0.4 + Math.random() * (window.innerWidth * 0.6);
+                
+                star.style.top = startTop + 'px';
+                star.style.left = startLeft + 'px';
+                
+                document.body.appendChild(star);
+
+                // 애니메이션 종료 후 요소 제거
+                setTimeout(() => {
+                    star.remove();
+                }, 1200);
+            }, i * 150);
         }
     }
 
