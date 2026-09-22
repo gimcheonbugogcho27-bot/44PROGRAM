@@ -2,10 +2,16 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- 화면 자동 및 손가락 확대 방지 설정 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>4-4반 은행 관리 프로그램</title>
     <style>
-        /* 우주 느낌의 배경 및 기본 설정 */
+        /* 화면 전체 더블 탭 확대 방지 및 기본 설정 */
+        html, body {
+            touch-action: manipulation;
+            -webkit-text-size-adjust: 100%;
+        }
+
         body {
             font-family: 'Malgun Gothic', '맑은 고딕', sans-serif;
             background: #090a0f linear-gradient(135deg, #090e1a 0%, #081b2e 40%, #002b4d 70%, #090a0f 100%);
@@ -210,7 +216,7 @@
             border: 1px solid #0284c7;
             border-radius: 10px;
             box-sizing: border-box;
-            font-size: 15px;
+            font-size: 16px; /* 모바일 자동 확대 방지 (16px 이상) */
             color: #f1f5f9;
             outline: none;
             transition: all 0.3s ease;
@@ -248,7 +254,7 @@
             transform: translateY(-1px);
         }
 
-        /* 학생별 참여 현황 섹션 추가 */
+        /* 학생별 참여 현황 섹션 */
         .status-section {
             margin-top: 35px;
             background: rgba(15, 23, 42, 0.6);
@@ -884,7 +890,7 @@
 
     <button class="add-btn" onclick="addRecord()">통장에 저금 기록하기!</button>
 
-    <!-- 📊 신규 추가: 학생별 예금/적금 저금 현황표 -->
+    <!-- 📊 학생별 예금/적금 저금 현황표 -->
     <div class="status-section">
         <h2 class="status-title">📋 학생별 저금 참여 현황 (김예은 ~ 정유재)</h2>
         <div class="status-table-wrapper">
@@ -980,15 +986,16 @@
     </div>
 </div>
 
-<!-- 📢 최신 업데이트 안내 팝업 모달 -->
+<!-- 📢 최신 업데이트 안내 팝업 모달 (비밀번호 및 이스터에그 내용 제거됨) -->
 <div class="modal-overlay" id="updateNoticeModal">
     <div class="update-modal-card">
         <h2 class="update-modal-title">🎉 최신 업데이트 안내</h2>
         <div class="update-modal-body">
             <ul>
-                <li><strong>📊 학생별 저금 현황표 추가:</strong> 전체 학생(김예은 ~ 정유재)의 예금/적금 저금 여부 및 금액 한눈에 확인 가능</li>
-                <li><strong>📅 적금 환급일 계산 기능:</strong> 마지막 저금 날짜 기준 <u>다음 주(7일 뒤)</u> 반환 예정일 자동 표시</li>
-                <li><strong>🔒 보안 강화:</strong> Admin / 전체삭제 비밀번호 마스킹(`***`) 적용 (비밀번호: <code>4420261357</code>)</li>
+                <li><strong>📱 화면 확대 방지 기능 적용:</strong> 모바일 환경에서 화면이 자동으로 확대되거나 핀치 투 줌이 되지 않도록 보완되었습니다.</li>
+                <li><strong>📊 학생별 저금 현황표 추가:</strong> 전체 학생(김예은 ~ 정유재)의 예금/적금 저금 여부 및 금액을 한눈에 볼 수 있습니다.</li>
+                <li><strong>📅 적금 환급일 계산 기능:</strong> 마지막 저금 날짜 기준 <u>다음 주(7일 뒤)</u> 반환 예정일이 자동 표시됩니다.</li>
+                <li><strong>🔒 보안 강화:</strong> 관리자 기능 이용 시 마스킹(`***`) 비밀번호 입력 시스템을 사용합니다.</li>
             </ul>
         </div>
         <button class="update-confirm-btn" onclick="closeUpdateNotice()">확인하였습니다</button>
@@ -1075,7 +1082,7 @@
     window.onload = function() {
         showUpdateNotice();
         loadRecords();
-        updateStudentStatusTable(); // 학생별 예금/적금 현황 업데이트
+        updateStudentStatusTable();
         updateLeaderboards();
         updateNotifications();
         initAdminStudentSelect();
@@ -1172,7 +1179,7 @@
         });
     }
 
-    // 📊 학생별 예금/적금 현황 렌더링 함수 (김예은 ~ 정유재)
+    // 📊 학생별 예금/적금 현황 렌더링 함수
     function updateStudentStatusTable() {
         const records = JSON.parse(localStorage.getItem('classBankRecords')) || [];
         const tbody = document.getElementById('studentStatusList');
@@ -1211,7 +1218,7 @@
         });
     }
 
-    // 알림 업데이트 (다음 주 동일 요일 반환일 계산 및 삭제 기능 지원)
+    // 알림 업데이트 (다음 주 동일 요일 반환일 계산 및 삭제 지원)
     function updateNotifications() {
         const records = JSON.parse(localStorage.getItem('classBankRecords')) || [];
         const notificationList = document.getElementById('notificationList');
@@ -1423,7 +1430,7 @@
 
         saveRecords(records);
         loadRecords();
-        updateStudentStatusTable(); // 저금 후 현황표 갱신
+        updateStudentStatusTable();
         updateLeaderboards();
         updateNotifications();
 
@@ -1437,7 +1444,7 @@
             records.splice(index, 1);
             saveRecords(records);
             loadRecords();
-            updateStudentStatusTable(); // 삭제 후 현황표 갱신
+            updateStudentStatusTable();
             updateLeaderboards();
             updateNotifications();
         }
@@ -1457,7 +1464,7 @@
         });
     }
 
-    /* 이스터에그 로직 */
+    /* 이스터에그 기능 유지 */
     function showToast(text, duration = 3000) {
         const toast = document.getElementById('wishToast');
         toast.innerHTML = text;
@@ -1641,7 +1648,7 @@
 
         saveRecords(records);
         loadRecords();
-        updateStudentStatusTable(); // 수정 후 현황표 갱신
+        updateStudentStatusTable();
         updateLeaderboards();
         updateNotifications();
         document.getElementById('editAmount').value = '';
