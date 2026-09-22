@@ -16,6 +16,13 @@
             position: relative;
             min-height: 100vh;
             overflow-x: hidden;
+            transition: background 0.8s ease;
+        }
+
+        /* 오로라 이스터에그 배경 효과 */
+        body.aurora-mode {
+            background: linear-gradient(135deg, #2e1065 0%, #0f172a 30%, #0284c7 70%, #581c87 100%) !important;
+            background-attachment: fixed !important;
         }
 
         /* 별빛 반짝이는 배경 효과 */
@@ -64,6 +71,16 @@
             font-size: 24px;
             text-shadow: 0 0 12px rgba(56, 189, 248, 0.6);
             letter-spacing: 1px;
+            user-select: none;
+        }
+
+        .clickable-title {
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .clickable-title:hover {
+            color: #fde047;
         }
 
         .admin-open-btn {
@@ -138,6 +155,7 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
+            gap: 10px;
         }
 
         .notification-item:last-child {
@@ -146,6 +164,23 @@
 
         .notification-item strong {
             color: #fde047;
+        }
+
+        .notification-del-btn {
+            background: rgba(239, 68, 68, 0.25);
+            color: #fca5a5;
+            border: 1px solid rgba(239, 68, 68, 0.5);
+            padding: 3px 8px;
+            border-radius: 5px;
+            font-size: 12px;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: all 0.2s;
+        }
+
+        .notification-del-btn:hover {
+            background: rgba(239, 68, 68, 0.8);
+            color: #fff;
         }
 
         .empty-notification {
@@ -211,6 +246,64 @@
             background: linear-gradient(135deg, #0369a1 0%, #0284c7 100%);
             box-shadow: 0 0 20px rgba(56, 189, 248, 0.8);
             transform: translateY(-1px);
+        }
+
+        /* 학생별 참여 현황 섹션 추가 */
+        .status-section {
+            margin-top: 35px;
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid rgba(56, 189, 248, 0.3);
+            border-radius: 16px;
+            padding: 20px;
+        }
+
+        .status-title {
+            color: #38bdf8;
+            font-size: 18px;
+            margin: 0 0 15px 0;
+            border-bottom: 2px solid rgba(56, 189, 248, 0.3);
+            padding-bottom: 10px;
+            text-shadow: 0 0 8px rgba(56, 189, 248, 0.4);
+        }
+
+        .status-table-wrapper {
+            max-height: 280px;
+            overflow-y: auto;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .status-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 0;
+        }
+
+        .status-table th {
+            position: sticky;
+            top: 0;
+            background: #0f172a;
+            z-index: 2;
+        }
+
+        .badge-status {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .badge-done {
+            background: rgba(16, 185, 129, 0.25);
+            color: #6ee7b7;
+            border: 1px solid rgba(16, 185, 129, 0.5);
+        }
+
+        .badge-none {
+            background: rgba(148, 163, 184, 0.15);
+            color: #94a3b8;
+            border: 1px solid rgba(148, 163, 184, 0.3);
         }
 
         /* 리더보드 섹션 */
@@ -475,6 +568,47 @@
             cursor: pointer;
         }
 
+        /* 비밀번호 입력 팝업 전용 디자인 */
+        .auth-modal-card {
+            background: #0b1329;
+            border: 2px solid #ef4444;
+            border-radius: 16px;
+            width: 90%;
+            max-width: 400px;
+            padding: 25px;
+            box-shadow: 0 0 35px rgba(239, 68, 68, 0.5);
+            text-align: center;
+        }
+
+        .auth-modal-title {
+            color: #f87171;
+            font-size: 18px;
+            margin-top: 0;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+
+        .auth-input {
+            letter-spacing: 5px;
+            font-size: 20px !important;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        .auth-btn-group {
+            display: flex;
+            gap: 10px;
+        }
+
+        .auth-btn {
+            flex: 1;
+            padding: 10px;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            border: none;
+        }
+
         /* 업데이트 안내 팝업 전용 디자인 */
         .update-modal-card {
             background: #0b1329;
@@ -589,7 +723,9 @@
         .badge-red { background: rgba(239, 68, 68, 0.3); color: #fca5a5; border: 1px solid #ef4444; }
         .badge-green { background: rgba(16, 185, 129, 0.3); color: #6ee7b7; border: 1px solid #10b981; }
 
-        /* 이스터에그 별똥별 애니메이션 스타일 */
+        /* ------------------ 이스터에그 애니메이션 ------------------ */
+
+        /* 1. 별똥별 이스터에그 */
         .shooting-star {
             position: fixed;
             width: 120px;
@@ -604,23 +740,49 @@
         }
 
         @keyframes starFall {
-            0% {
-                opacity: 1;
-                transform: translateX(0) translateY(0) rotate(-35deg);
-            }
-            100% {
-                opacity: 0;
-                transform: translateX(-600px) translateY(600px) rotate(-35deg);
-            }
+            0% { opacity: 1; transform: translateX(0) translateY(0) rotate(-35deg); }
+            100% { opacity: 0; transform: translateX(-600px) translateY(600px) rotate(-35deg); }
         }
 
-        /* 별똥별 소원 메세지 토스트 알림 */
+        /* 2. 로켓 우주선 이스터에그 */
+        .rocket-ship {
+            position: fixed;
+            bottom: -80px;
+            font-size: 60px;
+            pointer-events: none;
+            z-index: 9999;
+            animation: launchRocket 2.2s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+            filter: drop-shadow(0 0 15px #f97316);
+        }
+
+        @keyframes launchRocket {
+            0% { bottom: -80px; opacity: 1; transform: scale(0.8) rotate(0deg); }
+            50% { transform: scale(1.2) rotate(-5deg); }
+            100% { bottom: 110vh; opacity: 0; transform: scale(1.5) rotate(0deg); }
+        }
+
+        /* 3. 황금 코인 잭팟 이스터에그 */
+        .coin-rain {
+            position: fixed;
+            top: -50px;
+            font-size: 28px;
+            pointer-events: none;
+            z-index: 9999;
+            animation: coinDrop 2s ease-in forwards;
+        }
+
+        @keyframes coinDrop {
+            0% { top: -50px; opacity: 1; transform: rotate(0deg); }
+            100% { top: 105vh; opacity: 0; transform: rotate(720deg); }
+        }
+
+        /* 토스트 알림 공통 */
         .wish-toast {
             position: fixed;
             bottom: 30px;
             left: 50%;
             transform: translateX(-50%) translateY(50px);
-            background: rgba(15, 23, 42, 0.9);
+            background: rgba(15, 23, 42, 0.95);
             border: 2px solid #fde047;
             color: #fde047;
             padding: 12px 24px;
@@ -632,6 +794,7 @@
             opacity: 0;
             transition: all 0.5s ease;
             pointer-events: none;
+            text-align: center;
         }
 
         .wish-toast.show {
@@ -644,7 +807,7 @@
 
 <div class="container">
     <div class="header-bar">
-        <h1>✨ 4-4반 은행 관리 프로그램 ✨</h1>
+        <h1>✨ <span class="clickable-title" id="rocketTrigger" onclick="triggerRocketLaunch()">4-4반</span> 은행 관리 프로그램 ✨</h1>
         <button class="admin-open-btn" onclick="openAdminModal()">⚙️ Admin 로그인</button>
     </div>
     
@@ -708,7 +871,7 @@
 
     <div class="form-group">
         <label for="amount">금액 (원)</label>
-        <input type="number" id="amount" placeholder="금액을 입력하세요" min="1">
+        <input type="number" id="amount" placeholder="금액을 입력하세요" min="1" oninput="checkLuckySeven(this)">
     </div>
 
     <div class="form-group">
@@ -720,6 +883,26 @@
     </div>
 
     <button class="add-btn" onclick="addRecord()">통장에 저금 기록하기!</button>
+
+    <!-- 📊 신규 추가: 학생별 예금/적금 저금 현황표 -->
+    <div class="status-section">
+        <h2 class="status-title">📋 학생별 저금 참여 현황 (김예은 ~ 정유재)</h2>
+        <div class="status-table-wrapper">
+            <table class="status-table">
+                <thead>
+                    <tr>
+                        <th>이름</th>
+                        <th>정기예금</th>
+                        <th>정기적금</th>
+                        <th>총 저금액</th>
+                    </tr>
+                </thead>
+                <tbody id="studentStatusList">
+                    <!-- 학생별 저금 현황이 자동 생성됩니다 -->
+                </tbody>
+            </table>
+        </div>
+    </div>
 
     <!-- 명예의 전당 (리더보드) -->
     <div class="leaderboard-section">
@@ -782,8 +965,20 @@
     </footer>
 </div>
 
-<!-- 이스터에그 소원 토스트 메시지 -->
+<!-- 이스터에그 통합 토스트 메시지 -->
 <div class="wish-toast" id="wishToast">✨ 4-4반의 소원이 이루어집니다! ✨</div>
+
+<!-- 🔐 보안 비밀번호 입력 팝업 모달 -->
+<div class="modal-overlay" id="passwordModal">
+    <div class="auth-modal-card">
+        <h3 class="auth-modal-title" id="authModalTitle">🔑 비밀번호 인증</h3>
+        <input type="password" id="authPasswordInput" class="auth-input" placeholder="••••••••••" maxlength="20" onkeyup="if(event.key==='Enter') submitPasswordAuth()">
+        <div class="auth-btn-group">
+            <button class="auth-btn btn-success" onclick="submitPasswordAuth()">확인</button>
+            <button class="auth-btn btn-danger" onclick="closePasswordModal()">취소</button>
+        </div>
+    </div>
+</div>
 
 <!-- 📢 최신 업데이트 안내 팝업 모달 -->
 <div class="modal-overlay" id="updateNoticeModal">
@@ -791,9 +986,9 @@
         <h2 class="update-modal-title">🎉 최신 업데이트 안내</h2>
         <div class="update-modal-body">
             <ul>
-                <li><strong>🌠 비밀 이스터에그 추가</strong>: <u>'전체 통장 기록'</u> 글씨를 3초 안에 3번 클릭하면 하늘에서 별똥별이 떨어집니다!</li>
-                <li><strong>📅 적금 주간 중복 검사 개선</strong>: 선택한 날짜 기준(월~일)으로 주 1회 중복 여부를 더욱 정확하게 구분합니다.</li>
-                <li><strong>🛠️ Admin 날짜 지정 기능</strong>: 관리자 모드에서 원하는 날짜를 직접 선택해 잔액을 추가/차감할 수 있습니다.</li>
+                <li><strong>📊 학생별 저금 현황표 추가:</strong> 전체 학생(김예은 ~ 정유재)의 예금/적금 저금 여부 및 금액 한눈에 확인 가능</li>
+                <li><strong>📅 적금 환급일 계산 기능:</strong> 마지막 저금 날짜 기준 <u>다음 주(7일 뒤)</u> 반환 예정일 자동 표시</li>
+                <li><strong>🔒 보안 강화:</strong> Admin / 전체삭제 비밀번호 마스킹(`***`) 적용 (비밀번호: <code>4420261357</code>)</li>
             </ul>
         </div>
         <button class="update-confirm-btn" onclick="closeUpdateNotice()">확인하였습니다</button>
@@ -861,8 +1056,11 @@
 <script>
     let currentPeriod = 'today';
     let isAdminLoggedIn = false;
+    let pendingAuthCallback = null;
 
-    // 학생 전체 목록
+    const ADMIN_PASSWORD = '4420261357';
+
+    // 학생 전체 명단
     const studentList = [
         "김예은", "김윤솔", "김재은", "나혜지", "박솔아", "박주아", "박준희", "송지아", 
         "신다원", "전소현", "전시은", "주예진", "김규담", "김성현", "김지유ADMIN", "김혜준", 
@@ -870,42 +1068,59 @@
         "전지훈", "정유재"
     ];
 
-    // 오늘 날짜 기본 설정
     const todayISO = new Date().toISOString().substring(0, 10);
     document.getElementById('date').value = todayISO;
     document.getElementById('adminDate').value = todayISO;
 
-    // 페이지 진입 시 즉시 실행
     window.onload = function() {
-        showUpdateNotice(); // 접속 시 업데이트 팝업 자동 활성화
+        showUpdateNotice();
         loadRecords();
+        updateStudentStatusTable(); // 학생별 예금/적금 현황 업데이트
         updateLeaderboards();
         updateNotifications();
         initAdminStudentSelect();
     };
 
-    // 업데이트 안내 팝업 띄우기 함수
+    function promptPasswordAuth(titleText, callback) {
+        document.getElementById('authModalTitle').textContent = titleText;
+        document.getElementById('authPasswordInput').value = '';
+        document.getElementById('passwordModal').style.display = 'flex';
+        document.getElementById('authPasswordInput').focus();
+        pendingAuthCallback = callback;
+    }
+
+    function closePasswordModal() {
+        document.getElementById('passwordModal').style.display = 'none';
+        pendingAuthCallback = null;
+    }
+
+    function submitPasswordAuth() {
+        const inputPass = document.getElementById('authPasswordInput').value;
+        if (inputPass === ADMIN_PASSWORD) {
+            const cb = pendingAuthCallback;
+            closePasswordModal();
+            if (cb) cb();
+        } else {
+            alert('❌ 비밀번호가 올바르지 않습니다!');
+            document.getElementById('authPasswordInput').value = '';
+            document.getElementById('authPasswordInput').focus();
+        }
+    }
+
     function showUpdateNotice() {
         const modal = document.getElementById('updateNoticeModal');
-        if (modal) {
-            modal.style.display = 'flex';
-        }
+        if (modal) modal.style.display = 'flex';
     }
 
-    // 업데이트 안내 팝업 닫기 함수
     function closeUpdateNotice() {
         const modal = document.getElementById('updateNoticeModal');
-        if (modal) {
-            modal.style.display = 'none';
-        }
+        if (modal) modal.style.display = 'none';
     }
 
-    // 데이터 저장 (LocalStorage)
     function saveRecords(records) {
         localStorage.setItem('classBankRecords', JSON.stringify(records));
     }
 
-    // 관리자 설정 불러오기 및 저장
     function getAdminSettings() {
         return JSON.parse(localStorage.getItem('classBankAdminSettings')) || {};
     }
@@ -914,7 +1129,19 @@
         localStorage.setItem('classBankAdminSettings', JSON.stringify(settings));
     }
 
-    // 주차(Week) 고유 키 구하기 (월요일 기준)
+    function getDismissedNotifications() {
+        return JSON.parse(localStorage.getItem('dismissedNotifications')) || [];
+    }
+
+    function dismissNotification(name) {
+        const dismissed = getDismissedNotifications();
+        if (!dismissed.includes(name)) {
+            dismissed.push(name);
+            localStorage.setItem('dismissedNotifications', JSON.stringify(dismissed));
+        }
+        updateNotifications();
+    }
+
     function getWeekKey(dateObj) {
         const d = new Date(dateObj);
         d.setHours(0, 0, 0, 0);
@@ -924,7 +1151,6 @@
         return monday.toISOString().substring(0, 10);
     }
 
-    // 목록 화면 출력 함수
     function loadRecords() {
         const records = JSON.parse(localStorage.getItem('classBankRecords')) || [];
         const tbody = document.getElementById('recordList');
@@ -946,41 +1172,99 @@
         });
     }
 
-    // 알림 업데이트 함수
+    // 📊 학생별 예금/적금 현황 렌더링 함수 (김예은 ~ 정유재)
+    function updateStudentStatusTable() {
+        const records = JSON.parse(localStorage.getItem('classBankRecords')) || [];
+        const tbody = document.getElementById('studentStatusList');
+        tbody.innerHTML = '';
+
+        studentList.forEach(name => {
+            let depositTotal = 0;
+            let savingsTotal = 0;
+
+            records.forEach(item => {
+                if (item.name === name) {
+                    const amt = Number(item.amount) || 0;
+                    if (item.type === '정기예금') depositTotal += amt;
+                    if (item.type === '정기적금') savingsTotal += amt;
+                }
+            });
+
+            const totalAmount = depositTotal + savingsTotal;
+
+            const depositBadge = depositTotal > 0 
+                ? `<span class="badge-status badge-done">완료 (${depositTotal.toLocaleString()}원)</span>`
+                : `<span class="badge-status badge-none">미완료</span>`;
+
+            const savingsBadge = savingsTotal > 0 
+                ? `<span class="badge-status badge-done">완료 (${savingsTotal.toLocaleString()}원)</span>`
+                : `<span class="badge-status badge-none">미완료</span>`;
+
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td><strong>${name}</strong></td>
+                <td>${depositBadge}</td>
+                <td>${savingsBadge}</td>
+                <td><strong style="color: #fde047;">${totalAmount.toLocaleString()}원</strong></td>
+            `;
+            tbody.appendChild(row);
+        });
+    }
+
+    // 알림 업데이트 (다음 주 동일 요일 반환일 계산 및 삭제 기능 지원)
     function updateNotifications() {
         const records = JSON.parse(localStorage.getItem('classBankRecords')) || [];
         const notificationList = document.getElementById('notificationList');
         notificationList.innerHTML = '';
 
-        const savingsCountMap = {};
+        const dismissed = getDismissedNotifications();
+        const savingsDataMap = {};
 
         records.forEach(item => {
             if (item.type === '정기적금' && Number(item.amount) === 200) {
-                savingsCountMap[item.name] = (savingsCountMap[item.name] || 0) + 1;
+                if (!savingsDataMap[item.name]) {
+                    savingsDataMap[item.name] = { count: 0, lastDate: item.date };
+                }
+                savingsDataMap[item.name].count += 1;
+
+                if (item.date > savingsDataMap[item.name].lastDate) {
+                    savingsDataMap[item.name].lastDate = item.date;
+                }
             }
         });
 
         let hasTarget = false;
 
-        Object.keys(savingsCountMap).forEach(name => {
-            if (savingsCountMap[name] >= 3) {
+        Object.keys(savingsDataMap).forEach(name => {
+            if (savingsDataMap[name].count >= 3 && !dismissed.includes(name)) {
                 hasTarget = true;
+
+                const lastDateObj = new Date(savingsDataMap[name].lastDate);
+                const returnDateObj = new Date(lastDateObj);
+                returnDateObj.setDate(lastDateObj.getDate() + 7);
+
+                const weekNames = ['일', '월', '화', '수', '목', '금', '토'];
+                const returnMonth = returnDateObj.getMonth() + 1;
+                const returnDay = returnDateObj.getDate();
+                const returnWeekDay = weekNames[returnDateObj.getDay()];
+
+                const returnDateStr = `${returnMonth}월 ${returnDay}일(${returnWeekDay})`;
+
                 const li = document.createElement('li');
                 li.className = 'notification-item';
                 li.innerHTML = `
-                    <span>🎉 <strong>${name}</strong> 학생은 200원씩 정기적금을 3회 이상 완료했습니다!</span>
-                    <span><strong>800원</strong>으로 돌려받을 예정입니다.</span>
+                    <span>🎉 <strong>${name}</strong> 학생 적금 만기! 다음 주 <strong>${returnDateStr}</strong>에 <strong>800원</strong>으로 돌려받게 됩니다.</span>
+                    <button class="notification-del-btn" onclick="dismissNotification('${name}')">✕ 닫기</button>
                 `;
                 notificationList.appendChild(li);
             }
         });
 
         if (!hasTarget) {
-            notificationList.innerHTML = '<li class="empty-notification">현재 800원 반환 대상 학생이 없습니다.</li>';
+            notificationList.innerHTML = '<li class="empty-notification">현재 표시할 적금 반환 알림이 없습니다.</li>';
         }
     }
 
-    // 기간 탭 전환
     function switchPeriod(period, btnElement) {
         currentPeriod = period;
         document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
@@ -988,7 +1272,6 @@
         updateLeaderboards();
     }
 
-    // 기간 필터링 로직
     function filterRecordsByPeriod(records, period) {
         const today = new Date();
         const todayStr = today.toISOString().substring(0, 10);
@@ -1009,7 +1292,6 @@
         });
     }
 
-    // 리더보드 업데이트
     function updateLeaderboards() {
         const records = JSON.parse(localStorage.getItem('classBankRecords')) || [];
         const filtered = filterRecordsByPeriod(records, currentPeriod);
@@ -1035,7 +1317,6 @@
         renderRankList('totalRankList', totalMap);
     }
 
-    // 순위 렌더링 도우미
     function renderRankList(elementId, dataMap) {
         const listEl = document.getElementById(elementId);
         listEl.innerHTML = '';
@@ -1062,7 +1343,6 @@
         });
     }
 
-    // 기록 추가 함수
     function addRecord() {
         const dateInput = document.getElementById('date').value;
         const name = document.getElementById('name').value;
@@ -1143,6 +1423,7 @@
 
         saveRecords(records);
         loadRecords();
+        updateStudentStatusTable(); // 저금 후 현황표 갱신
         updateLeaderboards();
         updateNotifications();
 
@@ -1150,99 +1431,125 @@
         document.getElementById('name').value = '';
     }
 
-    // 단일 항목 삭제
     function deleteRecord(index) {
         if (confirm('이 기록을 삭제하시겠습니까?')) {
             const records = JSON.parse(localStorage.getItem('classBankRecords')) || [];
             records.splice(index, 1);
             saveRecords(records);
             loadRecords();
+            updateStudentStatusTable(); // 삭제 후 현황표 갱신
             updateLeaderboards();
             updateNotifications();
         }
     }
 
-    // 비밀번호 입력 후 전체 삭제
     function clearAllRecords() {
-        const password = prompt('🔑 전체 삭제를 위한 비밀번호를 입력하세요:');
-        
-        if (password === null) return;
-
-        if (password === '442026') {
+        promptPasswordAuth('🔑 전체 삭제 비밀번호 입력', function() {
             if (confirm('모든 통장 기록을 지우시겠습니까? (복구할 수 없습니다)')) {
                 localStorage.removeItem('classBankRecords');
+                localStorage.removeItem('dismissedNotifications');
                 loadRecords();
+                updateStudentStatusTable();
                 updateLeaderboards();
                 updateNotifications();
                 alert('모든 통장 기록이 삭제되었습니다.');
             }
-        } else {
-            alert('❌ 비밀번호가 올바르지 않습니다!');
-        }
+        });
     }
 
-    /* ⭐ 이스터에그 : 3번 클릭 시 별똥별 떨어지는 함수 ⭐ */
+    /* 이스터에그 로직 */
+    function showToast(text, duration = 3000) {
+        const toast = document.getElementById('wishToast');
+        toast.innerHTML = text;
+        toast.classList.add('show');
+        setTimeout(() => toast.classList.remove('show'), duration);
+    }
+
     let titleClickCount = 0;
     let titleClickTimer = null;
 
     function triggerShootingStars() {
         titleClickCount++;
-
         clearTimeout(titleClickTimer);
-        titleClickTimer = setTimeout(() => {
-            titleClickCount = 0;
-        }, 3000); // 3초 내 3번 연속 클릭
+        titleClickTimer = setTimeout(() => { titleClickCount = 0; }, 3000);
 
         if (titleClickCount >= 3) {
             titleClickCount = 0;
-            createStarsEffect();
-        }
-    }
-
-    function createStarsEffect() {
-        // 소원 토스트 팝업 띄우기
-        const toast = document.getElementById('wishToast');
-        toast.classList.add('show');
-        setTimeout(() => toast.classList.remove('show'), 3500);
-
-        // 별똥별 15개 연쇄 생성
-        for (let i = 0; i < 15; i++) {
-            setTimeout(() => {
-                const star = document.createElement('div');
-                star.className = 'shooting-star';
-                
-                // 화면 우측 상단 무작위 위치 설정
-                const startTop = Math.random() * (window.innerHeight * 0.6);
-                const startLeft = window.innerWidth * 0.4 + Math.random() * (window.innerWidth * 0.6);
-                
-                star.style.top = startTop + 'px';
-                star.style.left = startLeft + 'px';
-                
-                document.body.appendChild(star);
-
-                // 애니메이션 종료 후 요소 제거
+            showToast('✨ 4-4반의 소원이 이루어집니다! ✨');
+            for (let i = 0; i < 15; i++) {
                 setTimeout(() => {
-                    star.remove();
-                }, 1200);
-            }, i * 150);
-        }
-    }
-
-    /* --- ADMIN 관리자 패널 관련 함수 --- */
-
-    function openAdminModal() {
-        if (!isAdminLoggedIn) {
-            const password = prompt('🔑 Admin 비밀번호를 입력하세요:');
-            if (password === '442026') {
-                isAdminLoggedIn = true;
-                alert('비밀번호가 확인되었습니다.');
-            } else {
-                if (password !== null) alert('❌ 비밀번호가 올바르지 않습니다!');
-                return;
+                    const star = document.createElement('div');
+                    star.className = 'shooting-star';
+                    star.style.top = (Math.random() * (window.innerHeight * 0.6)) + 'px';
+                    star.style.left = (window.innerWidth * 0.4 + Math.random() * (window.innerWidth * 0.6)) + 'px';
+                    document.body.appendChild(star);
+                    setTimeout(() => star.remove(), 1200);
+                }, i * 150);
             }
         }
-        document.getElementById('adminModal').style.display = 'flex';
-        renderStudentAdminStatus();
+    }
+
+    let rocketClickCount = 0;
+    let rocketClickTimer = null;
+
+    function triggerRocketLaunch() {
+        rocketClickCount++;
+        clearTimeout(rocketClickTimer);
+        rocketClickTimer = setTimeout(() => { rocketClickCount = 0; }, 3000);
+
+        if (rocketClickCount >= 3) {
+            rocketClickCount = 0;
+            showToast('🚀 4-4반 우주선 발사! 우주 탐사를 시작합니다!');
+
+            document.body.classList.add('aurora-mode');
+            setTimeout(() => document.body.classList.remove('aurora-mode'), 6000);
+
+            const rocket = document.createElement('div');
+            rocket.className = 'rocket-ship';
+            rocket.innerHTML = '🚀';
+            rocket.style.left = (window.innerWidth * 0.5 - 30) + 'px';
+            document.body.appendChild(rocket);
+
+            setTimeout(() => rocket.remove(), 2300);
+        }
+    }
+
+    let isCoinRaining = false;
+
+    function checkLuckySeven(inputEl) {
+        if (inputEl.value === '777' && !isCoinRaining) {
+            isCoinRaining = true;
+            showToast('🎰 잭팟! 4-4반에 럭키 행운이 가득합니다! 🪙');
+
+            const coins = ['🪙', '💰', '✨', '💎', '🌟'];
+            for (let i = 0; i < 25; i++) {
+                setTimeout(() => {
+                    const coin = document.createElement('div');
+                    coin.className = 'coin-rain';
+                    coin.innerHTML = coins[Math.floor(Math.random() * coins.length)];
+                    coin.style.left = (Math.random() * (window.innerWidth - 40)) + 'px';
+                    document.body.appendChild(coin);
+
+                    setTimeout(() => coin.remove(), 2000);
+                }, i * 100);
+            }
+
+            setTimeout(() => { isCoinRaining = false; }, 3500);
+        }
+    }
+
+    /* ADMIN 관리자 패널 관련 함수 */
+    function openAdminModal() {
+        if (!isAdminLoggedIn) {
+            promptPasswordAuth('🔑 Admin로그인 비밀번호 입력', function() {
+                isAdminLoggedIn = true;
+                document.getElementById('adminModal').style.display = 'flex';
+                renderStudentAdminStatus();
+            });
+        } else {
+            document.getElementById('adminModal').style.display = 'flex';
+            renderStudentAdminStatus();
+        }
     }
 
     function closeAdminModal() {
@@ -1334,6 +1641,7 @@
 
         saveRecords(records);
         loadRecords();
+        updateStudentStatusTable(); // 수정 후 현황표 갱신
         updateLeaderboards();
         updateNotifications();
         document.getElementById('editAmount').value = '';
