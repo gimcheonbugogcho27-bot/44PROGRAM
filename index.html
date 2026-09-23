@@ -49,12 +49,20 @@
             z-index: 0;
         }
 
-        /* 글래스모피즘 컨테이너 */
-        .container {
+        /* 메인 레이아웃 (컨테이너 + 사이드 패널) */
+        .main-layout {
+            display: flex;
+            gap: 20px;
+            max-width: 1100px;
+            margin: 0 auto;
+            align-items: flex-start;
             position: relative;
             z-index: 1;
-            max-width: 800px;
-            margin: 0 auto;
+        }
+
+        /* 글래스모피즘 컨테이너 */
+        .container {
+            flex: 1;
             background: rgba(13, 25, 48, 0.85);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
@@ -62,6 +70,158 @@
             border-radius: 20px;
             box-shadow: 0 0 25px rgba(56, 189, 248, 0.25), inset 0 0 15px rgba(56, 189, 248, 0.1);
             border: 1px solid rgba(56, 189, 248, 0.4);
+        }
+
+        /* 관리자 목록 사이드 패널 */
+        .admin-side-panel {
+            width: 260px;
+            background: rgba(15, 23, 42, 0.9);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(239, 68, 68, 0.4);
+            border-radius: 16px;
+            padding: 18px;
+            box-shadow: 0 0 20px rgba(239, 68, 68, 0.2);
+        }
+
+        .admin-panel-title {
+            font-size: 15px;
+            font-weight: bold;
+            color: #fca5a5;
+            margin-top: 0;
+            margin-bottom: 12px;
+            border-bottom: 1px solid rgba(239, 68, 68, 0.3);
+            padding-bottom: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 6px;
+        }
+
+        .admin-list {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 20px 0;
+        }
+
+        .admin-item {
+            background: rgba(30, 41, 59, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 10px 12px;
+            border-radius: 8px;
+            margin-bottom: 8px;
+            font-size: 13px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .admin-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .admin-item.super-admin {
+            border-color: #fde047;
+            background: rgba(253, 224, 71, 0.1);
+        }
+
+        .admin-item .name {
+            font-weight: bold;
+            color: #e2e8f0;
+        }
+
+        .admin-item.super-admin .name {
+            color: #fde047;
+        }
+
+        .role-tag {
+            font-size: 10px;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+
+        .role-super { background: #fde047; color: #0f172a; }
+        .role-sub { background: rgba(56, 189, 248, 0.2); color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.4); }
+        .role-temp { background: rgba(148, 163, 184, 0.2); color: #cbd5e1; border: 1px solid rgba(148, 163, 184, 0.4); }
+        .role-banker { background: rgba(52, 211, 153, 0.2); color: #6ee7b7; border: 1px solid rgba(52, 211, 153, 0.4); }
+
+        /* 복구 패널 스타일 */
+        .restore-panel-btn {
+            width: 100%;
+            padding: 10px;
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            color: #ffffff;
+            border: 1px solid #fbbf24;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 0 10px rgba(245, 158, 11, 0.3);
+            transition: all 0.2s;
+            margin-bottom: 20px;
+        }
+
+        .restore-panel-btn:hover {
+            transform: scale(1.02);
+            box-shadow: 0 0 15px rgba(245, 158, 11, 0.6);
+        }
+
+        /* 날씨 및 급식 패널 공통 카드리셋 */
+        .side-card-box {
+            background: rgba(30, 41, 59, 0.7);
+            border: 1px solid rgba(56, 189, 248, 0.3);
+            border-radius: 12px;
+            padding: 12px;
+            box-shadow: inset 0 0 10px rgba(56, 189, 248, 0.1);
+        }
+
+        .weather-card { text-align: center; }
+
+        .weather-main-info {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin: 8px 0;
+        }
+
+        .weather-icon { font-size: 28px; }
+        .weather-temp { font-size: 22px; font-weight: bold; color: #38bdf8; text-shadow: 0 0 8px rgba(56, 189, 248, 0.5); }
+        .weather-desc { font-size: 13px; color: #cbd5e1; }
+
+        .refresh-icon-btn {
+            background: transparent;
+            border: none;
+            color: #38bdf8;
+            font-size: 13px;
+            cursor: pointer;
+            padding: 0;
+        }
+
+        /* 급식 전용 목록 스타일 */
+        .meal-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            text-align: left;
+        }
+
+        .meal-item {
+            font-size: 13px;
+            color: #e2e8f0;
+            padding: 4px 0;
+            border-bottom: 1px dashed rgba(255, 255, 255, 0.08);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .meal-item:last-child { border-bottom: none; }
+
+        .meal-item::before {
+            content: "•";
+            color: #fde047;
+            font-weight: bold;
         }
 
         .header-bar {
@@ -80,14 +240,8 @@
             user-select: none;
         }
 
-        .clickable-title {
-            cursor: pointer;
-            transition: color 0.3s;
-        }
-
-        .clickable-title:hover {
-            color: #fde047;
-        }
+        .clickable-title { cursor: pointer; transition: color 0.3s; }
+        .clickable-title:hover { color: #fde047; }
 
         .admin-open-btn {
             background: linear-gradient(135deg, #ef4444 0%, #b91c1c 100%);
@@ -106,7 +260,6 @@
             box-shadow: 0 0 15px rgba(239, 68, 68, 0.8);
         }
 
-        /* 예금 규칙 박스 */
         .rule-info {
             background: rgba(6, 78, 59, 0.35);
             border: 1px solid rgba(52, 211, 153, 0.5);
@@ -119,12 +272,8 @@
             box-shadow: inset 0 0 10px rgba(52, 211, 153, 0.1);
         }
 
-        .rule-info .highlight {
-            color: #fde047;
-            font-weight: bold;
-        }
+        .rule-info .highlight { color: #fde047; font-weight: bold; }
 
-        /* 알림 섹션 스타일 */
         .notification-section {
             background: rgba(124, 58, 237, 0.2);
             border: 1px solid rgba(167, 139, 250, 0.5);
@@ -144,11 +293,7 @@
             gap: 6px;
         }
 
-        .notification-list {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
+        .notification-list { list-style: none; padding: 0; margin: 0; }
 
         .notification-item {
             background: rgba(15, 23, 42, 0.6);
@@ -164,13 +309,8 @@
             gap: 10px;
         }
 
-        .notification-item:last-child {
-            margin-bottom: 0;
-        }
-
-        .notification-item strong {
-            color: #fde047;
-        }
+        .notification-item:last-child { margin-bottom: 0; }
+        .notification-item strong { color: #fde047; }
 
         .notification-del-btn {
             background: rgba(239, 68, 68, 0.25);
@@ -184,21 +324,10 @@
             transition: all 0.2s;
         }
 
-        .notification-del-btn:hover {
-            background: rgba(239, 68, 68, 0.8);
-            color: #fff;
-        }
+        .notification-del-btn:hover { background: rgba(239, 68, 68, 0.8); color: #fff; }
+        .empty-notification { color: #94a3b8; font-size: 13.5px; text-align: center; padding: 5px 0; }
 
-        .empty-notification {
-            color: #94a3b8;
-            font-size: 13.5px;
-            text-align: center;
-            padding: 5px 0;
-        }
-
-        .form-group {
-            margin-bottom: 15px;
-        }
+        .form-group { margin-bottom: 15px; }
 
         label {
             display: block;
@@ -216,7 +345,7 @@
             border: 1px solid #0284c7;
             border-radius: 10px;
             box-sizing: border-box;
-            font-size: 16px; /* 모바일 자동 확대 방지 (16px 이상) */
+            font-size: 16px;
             color: #f1f5f9;
             outline: none;
             transition: all 0.3s ease;
@@ -227,12 +356,8 @@
             box-shadow: 0 0 10px rgba(56, 189, 248, 0.5);
         }
 
-        select option {
-            background: #0f172a;
-            color: #f1f5f9;
-        }
+        select option { background: #0f172a; color: #f1f5f9; }
 
-        /* 저금하기 버튼 */
         button.add-btn {
             width: 100%;
             padding: 14px;
@@ -254,7 +379,6 @@
             transform: translateY(-1px);
         }
 
-        /* 학생별 참여 현황 섹션 */
         .status-section {
             margin-top: 35px;
             background: rgba(15, 23, 42, 0.6);
@@ -279,40 +403,13 @@
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
-        .status-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 0;
-        }
+        .status-table { width: 100%; border-collapse: collapse; margin: 0; }
+        .status-table th { position: sticky; top: 0; background: #0f172a; z-index: 2; }
 
-        .status-table th {
-            position: sticky;
-            top: 0;
-            background: #0f172a;
-            z-index: 2;
-        }
+        .badge-status { display: inline-block; padding: 2px 8px; border-radius: 6px; font-size: 12px; font-weight: bold; }
+        .badge-done { background: rgba(16, 185, 129, 0.25); color: #6ee7b7; border: 1px solid rgba(16, 185, 129, 0.5); }
+        .badge-none { background: rgba(148, 163, 184, 0.15); color: #94a3b8; border: 1px solid rgba(148, 163, 184, 0.3); }
 
-        .badge-status {
-            display: inline-block;
-            padding: 2px 8px;
-            border-radius: 6px;
-            font-size: 12px;
-            font-weight: bold;
-        }
-
-        .badge-done {
-            background: rgba(16, 185, 129, 0.25);
-            color: #6ee7b7;
-            border: 1px solid rgba(16, 185, 129, 0.5);
-        }
-
-        .badge-none {
-            background: rgba(148, 163, 184, 0.15);
-            color: #94a3b8;
-            border: 1px solid rgba(148, 163, 184, 0.3);
-        }
-
-        /* 리더보드 섹션 */
         .leaderboard-section {
             margin-top: 35px;
             background: rgba(15, 23, 42, 0.6);
@@ -337,10 +434,7 @@
             text-shadow: 0 0 10px rgba(253, 224, 71, 0.4);
         }
 
-        .tab-group {
-            display: flex;
-            gap: 8px;
-        }
+        .tab-group { display: flex; gap: 8px; }
 
         .tab-btn {
             background: rgba(30, 41, 59, 0.8);
@@ -387,11 +481,7 @@
         .board-card.savings h3 { color: #a78bfa; }
         .board-card.total h3 { color: #fde047; }
 
-        .rank-list {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
+        .rank-list { list-style: none; padding: 0; margin: 0; }
 
         .rank-item {
             display: flex;
@@ -401,28 +491,14 @@
             border-bottom: 1px dashed rgba(255, 255, 255, 0.05);
         }
 
-        .rank-item:last-child {
-            border-bottom: none;
-        }
-
-        .rank-number {
-            font-weight: bold;
-            width: 25px;
-            display: inline-block;
-        }
+        .rank-item:last-child { border-bottom: none; }
+        .rank-number { font-weight: bold; width: 25px; display: inline-block; }
 
         .rank-1 { color: #fde047; font-weight: bold; }
         .rank-2 { color: #e2e8f0; font-weight: bold; }
         .rank-3 { color: #f97316; font-weight: bold; }
+        .empty-rank { text-align: center; color: #64748b; font-size: 12px; padding: 10px 0; }
 
-        .empty-rank {
-            text-align: center;
-            color: #64748b;
-            font-size: 12px;
-            padding: 10px 0;
-        }
-
-        /* 목록 헤더 */
         .list-header {
             display: flex;
             justify-content: space-between;
@@ -442,9 +518,7 @@
             transition: transform 0.1s;
         }
 
-        h2.list-title:active {
-            transform: scale(0.97);
-        }
+        h2.list-title:active { transform: scale(0.97); }
 
         .clear-all-btn {
             background: rgba(239, 68, 68, 0.2);
@@ -457,17 +531,9 @@
             transition: all 0.2s;
         }
 
-        .clear-all-btn:hover {
-            background: rgba(239, 68, 68, 0.4);
-            color: #ffffff;
-        }
+        .clear-all-btn:hover { background: rgba(239, 68, 68, 0.4); color: #ffffff; }
 
-        /* 테이블 스타일 */
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 15px;
-        }
+        table { width: 100%; border-collapse: collapse; margin-top: 15px; }
 
         th, td {
             padding: 12px 10px;
@@ -476,19 +542,9 @@
             font-size: 14px;
         }
 
-        th {
-            background-color: rgba(14, 165, 233, 0.15);
-            color: #38bdf8;
-            font-weight: 600;
-        }
-
-        td {
-            color: #cbd5e1;
-        }
-
-        td strong {
-            color: #38bdf8;
-        }
+        th { background-color: rgba(14, 165, 233, 0.15); color: #38bdf8; font-weight: 600; }
+        td { color: #cbd5e1; }
+        td strong { color: #38bdf8; }
 
         .delete-btn {
             background-color: rgba(244, 63, 94, 0.2);
@@ -500,12 +556,20 @@
             transition: all 0.2s;
         }
 
-        .delete-btn:hover {
-            background-color: #e11d48;
-            color: white;
+        .delete-btn:hover { background-color: #e11d48; color: white; }
+
+        .restore-btn {
+            background-color: rgba(16, 185, 129, 0.25);
+            color: #6ee7b7;
+            border: 1px solid rgba(16, 185, 129, 0.5);
+            padding: 5px 10px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
         }
 
-        /* 푸터 스타일 */
+        .restore-btn:hover { background-color: #10b981; color: white; }
+
         footer {
             margin-top: 30px;
             display: flex;
@@ -519,13 +583,8 @@
             gap: 10px;
         }
 
-        .footer-company {
-            color: #38bdf8;
-            font-weight: bold;
-            text-shadow: 0 0 5px rgba(56, 189, 248, 0.3);
-        }
+        .footer-company { color: #38bdf8; font-weight: bold; text-shadow: 0 0 5px rgba(56, 189, 248, 0.3); }
 
-        /* 모달 공통 스타일 */
         .modal-overlay {
             display: none;
             position: fixed;
@@ -559,22 +618,9 @@
             margin-bottom: 20px;
         }
 
-        .modal-title {
-            color: #f87171;
-            font-size: 20px;
-            margin: 0;
-            font-weight: bold;
-        }
+        .modal-title { color: #f87171; font-size: 20px; margin: 0; font-weight: bold; }
+        .modal-close { background: transparent; border: none; color: #94a3b8; font-size: 20px; cursor: pointer; }
 
-        .modal-close {
-            background: transparent;
-            border: none;
-            color: #94a3b8;
-            font-size: 20px;
-            cursor: pointer;
-        }
-
-        /* 비밀번호 입력 팝업 전용 디자인 */
         .auth-modal-card {
             background: #0b1329;
             border: 2px solid #ef4444;
@@ -586,13 +632,7 @@
             text-align: center;
         }
 
-        .auth-modal-title {
-            color: #f87171;
-            font-size: 18px;
-            margin-top: 0;
-            margin-bottom: 15px;
-            font-weight: bold;
-        }
+        .auth-modal-title { color: #f87171; font-size: 18px; margin-top: 0; margin-bottom: 15px; font-weight: bold; }
 
         .auth-input {
             letter-spacing: 5px;
@@ -601,21 +641,9 @@
             margin-bottom: 15px;
         }
 
-        .auth-btn-group {
-            display: flex;
-            gap: 10px;
-        }
+        .auth-btn-group { display: flex; gap: 10px; }
+        .auth-btn { flex: 1; padding: 10px; border-radius: 8px; font-weight: bold; cursor: pointer; border: none; }
 
-        .auth-btn {
-            flex: 1;
-            padding: 10px;
-            border-radius: 8px;
-            font-weight: bold;
-            cursor: pointer;
-            border: none;
-        }
-
-        /* 업데이트 안내 팝업 전용 디자인 */
         .update-modal-card {
             background: #0b1329;
             border: 2px solid #38bdf8;
@@ -627,13 +655,7 @@
             text-align: center;
         }
 
-        .update-modal-title {
-            color: #38bdf8;
-            font-size: 20px;
-            margin-top: 0;
-            margin-bottom: 15px;
-            font-weight: bold;
-        }
+        .update-modal-title { color: #38bdf8; font-size: 20px; margin-top: 0; margin-bottom: 15px; font-weight: bold; }
 
         .update-modal-body {
             color: #e2e8f0;
@@ -647,18 +669,9 @@
             border: 1px solid rgba(56, 189, 248, 0.3);
         }
 
-        .update-modal-body ul {
-            margin: 0;
-            padding-left: 20px;
-        }
-
-        .update-modal-body li {
-            margin-bottom: 8px;
-        }
-
-        .update-modal-body li:last-child {
-            margin-bottom: 0;
-        }
+        .update-modal-body ul { margin: 0; padding-left: 20px; }
+        .update-modal-body li { margin-bottom: 8px; }
+        .update-modal-body li:last-child { margin-bottom: 0; }
 
         .update-confirm-btn {
             background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
@@ -673,10 +686,7 @@
             transition: all 0.2s;
         }
 
-        .update-confirm-btn:hover {
-            transform: scale(1.03);
-            box-shadow: 0 0 15px rgba(56, 189, 248, 0.8);
-        }
+        .update-confirm-btn:hover { transform: scale(1.03); box-shadow: 0 0 15px rgba(56, 189, 248, 0.8); }
 
         .admin-section {
             background: rgba(30, 41, 59, 0.6);
@@ -686,19 +696,9 @@
             margin-bottom: 15px;
         }
 
-        .admin-section-title {
-            color: #fde047;
-            font-size: 15px;
-            font-weight: bold;
-            margin-bottom: 12px;
-        }
+        .admin-section-title { color: #fde047; font-size: 15px; font-weight: bold; margin-bottom: 12px; }
 
-        .admin-btn-group {
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
-            margin-top: 10px;
-        }
+        .admin-btn-group { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
 
         .admin-btn {
             padding: 8px 12px;
@@ -717,21 +717,16 @@
 
         .admin-btn:hover { opacity: 0.9; transform: translateY(-1px); }
 
-        .badge {
-            display: inline-block;
-            padding: 3px 8px;
-            border-radius: 12px;
-            font-size: 11px;
-            font-weight: bold;
-            margin-left: 5px;
-        }
-
+        .badge { display: inline-block; padding: 3px 8px; border-radius: 12px; font-size: 11px; font-weight: bold; margin-left: 5px; }
         .badge-red { background: rgba(239, 68, 68, 0.3); color: #fca5a5; border: 1px solid #ef4444; }
         .badge-green { background: rgba(16, 185, 129, 0.3); color: #6ee7b7; border: 1px solid #10b981; }
 
-        /* ------------------ 이스터에그 애니메이션 ------------------ */
+        @media (max-width: 850px) {
+            .main-layout { flex-direction: column; }
+            .admin-side-panel { width: 100%; box-sizing: border-box; }
+        }
 
-        /* 1. 별똥별 이스터에그 */
+        /* 이스터에그 애니메이션 */
         .shooting-star {
             position: fixed;
             width: 120px;
@@ -750,7 +745,6 @@
             100% { opacity: 0; transform: translateX(-600px) translateY(600px) rotate(-35deg); }
         }
 
-        /* 2. 로켓 우주선 이스터에그 */
         .rocket-ship {
             position: fixed;
             bottom: -80px;
@@ -767,7 +761,6 @@
             100% { bottom: 110vh; opacity: 0; transform: scale(1.5) rotate(0deg); }
         }
 
-        /* 3. 황금 코인 잭팟 이스터에그 */
         .coin-rain {
             position: fixed;
             top: -50px;
@@ -782,7 +775,6 @@
             100% { top: 105vh; opacity: 0; transform: rotate(720deg); }
         }
 
-        /* 토스트 알림 공통 */
         .wish-toast {
             position: fixed;
             bottom: 30px;
@@ -803,172 +795,227 @@
             text-align: center;
         }
 
-        .wish-toast.show {
-            opacity: 1;
-            transform: translateX(-50%) translateY(0);
-        }
+        .wish-toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <div class="header-bar">
-        <h1>✨ <span class="clickable-title" id="rocketTrigger" onclick="triggerRocketLaunch()">4-4반</span> 은행 관리 프로그램 ✨</h1>
-        <button class="admin-open-btn" onclick="openAdminModal()">⚙️ Admin 로그인</button>
-    </div>
-    
-    <!-- 규칙 안내 -->
-    <div class="rule-info">
-        <strong>🚀 예금 규칙</strong><br>
-        • <strong>정기예금</strong>: 1회 <strong>최대 1,000원</strong>까지, 1인당 총 합계 <strong>최대 3,000원</strong>까지 가능<br>
-        • <strong>정기적금</strong>: 1인당 <strong>일주일에 1번만</strong>, 1회 <strong>최대 200원</strong>까지만 가능<br>
-        <span class="highlight">🎁 혜택: 정기적금으로 200원씩 총 3번 저금한 학생은 4주째에 800원으로 돌려받게 됩니다!</span>
+<div class="main-layout">
+    <!-- 메인 컨테이너 -->
+    <div class="container">
+        <div class="header-bar">
+            <h1>✨ <span class="clickable-title" id="rocketTrigger" onclick="triggerRocketLaunch()">4-4반</span> 은행 관리 프로그램 ✨</h1>
+            <button class="admin-open-btn" onclick="openAdminModal()">⚙️ Admin 로그인</button>
+        </div>
+        
+        <!-- 규칙 안내 -->
+        <div class="rule-info">
+            <strong>🚀 예금 규칙</strong><br>
+            • <strong>정기예금</strong>: 1회 <strong>최대 1,000원</strong>까지, 1인당 총 합계 <strong>최대 3,000원</strong>까지 가능<br>
+            • <strong>정기적금</strong>: 1인당 <strong>일주일에 1번만</strong>, 1회 <strong>최대 200원</strong>까지만 가능<br>
+            <span class="highlight">🎁 혜택: 정기적금으로 200원씩 총 3번 저금한 학생은 4주째에 800원으로 돌려받게 됩니다!</span><br>
+            <span style="color:#fde047; font-size:12px;">👑 김지유ADMIN 대원은 모든 저금이 무제한 권한으로 기본 적용되어 있습니다.</span>
+        </div>
+
+        <!-- 알림 영역 (적금 만기 환급 대상) -->
+        <div class="notification-section">
+            <div class="notification-title">
+                🔔 알림 (적금 만기 및 반환 예정 목록)
+            </div>
+            <ul class="notification-list" id="notificationList">
+                <!-- 알림 항목이 자동으로 생성됩니다 -->
+            </ul>
+        </div>
+
+        <!-- 입력 양식 -->
+        <div class="form-group">
+            <label for="date">날짜</label>
+            <input type="date" id="date">
+        </div>
+
+        <!-- 이름 선택 (드롭다운) -->
+        <div class="form-group">
+            <label for="name">이름 선택</label>
+            <select id="name">
+                <option value="">-- 이름을 선택하세요 --</option>
+                <option value="김예은">김예은</option>
+                <option value="김윤솔">김윤솔</option>
+                <option value="김재은">김재은</option>
+                <option value="나혜지">나혜지</option>
+                <option value="박솔아">박솔아</option>
+                <option value="박주아">박주아</option>
+                <option value="박준희">박준희</option>
+                <option value="송지아">송지아</option>
+                <option value="신다원">신다원</option>
+                <option value="전소현">전소현</option>
+                <option value="전시은">전시은</option>
+                <option value="주예진">주예진</option>
+                <option value="김규담">김규담</option>
+                <option value="김성현">김성현</option>
+                <option value="김지유ADMIN">김지유ADMIN 👑 (무제한)</option>
+                <option value="김혜준">김혜준</option>
+                <option value="박서한">박서한</option>
+                <option value="박우준">박우준</option>
+                <option value="신유찬">신유찬</option>
+                <option value="안재현">안재현</option>
+                <option value="이서빈">이서빈</option>
+                <option value="이승운">이승운</option>
+                <option value="이시우">이시우</option>
+                <option value="장재훈">장재훈</option>
+                <option value="전지훈">전지훈</option>
+                <option value="정유재">정유재</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="amount">금액 (원)</label>
+            <input type="number" id="amount" placeholder="금액을 입력하세요" min="1" oninput="checkLuckySeven(this)">
+        </div>
+
+        <div class="form-group">
+            <label for="type">예금 종류</label>
+            <select id="type">
+                <option value="정기예금">🪐 정기예금 (1회 1,000원 제한, 총 3,000원 한도)</option>
+                <option value="정기적금">🌟 정기적금 (주 1회, 최대 200원)</option>
+            </select>
+        </div>
+
+        <button class="add-btn" onclick="addRecord()">통장에 저금 기록하기!</button>
+
+        <!-- 📊 학생별 예금/적금 저금 현황표 -->
+        <div class="status-section">
+            <h2 class="status-title">📋 학생별 저금 참여 현황 (김예은 ~ 정유재)</h2>
+            <div class="status-table-wrapper">
+                <table class="status-table">
+                    <thead>
+                        <tr>
+                            <th>이름</th>
+                            <th>정기예금</th>
+                            <th>정기적금</th>
+                            <th>총 저금액</th>
+                        </tr>
+                    </thead>
+                    <tbody id="studentStatusList">
+                        <!-- 학생별 저금 현황이 자동 생성됩니다 -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- 명예의 전당 (리더보드) -->
+        <div class="leaderboard-section">
+            <div class="leaderboard-title">
+                <h2>🏆 저금왕 TOP 10 리더보드</h2>
+                <div class="tab-group">
+                    <button class="tab-btn active" onclick="switchPeriod('today', this)">오늘</button>
+                    <button class="tab-btn" onclick="switchPeriod('week', this)">이번 주</button>
+                    <button class="tab-btn" onclick="switchPeriod('month', this)">이번 달</button>
+                    <button class="tab-btn" onclick="switchPeriod('all', this)">전체</button>
+                </div>
+            </div>
+
+            <div class="board-grid">
+                <!-- 예금 TOP 10 -->
+                <div class="board-card deposit">
+                    <h3>🪐 정기예금 TOP 10</h3>
+                    <ol class="rank-list" id="depositRankList"></ol>
+                </div>
+
+                <!-- 적금 TOP 10 -->
+                <div class="board-card savings">
+                    <h3>🌟 정기적금 TOP 10</h3>
+                    <ol class="rank-list" id="savingsRankList"></ol>
+                </div>
+
+                <!-- 통합 저금왕 TOP 10 -->
+                <div class="board-card total">
+                    <h3>👑 통합 저금왕 TOP 10</h3>
+                    <ol class="rank-list" id="totalRankList"></ol>
+                </div>
+            </div>
+        </div>
+
+        <!-- 저금 내역 출력 영역 (이스터에그 트리거) -->
+        <div class="list-header">
+            <h2 class="list-title" id="easterEggTrigger" onclick="triggerShootingStars()">🌠 전체 통장 기록</h2>
+            <button class="clear-all-btn" onclick="clearAllRecords()">전체 삭제</button>
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>날짜</th>
+                    <th>이름</th>
+                    <th>예금 종류</th>
+                    <th>금액</th>
+                    <th>삭제</th>
+                </tr>
+            </thead>
+            <tbody id="recordList">
+                <!-- 데이터 출력 공간 -->
+            </tbody>
+        </table>
+
+        <!-- 푸터 영역 -->
+        <footer>
+            <span>수익목적이 아닌 경우 수정하거나 이용할 수 있습니다</span>
+            <span class="footer-company">김지유COMPANY제작,지원</span>
+        </footer>
     </div>
 
-    <!-- 알림 영역 (적금 만기 환급 대상) -->
-    <div class="notification-section">
-        <div class="notification-title">
-            🔔 알림 (적금 만기 및 반환 예정 목록)
-        </div>
-        <ul class="notification-list" id="notificationList">
-            <!-- 알림 항목이 자동으로 생성됩니다 -->
+    <!-- ⚙️ 우측 사이드 패널 (관리자 목록 + 은행원 명단 + 기록 복구 + 날씨 + 급식 정보) -->
+    <div class="admin-side-panel">
+        <h3 class="admin-panel-title">🛡️ 관리자 목록 패널</h3>
+        <ul class="admin-list">
+            <li class="admin-item super-admin">
+                <span class="name">👑 김지유ADMIN</span>
+                <span class="role-tag role-super">최고관리자</span>
+            </li>
+            <li class="admin-item">
+                <span class="name">KIMJIYOO0412</span>
+                <span class="role-tag role-sub">운영자</span>
+            </li>
+            <li class="admin-item">
+                <span class="name">은행원(임시)</span>
+                <span class="role-tag role-temp">임시계정</span>
+            </li>
         </ul>
-    </div>
 
-    <!-- 입력 양식 -->
-    <div class="form-group">
-        <label for="date">날짜</label>
-        <input type="date" id="date">
-    </div>
+        <!-- 🏦 은행원 명단 패널 -->
+        <h3 class="admin-panel-title" style="color: #6ee7b7; border-color: rgba(52, 211, 153, 0.3);">🏦 은행원 명단</h3>
+        <ul class="admin-list">
+            <li class="admin-item">
+                <span class="name">전시은</span>
+                <span class="role-tag role-banker">은행원</span>
+            </li>
+            <li class="admin-item">
+                <span class="name">나혜지(나시)</span>
+                <span class="role-tag role-banker">은행원</span>
+            </li>
+        </ul>
 
-    <!-- 이름 선택 (드롭다운) -->
-    <div class="form-group">
-        <label for="name">이름 선택</label>
-        <select id="name">
-            <option value="">-- 이름을 선택하세요 --</option>
-            <option value="김예은">김예은</option>
-            <option value="김윤솔">김윤솔</option>
-            <option value="김재은">김재은</option>
-            <option value="나혜지">나혜지</option>
-            <option value="박솔아">박솔아</option>
-            <option value="박주아">박주아</option>
-            <option value="박준희">박준희</option>
-            <option value="송지아">송지아</option>
-            <option value="신다원">신다원</option>
-            <option value="전소현">전소현</option>
-            <option value="전시은">전시은</option>
-            <option value="주예진">주예진</option>
-            <option value="김규담">김규담</option>
-            <option value="김성현">김성현</option>
-            <option value="김지유ADMIN">김지유ADMIN</option>
-            <option value="김혜준">김혜준</option>
-            <option value="박서한">박서한</option>
-            <option value="박우준">박우준</option>
-            <option value="신유찬">신유찬</option>
-            <option value="안재현">안재현</option>
-            <option value="이서빈">이서빈</option>
-            <option value="이승운">이승운</option>
-            <option value="이시우">이시우</option>
-            <option value="장재훈">장재훈</option>
-            <option value="전지훈">전지훈</option>
-            <option value="정유재">정유재</option>
-        </select>
-    </div>
+        <!-- 🔄 삭제된 기록 복구 버튼 -->
+        <h3 class="admin-panel-title" style="margin-top: 15px; color: #fbbf24; border-color: rgba(245, 158, 11, 0.3);">♻️ 기록 복구 관리</h3>
+        <button class="restore-panel-btn" onclick="openRestoreModal()">🗑️ 삭제된 기록 복구창 열기</button>
 
-    <div class="form-group">
-        <label for="amount">금액 (원)</label>
-        <input type="number" id="amount" placeholder="금액을 입력하세요" min="1" oninput="checkLuckySeven(this)">
-    </div>
-
-    <div class="form-group">
-        <label for="type">예금 종류</label>
-        <select id="type">
-            <option value="정기예금">🪐 정기예금 (1회 1,000원 제한, 총 3,000원 한도)</option>
-            <option value="정기적금">🌟 정기적금 (주 1회, 최대 200원)</option>
-        </select>
-    </div>
-
-    <button class="add-btn" onclick="addRecord()">통장에 저금 기록하기!</button>
-
-    <!-- 📊 학생별 예금/적금 저금 현황표 -->
-    <div class="status-section">
-        <h2 class="status-title">📋 학생별 저금 참여 현황 (김예은 ~ 정유재)</h2>
-        <div class="status-table-wrapper">
-            <table class="status-table">
-                <thead>
-                    <tr>
-                        <th>이름</th>
-                        <th>정기예금</th>
-                        <th>정기적금</th>
-                        <th>총 저금액</th>
-                    </tr>
-                </thead>
-                <tbody id="studentStatusList">
-                    <!-- 학생별 저금 현황이 자동 생성됩니다 -->
-                </tbody>
-            </table>
-        </div>
-    </div>
-
-    <!-- 명예의 전당 (리더보드) -->
-    <div class="leaderboard-section">
-        <div class="leaderboard-title">
-            <h2>🏆 저금왕 TOP 10 리더보드</h2>
-            <div class="tab-group">
-                <button class="tab-btn active" onclick="switchPeriod('today', this)">오늘</button>
-                <button class="tab-btn" onclick="switchPeriod('week', this)">이번 주</button>
-                <button class="tab-btn" onclick="switchPeriod('month', this)">이번 달</button>
-                <button class="tab-btn" onclick="switchPeriod('all', this)">전체</button>
-            </div>
+        <!-- 🌤️ 김천시 날씨 정보 패널 -->
+        <h3 class="admin-panel-title" style="color: #38bdf8; border-color: rgba(56, 189, 248, 0.3);">
+            <span>🌤️ 오늘의 김천 날씨</span>
+            <button class="refresh-icon-btn" onclick="fetchGimcheonWeather()" title="날씨 새로고침">🔄</button>
+        </h3>
+        <div class="side-card-box weather-card" id="weatherBox" style="margin-bottom: 20px;">
+            <div style="font-size: 12px; color: #94a3b8;">날씨 정보를 불러오는 중...</div>
         </div>
 
-        <div class="board-grid">
-            <!-- 예금 TOP 10 -->
-            <div class="board-card deposit">
-                <h3>🪐 정기예금 TOP 10</h3>
-                <ol class="rank-list" id="depositRankList"></ol>
-            </div>
-
-            <!-- 적금 TOP 10 -->
-            <div class="board-card savings">
-                <h3>🌟 정기적금 TOP 10</h3>
-                <ol class="rank-list" id="savingsRankList"></ol>
-            </div>
-
-            <!-- 통합 저금왕 TOP 10 -->
-            <div class="board-card total">
-                <h3>👑 통합 저금왕 TOP 10</h3>
-                <ol class="rank-list" id="totalRankList"></ol>
-            </div>
+        <!-- 🍱 김천부곡초 급식 정보 패널 -->
+        <h3 class="admin-panel-title" style="color: #fca5a5; border-color: rgba(252, 165, 165, 0.3);">
+            <span>🍱 오늘의 김천부곡초 급식</span>
+            <button class="refresh-icon-btn" onclick="fetchGimcheonSchoolMeal()" title="급식 새로고침">🔄</button>
+        </h3>
+        <div class="side-card-box" id="mealBox">
+            <div style="font-size: 12px; color: #94a3b8; text-align: center;">오늘 식단을 불러오는 중...</div>
         </div>
     </div>
-
-    <!-- 저금 내역 출력 영역 (이스터에그 트리거) -->
-    <div class="list-header">
-        <h2 class="list-title" id="easterEggTrigger" onclick="triggerShootingStars()">🌠 전체 통장 기록</h2>
-        <button class="clear-all-btn" onclick="clearAllRecords()">전체 삭제</button>
-    </div>
-
-    <table>
-        <thead>
-            <tr>
-                <th>날짜</th>
-                <th>이름</th>
-                <th>예금 종류</th>
-                <th>금액</th>
-                <th>삭제</th>
-            </tr>
-        </thead>
-        <tbody id="recordList">
-            <!-- 데이터 출력 공간 -->
-        </tbody>
-    </table>
-
-    <!-- 푸터 영역 -->
-    <footer>
-        <span>수익목적이 아닌 경우 수정하거나 이용할 수 있습니다</span>
-        <span class="footer-company">김지유COMPANY제작,지원</span>
-    </footer>
 </div>
 
 <!-- 이스터에그 통합 토스트 메시지 -->
@@ -986,19 +1033,46 @@
     </div>
 </div>
 
-<!-- 📢 최신 업데이트 안내 팝업 모달 (비밀번호 및 이스터에그 내용 제거됨) -->
+<!-- 📢 최신 업데이트 안내 팝업 모달 -->
 <div class="modal-overlay" id="updateNoticeModal">
     <div class="update-modal-card">
         <h2 class="update-modal-title">🎉 최신 업데이트 안내</h2>
         <div class="update-modal-body">
             <ul>
-                <li><strong>📱 화면 확대 방지 기능 적용:</strong> 모바일 환경에서 화면이 자동으로 확대되거나 핀치 투 줌이 되지 않도록 보완되었습니다.</li>
-                <li><strong>📊 학생별 저금 현황표 추가:</strong> 전체 학생(김예은 ~ 정유재)의 예금/적금 저금 여부 및 금액을 한눈에 볼 수 있습니다.</li>
-                <li><strong>📅 적금 환급일 계산 기능:</strong> 마지막 저금 날짜 기준 <u>다음 주(7일 뒤)</u> 반환 예정일이 자동 표시됩니다.</li>
-                <li><strong>🔒 보안 강화:</strong> 관리자 기능 이용 시 마스킹(`***`) 비밀번호 입력 시스템을 사용합니다.</li>
+                <li><strong>🍱 급식 연동 CORS 우회 적용:</strong> CORS 차단 문제를 우회 서버(Proxy)를 통해 완전히 해결하여, 김천부곡초 급식을 원활하게 표시합니다.</li>
+                <li><strong>🌤️ 실시간 김천 날씨 연동:</strong> 김천시의 최신 기온과 날씨 정보를 연동합니다.</li>
+                <li><strong>🏦 은행원 명단 패널:</strong> 전시은, 나혜지(나시) 대원이 등록되었습니다.</li>
+                <li><strong>♻️ 삭제 기록 복구:</strong> 지워진 내역을 복원해 줍니다.</li>
             </ul>
         </div>
         <button class="update-confirm-btn" onclick="closeUpdateNotice()">확인하였습니다</button>
+    </div>
+</div>
+
+<!-- ♻️ 삭제된 기록 복구 모달 -->
+<div class="modal-overlay" id="restoreModal">
+    <div class="modal-card" style="border-color: #f59e0b; box-shadow: 0 0 30px rgba(245, 158, 11, 0.4);">
+        <div class="modal-header">
+            <h2 class="modal-title" style="color: #fbbf24;">♻️ 삭제된 통장 기록 복구함</h2>
+            <button class="modal-close" onclick="closeRestoreModal()">✕</button>
+        </div>
+        <p style="font-size: 13px; color: #cbd5e1; margin-bottom: 15px;">
+            삭제했던 내역들이 안전하게 저장되어 있습니다. [복구] 버튼을 누르면 통장 기록으로 돌아갑니다.
+        </p>
+        <table>
+            <thead>
+                <tr>
+                    <th>날짜</th>
+                    <th>이름</th>
+                    <th>종류</th>
+                    <th>금액</th>
+                    <th>복구</th>
+                </tr>
+            </thead>
+            <tbody id="deletedRecordList">
+                <!-- 삭제된 기록이 자동 출력됩니다 -->
+            </tbody>
+        </table>
     </div>
 </div>
 
@@ -1012,7 +1086,7 @@
 
         <!-- 1. 학생 상태 설정 -->
         <div class="admin-section">
-            <div class="admin-section-title">👤 학생별 권한 및 제한 설정</div>
+            <div class="admin-section-title">👤 학생별 권한 및 제한 설정 (최고관리자: 김지유ADMIN)</div>
             <div class="form-group">
                 <label for="adminStudentSelect">학생 선택</label>
                 <select id="adminStudentSelect" onchange="renderStudentAdminStatus()">
@@ -1066,6 +1140,7 @@
     let pendingAuthCallback = null;
 
     const ADMIN_PASSWORD = '4420261357';
+    const SUPER_ADMIN_NAME = '김지유ADMIN';
 
     // 학생 전체 명단
     const studentList = [
@@ -1086,7 +1161,106 @@
         updateLeaderboards();
         updateNotifications();
         initAdminStudentSelect();
+        fetchGimcheonWeather(); 
+        fetchGimcheonSchoolMeal(); 
     };
+
+    /* 🍱 김천부곡초등학교 나이스(NEIS) 급식 API 연동 (CORS 우회 우회 서버 적용) */
+    function fetchGimcheonSchoolMeal() {
+        const mealBox = document.getElementById('mealBox');
+        mealBox.innerHTML = '<div style="font-size: 12px; color: #94a3b8; text-align: center;">오늘 급식표 조회 중...</div>';
+
+        const today = new Date();
+        const year = today.getFullYear();
+        const month = String(today.getMonth() + 1).padStart(2, '0');
+        const day = String(today.getDate()).padStart(2, '0');
+        const ymd = `${year}${month}${day}`;
+
+        // 경상북도교육청: R10, 김천부곡초등학교: 7381048
+        const targetUrl = `https://open.neis.go.kr/hub/mealServiceDietInfo?Type=json&ATPT_OFCDC_SC_CODE=R10&SD_SCHUL_CODE=7381048&MLSV_YMD=${ymd}`;
+        // CORS 문제 해결을 위한 allorigins 우회 우회 서버 사용
+        const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(targetUrl)}`;
+
+        fetch(proxyUrl)
+            .then(res => {
+                if (!res.ok) throw new Error('네트워크 반응 없음');
+                return res.json();
+            })
+            .then(data => {
+                if (data && data.mealServiceDietInfo && data.mealServiceDietInfo[1] && data.mealServiceDietInfo[1].row) {
+                    const dishListStr = data.mealServiceDietInfo[1].row[0].DDISH_NM;
+                    
+                    const dishes = dishListStr
+                        .replace(/<br\/>/g, '\n')
+                        .replace(/\([0-9\.]+\)/g, '') 
+                        .replace(/[*']/g, '')         
+                        .split('\n')
+                        .map(d => d.trim())
+                        .filter(d => d.length > 0);
+
+                    renderMealList(dishes);
+                } else {
+                    mealBox.innerHTML = '<div style="font-size: 12.5px; color: #fde047; text-align: center; padding: 6px 0;">오늘(휴일/방학)은 등록된 급식이 없습니다 🍕</div>';
+                }
+            })
+            .catch(err => {
+                console.error('급식 API 연동 에러:', err);
+                mealBox.innerHTML = '<div style="font-size: 12px; color: #fca5a5; text-align: center;">급식 정보를 불러올 수 없습니다.<br><button onclick="fetchGimcheonSchoolMeal()" style="margin-top:6px; background:#0284c7; border:none; color:white; border-radius:4px; padding:3px 8px; font-size:11px; cursor:pointer;">다시 시도</button></div>';
+            });
+    }
+
+    function renderMealList(dishes) {
+        const mealBox = document.getElementById('mealBox');
+        let listHtml = '<ul class="meal-list">';
+        dishes.forEach(dish => {
+            listHtml += `<li class="meal-item">${dish}</li>`;
+        });
+        listHtml += '</ul>';
+        mealBox.innerHTML = listHtml;
+    }
+
+    /* 🌤️ 김천시 실시간 날씨 API 연동 (Open-Meteo) */
+    function fetchGimcheonWeather() {
+        const weatherBox = document.getElementById('weatherBox');
+        weatherBox.innerHTML = '<div style="font-size: 12px; color: #94a3b8;">김천 날씨 정보 확인 중...</div>';
+
+        const url = 'https://api.open-meteo.com/v1/forecast?latitude=36.12&longitude=128.11&current_weather=true';
+
+        fetch(url)
+            .then(res => res.json())
+            .then(data => {
+                if (data && data.current_weather) {
+                    const temp = Math.round(data.current_weather.temperature);
+                    const code = data.current_weather.weathercode;
+                    const weatherInfo = getWeatherDescription(code);
+
+                    weatherBox.innerHTML = `
+                        <div class="weather-main-info">
+                            <span class="weather-icon">${weatherInfo.icon}</span>
+                            <span class="weather-temp">${temp}°C</span>
+                        </div>
+                        <div class="weather-desc">경상북도 김천시 (${weatherInfo.text})</div>
+                    `;
+                } else {
+                    weatherBox.innerHTML = '<div style="font-size: 12px; color: #fca5a5;">날씨 불러오기 실패</div>';
+                }
+            })
+            .catch(err => {
+                console.error(err);
+                weatherBox.innerHTML = '<div style="font-size: 12px; color: #fca5a5;">네트워크 연결을 확인하세요</div>';
+            });
+    }
+
+    function getWeatherDescription(code) {
+        if (code === 0) return { icon: '☀️', text: '맑음' };
+        if (code >= 1 && code <= 3) return { icon: '⛅', text: '구름 조금/흐림' };
+        if (code >= 45 && code <= 48) return { icon: '🌫️', text: '안개' };
+        if (code >= 51 && code <= 67) return { icon: '🌧️', text: '비' };
+        if (code >= 71 && code <= 77) return { icon: '❄️', text: '눈' };
+        if (code >= 80 && code <= 82) return { icon: '🌦️', text: '소나기' };
+        if (code >= 95) return { icon: '🌩️', text: '뇌우' };
+        return { icon: '🌡️', text: '기온 정보' };
+    }
 
     function promptPasswordAuth(titleText, callback) {
         document.getElementById('authModalTitle').textContent = titleText;
@@ -1126,6 +1300,14 @@
 
     function saveRecords(records) {
         localStorage.setItem('classBankRecords', JSON.stringify(records));
+    }
+
+    function getDeletedRecords() {
+        return JSON.parse(localStorage.getItem('classBankDeletedRecords')) || [];
+    }
+
+    function saveDeletedRecords(deletedRecords) {
+        localStorage.setItem('classBankDeletedRecords', JSON.stringify(deletedRecords));
     }
 
     function getAdminSettings() {
@@ -1179,7 +1361,6 @@
         });
     }
 
-    // 📊 학생별 예금/적금 현황 렌더링 함수
     function updateStudentStatusTable() {
         const records = JSON.parse(localStorage.getItem('classBankRecords')) || [];
         const tbody = document.getElementById('studentStatusList');
@@ -1207,9 +1388,11 @@
                 ? `<span class="badge-status badge-done">완료 (${savingsTotal.toLocaleString()}원)</span>`
                 : `<span class="badge-status badge-none">미완료</span>`;
 
+            const displayName = (name === SUPER_ADMIN_NAME) ? `👑 ${name}` : name;
+
             const row = document.createElement('tr');
             row.innerHTML = `
-                <td><strong>${name}</strong></td>
+                <td><strong>${displayName}</strong></td>
                 <td>${depositBadge}</td>
                 <td>${savingsBadge}</td>
                 <td><strong style="color: #fde047;">${totalAmount.toLocaleString()}원</strong></td>
@@ -1218,7 +1401,6 @@
         });
     }
 
-    // 알림 업데이트 (다음 주 동일 요일 반환일 계산 및 삭제 지원)
     function updateNotifications() {
         const records = JSON.parse(localStorage.getItem('classBankRecords')) || [];
         const notificationList = document.getElementById('notificationList');
@@ -1360,22 +1542,25 @@
         if (!name) { alert('이름을 선택해 주세요!'); return; }
         if (!amount || amount <= 0) { alert('올바른 금액을 입력해 주세요!'); return; }
 
+        const isSuperAdmin = (name === SUPER_ADMIN_NAME);
         const adminSettings = getAdminSettings();
         const userSetting = adminSettings[name] || {};
 
-        if (type === '정기예금' && userSetting.blockDeposit) {
-            alert(`[접근 제한] '${name}' 대원은 현재 관리자에 의해 '정기예금'이 금지되어 있습니다.`);
-            return;
-        }
+        if (!isSuperAdmin) {
+            if (type === '정기예금' && userSetting.blockDeposit) {
+                alert(`[접근 제한] '${name}' 대원은 현재 관리자에 의해 '정기예금'이 금지되어 있습니다.`);
+                return;
+            }
 
-        if (type === '정기적금' && userSetting.blockSavings) {
-            alert(`[접근 제한] '${name}' 대원은 현재 관리자에 의해 '정기적금'이 금지되어 있습니다.`);
-            return;
+            if (type === '정기적금' && userSetting.blockSavings) {
+                alert(`[접근 제한] '${name}' 대원은 현재 관리자에 의해 '정기적금'이 금지되어 있습니다.`);
+                return;
+            }
         }
 
         const records = JSON.parse(localStorage.getItem('classBankRecords')) || [];
 
-        if (type === '정기예금') {
+        if (type === '정기예금' && !isSuperAdmin) {
             if (amount > 1000) {
                 alert('[경고] 정기예금은 1회에 최대 1,000원까지만 저금할 수 있습니다!');
                 return;
@@ -1398,7 +1583,7 @@
             }
         }
 
-        if (type === '정기적금') {
+        if (type === '정기적금' && !isSuperAdmin) {
             if (amount > 200) {
                 alert('[경고] 정기적금은 1회에 최대 200원까지만 저금할 수 있습니다!');
                 return;
@@ -1439,9 +1624,14 @@
     }
 
     function deleteRecord(index) {
-        if (confirm('이 기록을 삭제하시겠습니까?')) {
+        if (confirm('이 기록을 삭제하시겠습니까? (삭제된 내역은 복구함에 보관됩니다)')) {
             const records = JSON.parse(localStorage.getItem('classBankRecords')) || [];
-            records.splice(index, 1);
+            const deleted = records.splice(index, 1)[0];
+            
+            const deletedRecords = getDeletedRecords();
+            deletedRecords.unshift(deleted);
+            saveDeletedRecords(deletedRecords);
+
             saveRecords(records);
             loadRecords();
             updateStudentStatusTable();
@@ -1452,19 +1642,74 @@
 
     function clearAllRecords() {
         promptPasswordAuth('🔑 전체 삭제 비밀번호 입력', function() {
-            if (confirm('모든 통장 기록을 지우시겠습니까? (복구할 수 없습니다)')) {
+            if (confirm('모든 통장 기록을 지우시겠습니까? (지워진 기록은 복구함으로 이동됩니다)')) {
+                const records = JSON.parse(localStorage.getItem('classBankRecords')) || [];
+                const deletedRecords = getDeletedRecords();
+                
+                records.forEach(item => deletedRecords.unshift(item));
+                saveDeletedRecords(deletedRecords);
+
                 localStorage.removeItem('classBankRecords');
                 localStorage.removeItem('dismissedNotifications');
                 loadRecords();
                 updateStudentStatusTable();
                 updateLeaderboards();
                 updateNotifications();
-                alert('모든 통장 기록이 삭제되었습니다.');
+                alert('모든 통장 기록이 삭제되었습니다. (삭제된 기록 복구함에서 복구 가능합니다)');
             }
         });
     }
 
-    /* 이스터에그 기능 유지 */
+    function openRestoreModal() {
+        renderDeletedRecords();
+        document.getElementById('restoreModal').style.display = 'flex';
+    }
+
+    function closeRestoreModal() {
+        document.getElementById('restoreModal').style.display = 'none';
+    }
+
+    function renderDeletedRecords() {
+        const deletedRecords = getDeletedRecords();
+        const tbody = document.getElementById('deletedRecordList');
+        tbody.innerHTML = '';
+
+        if (deletedRecords.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="5" style="color: #94a3b8; padding: 20px;">삭제된 기록이 없습니다.</td></tr>';
+            return;
+        }
+
+        deletedRecords.forEach((item, index) => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${item.date}</td>
+                <td><strong>${item.name}</strong></td>
+                <td>${item.type}</td>
+                <td>${Number(item.amount).toLocaleString()}원</td>
+                <td><button class="restore-btn" onclick="restoreRecord(${index})">복구</button></td>
+            `;
+            tbody.appendChild(row);
+        });
+    }
+
+    function restoreRecord(index) {
+        const deletedRecords = getDeletedRecords();
+        const restoredItem = deletedRecords.splice(index, 1)[0];
+        saveDeletedRecords(deletedRecords);
+
+        const records = JSON.parse(localStorage.getItem('classBankRecords')) || [];
+        records.unshift(restoredItem);
+        saveRecords(records);
+
+        renderDeletedRecords();
+        loadRecords();
+        updateStudentStatusTable();
+        updateLeaderboards();
+        updateNotifications();
+
+        alert(`'${restoredItem.name}' 학생의 ${restoredItem.type} (${restoredItem.amount.toLocaleString()}원) 기록이 복구되었습니다!`);
+    }
+
     function showToast(text, duration = 3000) {
         const toast = document.getElementById('wishToast');
         toast.innerHTML = text;
@@ -1545,7 +1790,6 @@
         }
     }
 
-    /* ADMIN 관리자 패널 관련 함수 */
     function openAdminModal() {
         if (!isAdminLoggedIn) {
             promptPasswordAuth('🔑 Admin로그인 비밀번호 입력', function() {
@@ -1569,7 +1813,7 @@
         studentList.forEach(name => {
             const opt = document.createElement('option');
             opt.value = name;
-            opt.textContent = name;
+            opt.textContent = (name === SUPER_ADMIN_NAME) ? `👑 ${name} (최고관리자)` : name;
             select.appendChild(opt);
         });
     }
@@ -1579,6 +1823,11 @@
         const infoDiv = document.getElementById('studentStatusInfo');
         if (!name) {
             infoDiv.innerHTML = '학생을 선택하세요.';
+            return;
+        }
+
+        if (name === SUPER_ADMIN_NAME) {
+            infoDiv.innerHTML = `<strong>👑 ${name}</strong> 대원은 <u>최고관리자</u>로서 기본 무제한 한도가 부여되어 있습니다.`;
             return;
         }
 
@@ -1604,6 +1853,11 @@
         const name = document.getElementById('adminStudentSelect').value;
         if (!name) {
             alert('학생을 먼저 선택해 주세요!');
+            return;
+        }
+
+        if (name === SUPER_ADMIN_NAME) {
+            alert('👑 최고관리자(김지유ADMIN) 계정은 제한을 설정할 수 없습니다.');
             return;
         }
 
