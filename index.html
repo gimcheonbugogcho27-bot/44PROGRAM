@@ -2,9 +2,11 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
+    <!-- 화면 자동 및 손가락 확대 방지 설정 -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>4-4반 은행 관리 프로그램</title>
     <style>
+        /* 화면 전체 더블 탭 확대 방지 및 기본 설정 */
         html, body {
             touch-action: manipulation;
             -webkit-text-size-adjust: 100%;
@@ -23,11 +25,13 @@
             transition: background 0.8s ease;
         }
 
+        /* 오로라 이스터에그 배경 효과 */
         body.aurora-mode {
             background: linear-gradient(135deg, #2e1065 0%, #0f172a 30%, #0284c7 70%, #581c87 100%) !important;
             background-attachment: fixed !important;
         }
 
+        /* 별빛 반짝이는 배경 효과 */
         body::before {
             content: "";
             position: fixed;
@@ -45,6 +49,7 @@
             z-index: 0;
         }
 
+        /* 메인 레이아웃 (컨테이너 + 사이드 패널) */
         .main-layout {
             display: flex;
             gap: 20px;
@@ -55,6 +60,7 @@
             z-index: 1;
         }
 
+        /* 글래스모피즘 컨테이너 */
         .container {
             flex: 1;
             background: rgba(13, 25, 48, 0.85);
@@ -66,6 +72,7 @@
             border: 1px solid rgba(56, 189, 248, 0.4);
         }
 
+        /* 관리자 목록 사이드 패널 */
         .admin-side-panel {
             width: 260px;
             background: rgba(15, 23, 42, 0.9);
@@ -108,15 +115,23 @@
             justify-content: space-between;
         }
 
-        .admin-item:last-child { margin-bottom: 0; }
+        .admin-item:last-child {
+            margin-bottom: 0;
+        }
 
         .admin-item.super-admin {
             border-color: #fde047;
             background: rgba(253, 224, 71, 0.1);
         }
 
-        .admin-item .name { font-weight: bold; color: #e2e8f0; }
-        .admin-item.super-admin .name { color: #fde047; }
+        .admin-item .name {
+            font-weight: bold;
+            color: #e2e8f0;
+        }
+
+        .admin-item.super-admin .name {
+            color: #fde047;
+        }
 
         .role-tag {
             font-size: 10px;
@@ -130,6 +145,7 @@
         .role-temp { background: rgba(148, 163, 184, 0.2); color: #cbd5e1; border: 1px solid rgba(148, 163, 184, 0.4); }
         .role-banker { background: rgba(52, 211, 153, 0.2); color: #6ee7b7; border: 1px solid rgba(52, 211, 153, 0.4); }
 
+        /* 복구 패널 스타일 */
         .restore-panel-btn {
             width: 100%;
             padding: 10px;
@@ -150,15 +166,15 @@
             box-shadow: 0 0 15px rgba(245, 158, 11, 0.6);
         }
 
-        .side-card-box {
+        /* 날씨 패널 전용 스타일 */
+        .weather-card {
             background: rgba(30, 41, 59, 0.7);
             border: 1px solid rgba(56, 189, 248, 0.3);
             border-radius: 12px;
             padding: 12px;
+            text-align: center;
             box-shadow: inset 0 0 10px rgba(56, 189, 248, 0.1);
         }
-
-        .weather-card { text-align: center; }
 
         .weather-main-info {
             display: flex;
@@ -168,42 +184,29 @@
             margin: 8px 0;
         }
 
-        .weather-icon { font-size: 28px; }
-        .weather-temp { font-size: 22px; font-weight: bold; color: #38bdf8; text-shadow: 0 0 8px rgba(56, 189, 248, 0.5); }
-        .weather-desc { font-size: 13px; color: #cbd5e1; }
+        .weather-icon {
+            font-size: 28px;
+        }
 
-        .refresh-icon-btn {
+        .weather-temp {
+            font-size: 22px;
+            font-weight: bold;
+            color: #38bdf8;
+            text-shadow: 0 0 8px rgba(56, 189, 248, 0.5);
+        }
+
+        .weather-desc {
+            font-size: 13px;
+            color: #cbd5e1;
+        }
+
+        .weather-refresh-btn {
             background: transparent;
             border: none;
             color: #38bdf8;
             font-size: 13px;
             cursor: pointer;
             padding: 0;
-        }
-
-        .meal-list {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-            text-align: left;
-        }
-
-        .meal-item {
-            font-size: 13px;
-            color: #e2e8f0;
-            padding: 4px 0;
-            border-bottom: 1px dashed rgba(255, 255, 255, 0.08);
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .meal-item:last-child { border-bottom: none; }
-
-        .meal-item::before {
-            content: "•";
-            color: #fde047;
-            font-weight: bold;
         }
 
         .header-bar {
@@ -708,6 +711,7 @@
             .admin-side-panel { width: 100%; box-sizing: border-box; }
         }
 
+        /* 이스터에그 애니메이션 */
         .shooting-star {
             position: fixed;
             width: 120px;
@@ -782,12 +786,14 @@
 <body>
 
 <div class="main-layout">
+    <!-- 메인 컨테이너 -->
     <div class="container">
         <div class="header-bar">
             <h1>✨ <span class="clickable-title" id="rocketTrigger" onclick="triggerRocketLaunch()">4-4반</span> 은행 관리 프로그램 ✨</h1>
             <button class="admin-open-btn" onclick="openAdminModal()">⚙️ Admin 로그인</button>
         </div>
         
+        <!-- 규칙 안내 -->
         <div class="rule-info">
             <strong>🚀 예금 규칙</strong><br>
             • <strong>정기예금</strong>: 1회 <strong>최대 1,000원</strong>까지, 1인당 총 합계 <strong>최대 3,000원</strong>까지 가능<br>
@@ -796,18 +802,23 @@
             <span style="color:#fde047; font-size:12px;">👑 김지유ADMIN 대원은 모든 저금이 무제한 권한으로 기본 적용되어 있습니다.</span>
         </div>
 
+        <!-- 알림 영역 (적금 만기 환급 대상) -->
         <div class="notification-section">
             <div class="notification-title">
                 🔔 알림 (적금 만기 및 반환 예정 목록)
             </div>
-            <ul class="notification-list" id="notificationList"></ul>
+            <ul class="notification-list" id="notificationList">
+                <!-- 알림 항목이 자동으로 생성됩니다 -->
+            </ul>
         </div>
 
+        <!-- 입력 양식 -->
         <div class="form-group">
             <label for="date">날짜</label>
             <input type="date" id="date">
         </div>
 
+        <!-- 이름 선택 (드롭다운) -->
         <div class="form-group">
             <label for="name">이름 선택</label>
             <select id="name">
@@ -856,6 +867,7 @@
 
         <button class="add-btn" onclick="addRecord()">통장에 저금 기록하기!</button>
 
+        <!-- 📊 학생별 예금/적금 저금 현황표 -->
         <div class="status-section">
             <h2 class="status-title">📋 학생별 저금 참여 현황 (김예은 ~ 정유재)</h2>
             <div class="status-table-wrapper">
@@ -868,11 +880,14 @@
                             <th>총 저금액</th>
                         </tr>
                     </thead>
-                    <tbody id="studentStatusList"></tbody>
+                    <tbody id="studentStatusList">
+                        <!-- 학생별 저금 현황이 자동 생성됩니다 -->
+                    </tbody>
                 </table>
             </div>
         </div>
 
+        <!-- 명예의 전당 (리더보드) -->
         <div class="leaderboard-section">
             <div class="leaderboard-title">
                 <h2>🏆 저금왕 TOP 10 리더보드</h2>
@@ -885,16 +900,19 @@
             </div>
 
             <div class="board-grid">
+                <!-- 예금 TOP 10 -->
                 <div class="board-card deposit">
                     <h3>🪐 정기예금 TOP 10</h3>
                     <ol class="rank-list" id="depositRankList"></ol>
                 </div>
 
+                <!-- 적금 TOP 10 -->
                 <div class="board-card savings">
                     <h3>🌟 정기적금 TOP 10</h3>
                     <ol class="rank-list" id="savingsRankList"></ol>
                 </div>
 
+                <!-- 통합 저금왕 TOP 10 -->
                 <div class="board-card total">
                     <h3>👑 통합 저금왕 TOP 10</h3>
                     <ol class="rank-list" id="totalRankList"></ol>
@@ -902,6 +920,7 @@
             </div>
         </div>
 
+        <!-- 저금 내역 출력 영역 (이스터에그 트리거) -->
         <div class="list-header">
             <h2 class="list-title" id="easterEggTrigger" onclick="triggerShootingStars()">🌠 전체 통장 기록</h2>
             <button class="clear-all-btn" onclick="clearAllRecords()">전체 삭제</button>
@@ -917,15 +936,19 @@
                     <th>삭제</th>
                 </tr>
             </thead>
-            <tbody id="recordList"></tbody>
+            <tbody id="recordList">
+                <!-- 데이터 출력 공간 -->
+            </tbody>
         </table>
 
+        <!-- 푸터 영역 -->
         <footer>
             <span>수익목적이 아닌 경우 수정하거나 이용할 수 있습니다</span>
             <span class="footer-company">김지유COMPANY제작,지원</span>
         </footer>
     </div>
 
+    <!-- ⚙️ 우측 사이드 패널 (관리자 목록 + 은행원 명단 + 기록 복구 + 날씨 정보) -->
     <div class="admin-side-panel">
         <h3 class="admin-panel-title">🛡️ 관리자 목록 패널</h3>
         <ul class="admin-list">
@@ -943,6 +966,7 @@
             </li>
         </ul>
 
+        <!-- 🏦 은행원 명단 패널 -->
         <h3 class="admin-panel-title" style="color: #6ee7b7; border-color: rgba(52, 211, 153, 0.3);">🏦 은행원 명단</h3>
         <ul class="admin-list">
             <li class="admin-item">
@@ -955,29 +979,25 @@
             </li>
         </ul>
 
+        <!-- 🔄 삭제된 기록 복구 버튼 -->
         <h3 class="admin-panel-title" style="margin-top: 15px; color: #fbbf24; border-color: rgba(245, 158, 11, 0.3);">♻️ 기록 복구 관리</h3>
         <button class="restore-panel-btn" onclick="openRestoreModal()">🗑️ 삭제된 기록 복구창 열기</button>
 
+        <!-- 🌤️ 김천시 날씨 정보 패널 -->
         <h3 class="admin-panel-title" style="color: #38bdf8; border-color: rgba(56, 189, 248, 0.3);">
             <span>🌤️ 오늘의 김천 날씨</span>
-            <button class="refresh-icon-btn" onclick="fetchGimcheonWeather()" title="날씨 새로고침">🔄</button>
+            <button class="weather-refresh-btn" onclick="fetchGimcheonWeather()" title="날씨 새로고침">🔄</button>
         </h3>
-        <div class="side-card-box weather-card" id="weatherBox" style="margin-bottom: 20px;">
+        <div class="weather-card" id="weatherBox">
             <div style="font-size: 12px; color: #94a3b8;">날씨 정보를 불러오는 중...</div>
-        </div>
-
-        <h3 class="admin-panel-title" style="color: #fca5a5; border-color: rgba(252, 165, 165, 0.3);">
-            <span>🍱 오늘의 김천부곡초 급식</span>
-            <button class="refresh-icon-btn" onclick="fetchGimcheonSchoolMeal()" title="급식 새로고침">🔄</button>
-        </h3>
-        <div class="side-card-box" id="mealBox">
-            <div style="font-size: 12px; color: #94a3b8; text-align: center;">오늘 식단을 불러오는 중...</div>
         </div>
     </div>
 </div>
 
+<!-- 이스터에그 통합 토스트 메시지 -->
 <div class="wish-toast" id="wishToast">✨ 4-4반의 소원이 이루어집니다! ✨</div>
 
+<!-- 🔐 보안 비밀번호 입력 팝업 모달 -->
 <div class="modal-overlay" id="passwordModal">
     <div class="auth-modal-card">
         <h3 class="auth-modal-title" id="authModalTitle">🔑 비밀번호 인증</h3>
@@ -989,19 +1009,22 @@
     </div>
 </div>
 
+<!-- 📢 최신 업데이트 안내 팝업 모달 -->
 <div class="modal-overlay" id="updateNoticeModal">
     <div class="update-modal-card">
-        <h2 class="update-modal-title">🎉 식단 연동 완벽 보완 완료</h2>
+        <h2 class="update-modal-title">🎉 최신 업데이트 안내</h2>
         <div class="update-modal-body">
             <ul>
-                <li><strong>🍱 3중 자동 파싱 알고리즘 탑재:</strong> 나이스 API 연동 차단을 다중 프록시 및 날짜자동 추적으로 완벽 해결하였습니다.</li>
-                <li><strong>🍱 주말/방학 완벽 대응:</strong> 오늘 급식이 없는 휴일에도 안내 메시지와 함께 완벽하게 동작하도록 로직을 설계했습니다.</li>
+                <li><strong>🌤️ 실시간 김천 날씨 연동:</strong> 대한민국 김천시의 실시간 날씨와 온도를 우측 패널에서 바로 확인하실 수 있습니다.</li>
+                <li><strong>🏦 은행원 명단 패널:</strong> 전시은, 나혜지(나시) 대원이 정식 등록되었습니다.</li>
+                <li><strong>♻️ 삭제된 기록 복구 기능:</strong> 실수로 지운 통장 내역을 언제든 안전하게 복원합니다.</li>
             </ul>
         </div>
         <button class="update-confirm-btn" onclick="closeUpdateNotice()">확인하였습니다</button>
     </div>
 </div>
 
+<!-- ♻️ 삭제된 기록 복구 모달 -->
 <div class="modal-overlay" id="restoreModal">
     <div class="modal-card" style="border-color: #f59e0b; box-shadow: 0 0 30px rgba(245, 158, 11, 0.4);">
         <div class="modal-header">
@@ -1021,11 +1044,14 @@
                     <th>복구</th>
                 </tr>
             </thead>
-            <tbody id="deletedRecordList"></tbody>
+            <tbody id="deletedRecordList">
+                <!-- 삭제된 기록이 자동 출력됩니다 -->
+            </tbody>
         </table>
     </div>
 </div>
 
+<!-- ADMIN 관리자 패널 모달 -->
 <div class="modal-overlay" id="adminModal">
     <div class="modal-card">
         <div class="modal-header">
@@ -1033,6 +1059,7 @@
             <button class="modal-close" onclick="closeAdminModal()">✕</button>
         </div>
 
+        <!-- 1. 학생 상태 설정 -->
         <div class="admin-section">
             <div class="admin-section-title">👤 학생별 권한 및 제한 설정 (최고관리자: 김지유ADMIN)</div>
             <div class="form-group">
@@ -1056,6 +1083,7 @@
             </div>
         </div>
 
+        <!-- 2. 리더보드/저금액 직접 수정 -->
         <div class="admin-section">
             <div class="admin-section-title">📊 학생 리더보드/저금액 직접 수정</div>
             <div class="form-group">
@@ -1089,6 +1117,7 @@
     const ADMIN_PASSWORD = '4420261357';
     const SUPER_ADMIN_NAME = '김지유ADMIN';
 
+    // 학생 전체 명단
     const studentList = [
         "김예은", "김윤솔", "김재은", "나혜지", "박솔아", "박주아", "박준희", "송지아", 
         "신다원", "전소현", "전시은", "주예진", "김규담", "김성현", "김지유ADMIN", "김혜준", 
@@ -1107,88 +1136,15 @@
         updateLeaderboards();
         updateNotifications();
         initAdminStudentSelect();
-        fetchGimcheonWeather(); 
-        fetchGimcheonSchoolMeal(); 
+        fetchGimcheonWeather(); // 김천 실시간 날씨 불러오기
     };
 
-    /* 🍱 김천부곡초 식단 자동 다중 체인 파서 (100% 동작 보장) */
-    async function fetchGimcheonSchoolMeal() {
-        const mealBox = document.getElementById('mealBox');
-        mealBox.innerHTML = '<div style="font-size: 12px; color: #94a3b8; text-align: center;">오늘 급식표 불러오는 중...</div>';
-
-        const now = new Date();
-        const yyyy = now.getFullYear();
-        const mm = String(now.getMonth() + 1).padStart(2, '0');
-        const dd = String(now.getDate()).padStart(2, '0');
-        const ymd = `${yyyy}${mm}${dd}`;
-
-        const baseApiUrl = `https://open.neis.go.kr/hub/mealServiceDietInfo?Type=json&ATPT_OFCDC_SC_CODE=R10&SD_SCHUL_CODE=7381048&MLSV_YMD=${ymd}`;
-        const proxyList = [
-            `https://corsproxy.io/?${encodeURIComponent(baseApiUrl)}`,
-            `https://api.allorigins.win/raw?url=${encodeURIComponent(baseApiUrl)}`
-        ];
-
-        let success = false;
-
-        for (let proxy of proxyList) {
-            try {
-                const response = await fetch(proxy, { timeout: 3000 });
-                if (!response.ok) continue;
-                const data = await response.json();
-
-                if (data && data.mealServiceDietInfo && data.mealServiceDietInfo[1] && data.mealServiceDietInfo[1].row) {
-                    const dishStr = data.mealServiceDietInfo[1].row[0].DDISH_NM;
-                    const dishes = dishStr
-                        .replace(/<br\/>/g, '\n')
-                        .replace(/\([0-9\.]+\)/g, '')
-                        .replace(/[*']/g, '')
-                        .split('\n')
-                        .map(d => d.trim())
-                        .filter(d => d.length > 0);
-
-                    renderMealList(dishes);
-                    success = true;
-                    break;
-                } else if (data && data.RESULT && data.RESULT.CODE === 'INFO-200') {
-                    // 주말 또는 방학 등으로 급식이 없는 경우
-                    mealBox.innerHTML = '<div style="font-size: 12.5px; color: #fde047; text-align: center; padding: 6px 0;">오늘(주말/휴일)은 등록된 급식이 없습니다 🍕</div>';
-                    success = true;
-                    break;
-                }
-            } catch (e) {
-                console.warn('프록시 연결 시도 실패:', proxy);
-            }
-        }
-
-        // 모든 인터넷 통신이 차단되었을 때 최후 보완 표시
-        if (!success) {
-            mealBox.innerHTML = `
-                <div style="font-size: 12px; color: #cbd5e1; text-align: center;">
-                    <span style="color:#fde047; font-weight:bold;">[오늘의 추천 메뉴]</span><br>
-                    • 찰보리밥<br>
-                    • 돈까스 & 소스<br>
-                    • 배추김치 / 팽이버섯국<br>
-                    <span style="font-size:10px; color:#94a3b8; display:block; margin-top:4px;">(네트워크 연결 상태 확인 필요)</span>
-                </div>
-            `;
-        }
-    }
-
-    function renderMealList(dishes) {
-        const mealBox = document.getElementById('mealBox');
-        let listHtml = '<ul class="meal-list">';
-        dishes.forEach(dish => {
-            listHtml += `<li class="meal-item">${dish}</li>`;
-        });
-        listHtml += '</ul>';
-        mealBox.innerHTML = listHtml;
-    }
-
-    /* 🌤️ 김천시 실시간 날씨 연동 */
+    /* 🌤️ 김천시 실시간 날씨 API 연동 (Open-Meteo) */
     function fetchGimcheonWeather() {
         const weatherBox = document.getElementById('weatherBox');
         weatherBox.innerHTML = '<div style="font-size: 12px; color: #94a3b8;">김천 날씨 정보 확인 중...</div>';
 
+        // 김천시 위도: 36.12, 경도: 128.11
         const url = 'https://api.open-meteo.com/v1/forecast?latitude=36.12&longitude=128.11&current_weather=true';
 
         fetch(url)
@@ -1211,10 +1167,12 @@
                 }
             })
             .catch(err => {
+                console.error(err);
                 weatherBox.innerHTML = '<div style="font-size: 12px; color: #fca5a5;">네트워크 연결을 확인하세요</div>';
             });
     }
 
+    // Open-Meteo 날씨 코드 해석
     function getWeatherDescription(code) {
         if (code === 0) return { icon: '☀️', text: '맑음' };
         if (code >= 1 && code <= 3) return { icon: '⛅', text: '구름 조금/흐림' };
@@ -1455,6 +1413,7 @@
 
         filtered.forEach(item => {
             const amt = Number(item.amount) || 0;
+            
             totalMap[item.name] = (totalMap[item.name] || 0) + amt;
 
             if (item.type === '정기예금') {
@@ -1538,7 +1497,9 @@
                 if (available <= 0) {
                     alert(`[경고] '${name}' 대원은 이미 정기예금 총 한도(3,000원)를 모두 채웠습니다!`);
                 } else {
-                    alert(`[경고] 정기예금 총 한도는 3,000원입니다.\n현재 기존 저금액: ${currentDepositTotal.toLocaleString()}원\n남은 저금 가능 금액: ${available.toLocaleString()}원`);
+                    alert(`[경고] 정기예금 총 한도는 3,000원입니다.
+현재 기존 저금액: ${currentDepositTotal.toLocaleString()}원
+남은 저금 가능 금액: ${available.toLocaleString()}원`);
                 }
                 return;
             }
@@ -1561,12 +1522,18 @@
             });
 
             if (hasSavingsInSameWeek) {
-                alert(`[경고] '${name}' 대원은 선택하신 주(${dateInput} 포함 주)에 이미 정기적금을 넣었습니다.\n정기적금은 주당 한 번만 가능합니다!`);
+                alert(`[경고] '${name}' 대원은 선택하신 주(${dateInput} 포함 주)에 이미 정기적금을 넣었습니다.
+정기적금은 주당 한 번만 가능합니다!`);
                 return;
             }
         }
 
-        records.unshift({ date: dateInput, name: name, amount: amount, type: type });
+        records.unshift({
+            date: dateInput,
+            name: name,
+            amount: amount,
+            type: type
+        });
 
         saveRecords(records);
         loadRecords();
