@@ -193,7 +193,7 @@
         body:not(.light-mode) .role-sub { color: #38bdf8; }
         .role-temp { background: rgba(148, 163, 184, 0.2); color: #64748b; border: 1px solid rgba(148, 163, 184, 0.4); }
         body:not(.light-mode) .role-temp { color: #cbd5e1; }
-        .role-banker { background: rgba(52, 211, 153, 0.2); color: #059669; border: 1px solid rgba(52, 211, 153, 0.4); }
+        .role-banker { background: rgba(52, 211, 153, 0.2); color: #059669; border: 1px solid rgba(52, 211, 153, 0.4); cursor: pointer; }
         body:not(.light-mode) .role-banker { color: #6ee7b7; }
 
         /* 복구 패널 스타일 */
@@ -209,13 +209,53 @@
             cursor: pointer;
             box-shadow: 0 0 10px rgba(245, 158, 11, 0.3);
             transition: all 0.2s;
-            margin-bottom: 20px;
+            margin-bottom: 12px;
         }
 
         .restore-panel-btn:hover {
             transform: scale(1.02);
             box-shadow: 0 0 15px rgba(245, 158, 11, 0.6);
         }
+
+        /* 시간표 패널 스타일 */
+        .timetable-box {
+            background: var(--card-bg);
+            border: 1px solid rgba(52, 211, 153, 0.3);
+            border-radius: 12px;
+            padding: 12px;
+            box-shadow: inset 0 0 10px rgba(52, 211, 153, 0.1);
+            margin-bottom: 20px;
+            transition: background 0.5s ease;
+        }
+
+        .timetable-title {
+            font-size: 13.5px;
+            font-weight: bold;
+            color: #059669;
+            margin-bottom: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        body:not(.light-mode) .timetable-title { color: #6ee7b7; }
+
+        .timetable-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            font-size: 12.5px;
+        }
+
+        .timetable-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 4px 0;
+            border-bottom: 1px dashed rgba(148, 163, 184, 0.2);
+            color: var(--td-color);
+        }
+        .timetable-item:last-child { border-bottom: none; }
+        .timetable-item.today-class { color: #0284c7; font-weight: bold; }
+        body:not(.light-mode) .timetable-item.today-class { color: #38bdf8; }
 
         /* 날씨 패널 공통 카드리셋 */
         .side-card-box {
@@ -936,6 +976,20 @@
             100% { top: 105vh; opacity: 0; transform: rotate(720deg); }
         }
 
+        .nasi-rain {
+            position: fixed;
+            top: -50px;
+            font-size: 32px;
+            pointer-events: none;
+            z-index: 9999;
+            animation: nasiDrop 2s ease-in forwards;
+        }
+
+        @keyframes nasiDrop {
+            0% { top: -50px; opacity: 1; transform: rotate(0deg); }
+            100% { top: 105vh; opacity: 0; transform: rotate(360deg); }
+        }
+
         .wish-toast {
             position: fixed;
             bottom: 30px;
@@ -1145,13 +1199,19 @@
                 <span class="role-tag role-banker">은행원</span>
             </li>
             <li class="admin-item">
-                <span class="name">나혜지(나시)</span>
+                <span class="name" id="nasiTrigger" onclick="triggerNasiEasterEgg()" style="cursor: pointer;" title="3번 클릭해보세요!">나혜지(나시)</span>
                 <span class="role-tag role-banker">은행원</span>
             </li>
         </ul>
 
         <h3 class="admin-panel-title" style="margin-top: 15px; color: #d97706; border-color: rgba(245, 158, 11, 0.3);">♻️ 기록 복구 관리</h3>
         <button class="restore-panel-btn" onclick="openRestoreModal()">🗑️ 삭제된 기록 복구창 열기</button>
+
+        <!-- 오늘의 시간표 패널 (기록 복구 관리창 아래 배치) -->
+        <div class="timetable-box" id="timetableBox">
+            <div class="timetable-title" id="timetableHeaderTitle">📅 오늘의 시간표</div>
+            <ul class="timetable-list" id="timetableList"></ul>
+        </div>
 
         <h3 class="admin-panel-title" style="color: #0284c7; border-color: rgba(56, 189, 248, 0.3);">
             <span>🌤️ 오늘의 김천 날씨</span>
@@ -1181,9 +1241,10 @@
         <h2 class="update-modal-title">🎉 업데이트 안내</h2>
         <div class="update-modal-body">
             <ul>
+                <li><strong>📅 오늘의 시간표 추가:</strong> 요일별 시간표가 자동으로 표시되는 패널이 추가되었습니다.</li>
+                <li><strong>😂 나시 이스터에그 추가:</strong> 은행원 명단의 나혜지(나시) 이름을 3번 클릭해보세요!</li>
                 <li><strong>☀️ 다크모드 / 라이트모드 전환:</strong> 상단 버튼을 통해 취향에 맞는 테마를 선택할 수 있습니다.</li>
-                <li><strong>📸 통장 기록 이미지 다운로드:</strong> 전체 통장 내역을 이미지 파일로 간편하게 저장할 수 있습니다.</li>
-                <li><strong>🌤️ 실시간 김천 날씨:</strong> 김천시의 실시간 날씨와 기온 정보를 제공합니다.</li>
+                <li><strong>📸 통장 기록 이미지 다운로드:</strong> 전체 통장 내역을 이미지로 간편하게 저장할 수 있습니다.</li>
             </ul>
         </div>
         <button class="update-confirm-btn" onclick="closeUpdateNotice()">확인하였습니다</button>
@@ -1296,8 +1357,76 @@
         updateLeaderboards();
         updateNotifications();
         initAdminStudentSelect();
-        fetchGimcheonWeather(); 
+        fetchGimcheonWeather();
+        renderTimetable(); 
     };
+
+    /* 📅 요일별 시간표 표시 기능 */
+    function renderTimetable() {
+        const timetableData = {
+            1: ["1교시: 수학", "2교시: 영어", "3교시: 국어", "4교시: 국어", "5교시: 도덕"], // 월요일
+            2: ["1교시: 수학", "2교시: 국어", "3교시: 창체", "4교시: 사회", "5교시: 미술", "6교시: 미술"], // 화요일
+            3: ["1교시: 수학", "2교시: 과학", "3교시: 체육", "4교시: 사회", "5교시: 음악"], // 수요일
+            4: ["1교시: 과학", "2교시: 수학", "3교시: 영어", "4교시: 사회", "5교시: 창체"], // 목요일
+            5: ["1교시: 국어", "2교시: 국어", "3교시: 체육", "4교시: 과학", "5교시: 음악"]  // 금요일
+        };
+
+        const dayNames = ["일요일", "월요일", "화요일", "수요일", "목요일", "금요일", "토요일"];
+        const now = new Date();
+        const dayIndex = now.getDay(); // 0: 일, 1: 월, ... 6: 토
+
+        const titleEl = document.getElementById('timetableHeaderTitle');
+        const listEl = document.getElementById('timetableList');
+        listEl.innerHTML = '';
+
+        titleEl.textContent = `📅 오늘의 시간표 (${dayNames[dayIndex]})`;
+
+        const currentClasses = timetableData[dayIndex];
+
+        if (!currentClasses) {
+            let li = document.createElement('li');
+            li.className = 'timetable-item';
+            li.style.justifyContent = 'center';
+            li.textContent = '오늘은 주말이라 수업이 없습니다! 🎉';
+            listEl.appendChild(li);
+            return;
+        }
+
+        currentClasses.forEach((cls, idx) => {
+            let li = document.createElement('li');
+            li.className = 'timetable-item today-class';
+            li.innerHTML = `<span>${cls}</span>`;
+            listEl.appendChild(li);
+        });
+    }
+
+    /* 😂 나시(나혜지) 3번 클릭 이스터에그 */
+    let nasiClickCount = 0;
+    let nasiClickTimer = null;
+
+    function triggerNasiEasterEgg() {
+        nasiClickCount++;
+        clearTimeout(nasiClickTimer);
+        nasiClickTimer = setTimeout(() => { nasiClickCount = 0; }, 3000);
+
+        if (nasiClickCount >= 3) {
+            nasiClickCount = 0;
+            showToast('😂 나시 얼굴 비바람이 내립니다! 🤪');
+
+            const nasiFaces = ['😜', '🤪', '🥸', '😎', '😆'];
+            for (let i = 0; i < 25; i++) {
+                setTimeout(() => {
+                    const nasi = document.createElement('div');
+                    nasi.className = 'nasi-rain';
+                    nasi.innerHTML = nasiFaces[Math.floor(Math.random() * nasiFaces.length)];
+                    nasi.style.left = (Math.random() * (window.innerWidth - 40)) + 'px';
+                    document.body.appendChild(nasi);
+
+                    setTimeout(() => nasi.remove(), 2000);
+                }, i * 100);
+            }
+        }
+    }
 
     /* ☀️ 다크모드 / 라이트모드 전환 기능 */
     function initTheme() {
