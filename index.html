@@ -257,6 +257,91 @@
         .timetable-item.today-class { color: #0284c7; font-weight: bold; }
         body:not(.light-mode) .timetable-item.today-class { color: #38bdf8; }
 
+        /* 체크리스트 패널 스타일 */
+        .checklist-box {
+            background: var(--card-bg);
+            border: 1px solid rgba(2, 132, 199, 0.3);
+            border-radius: 12px;
+            padding: 12px;
+            box-shadow: inset 0 0 10px rgba(2, 132, 199, 0.1);
+            margin-bottom: 20px;
+            transition: background 0.5s ease;
+        }
+
+        .checklist-title {
+            font-size: 13.5px;
+            font-weight: bold;
+            color: #0284c7;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        body:not(.light-mode) .checklist-title { color: #38bdf8; }
+
+        .checklist-wrapper {
+            max-height: 250px;
+            overflow-y: auto;
+            border-radius: 8px;
+            border: 1px solid rgba(148, 163, 184, 0.2);
+            padding: 4px;
+        }
+
+        .checklist-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .checklist-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 6px 8px;
+            border-bottom: 1px dashed rgba(148, 163, 184, 0.2);
+            font-size: 13px;
+            cursor: pointer;
+            transition: background 0.2s;
+            border-radius: 6px;
+        }
+
+        .checklist-item:last-child { border-bottom: none; }
+        .checklist-item:hover { background: rgba(2, 132, 199, 0.15); }
+
+        .checklist-item .student-name {
+            font-weight: bold;
+            color: var(--text-color);
+        }
+
+        .checklist-right {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .checklist-count {
+            background: rgba(2, 132, 199, 0.2);
+            color: #0284c7;
+            padding: 2px 6px;
+            border-radius: 10px;
+            font-size: 11px;
+            font-weight: bold;
+        }
+        body:not(.light-mode) .checklist-count { color: #38bdf8; background: rgba(56, 189, 248, 0.2); }
+
+        .checklist-del-btn {
+            background: rgba(239, 68, 68, 0.2);
+            color: #b91c1c;
+            border: 1px solid rgba(239, 68, 68, 0.4);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 11px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        body:not(.light-mode) .checklist-del-btn { color: #fca5a5; }
+        .checklist-del-btn:hover { background: #ef4444; color: white; }
+
         /* 날씨 패널 공통 카드리셋 */
         .side-card-box {
             background: var(--card-bg);
@@ -1207,7 +1292,7 @@
         <h3 class="admin-panel-title" style="margin-top: 15px; color: #d97706; border-color: rgba(245, 158, 11, 0.3);">♻️ 기록 복구 관리</h3>
         <button class="restore-panel-btn" onclick="openRestoreModal()">🗑️ 삭제된 기록 복구창 열기</button>
 
-        <!-- 오늘의 시간표 패널 (기록 복구 관리창 아래 배치) -->
+        <!-- 오늘의 시간표 패널 -->
         <div class="timetable-box" id="timetableBox">
             <div class="timetable-title" id="timetableHeaderTitle">📅 오늘의 시간표</div>
             <ul class="timetable-list" id="timetableList"></ul>
@@ -1217,8 +1302,19 @@
             <span>🌤️ 오늘의 김천 날씨</span>
             <button class="refresh-icon-btn" onclick="fetchGimcheonWeather()" title="날씨 새로고침">🔄</button>
         </h3>
-        <div class="side-card-box weather-card" id="weatherBox">
+        <div class="side-card-box weather-card" id="weatherBox" style="margin-bottom: 20px;">
             <div style="font-size: 12px; color: #64748b;">날씨 정보를 불러오는 중...</div>
+        </div>
+
+        <!-- 학생별 체크리스트 패널 (날씨 패널 아래 배치) -->
+        <div class="checklist-box">
+            <div class="checklist-title">
+                <span>📋 4-4반 일일 체크리스트</span>
+                <span style="font-size: 11px; color: #64748b; font-weight: normal;">이름 클릭:+1 / 삭제:-1</span>
+            </div>
+            <div class="checklist-wrapper">
+                <ul class="checklist-list" id="checkListContainer"></ul>
+            </div>
         </div>
     </div>
 </div>
@@ -1241,10 +1337,10 @@
         <h2 class="update-modal-title">🎉 업데이트 안내</h2>
         <div class="update-modal-body">
             <ul>
-                <li><strong>📅 오늘의 시간표 추가:</strong> 요일별 시간표가 자동으로 표시되는 패널이 추가되었습니다.</li>
+                <li><strong>📋 학생별 체크리스트 추가:</strong> 날씨 패널 아래에서 이름을 클릭해 횟수를 올리고 삭제 버튼으로 내릴 수 있습니다.</li>
+                <li><strong>📅 오늘의 시간표 추가:</strong> 요일별 시간표가 자동으로 표시됩니다.</li>
                 <li><strong>😂 나시 이스터에그 추가:</strong> 은행원 명단의 나혜지(나시) 이름을 3번 클릭해보세요!</li>
-                <li><strong>☀️ 다크모드 / 라이트모드 전환:</strong> 상단 버튼을 통해 취향에 맞는 테마를 선택할 수 있습니다.</li>
-                <li><strong>📸 통장 기록 이미지 다운로드:</strong> 전체 통장 내역을 이미지로 간편하게 저장할 수 있습니다.</li>
+                <li><strong>☀️ 다크모드 / 라이트모드 전환:</strong> 상단 버튼을 통해 테마를 선택할 수 있습니다.</li>
             </ul>
         </div>
         <button class="update-confirm-btn" onclick="closeUpdateNotice()">확인하였습니다</button>
@@ -1358,8 +1454,64 @@
         updateNotifications();
         initAdminStudentSelect();
         fetchGimcheonWeather();
-        renderTimetable(); 
+        renderTimetable();
+        renderChecklist(); 
     };
+
+    /* 📋 체크리스트 렌더링 및 기능 */
+    function getChecklistData() {
+        return JSON.parse(localStorage.getItem('classBankChecklistCounts')) || {};
+    }
+
+    function saveChecklistData(data) {
+        localStorage.setItem('classBankChecklistCounts', JSON.stringify(data));
+    }
+
+    function renderChecklist() {
+        const container = document.getElementById('checkListContainer');
+        container.innerHTML = '';
+        const counts = getChecklistData();
+
+        studentList.forEach(name => {
+            const count = counts[name] || 0;
+            const displayName = (name === SUPER_ADMIN_NAME) ? `👑 ${name}` : name;
+
+            const li = document.createElement('li');
+            li.className = 'checklist-item';
+            li.onclick = (e) => {
+                // 삭제 버튼을 누른 게 아닐 때만 카운트 증가
+                if (!e.target.classList.contains('checklist-del-btn')) {
+                    incrementChecklist(name);
+                }
+            };
+
+            li.innerHTML = `
+                <span class="student-name">${displayName}</span>
+                <div class="checklist-right">
+                    <span class="checklist-count">${count}회</span>
+                    <button class="checklist-del-btn" onclick="decrementChecklist(event, '${name}')">-1</button>
+                </div>
+            `;
+            container.appendChild(li);
+        });
+    }
+
+    function incrementChecklist(name) {
+        const counts = getChecklistData();
+        counts[name] = (counts[name] || 0) + 1;
+        saveChecklistData(counts);
+        renderChecklist();
+    }
+
+    function decrementChecklist(event, name) {
+        event.stopPropagation(); // li 전체 클릭 이벤트 방지
+        const counts = getChecklistData();
+        if ((counts[name] || 0) > 0) {
+            counts[name] -= 1;
+            saveChecklistData(counts);
+            renderChecklist();
+        }
+    }
 
     /* 📅 요일별 시간표 표시 기능 */
     function renderTimetable() {
@@ -1373,7 +1525,7 @@
 
         const dayNames = ["일요일", "월요일", "화요일", "수요일", "목요일", "금요일", "토요일"];
         const now = new Date();
-        const dayIndex = now.getDay(); // 0: 일, 1: 월, ... 6: 토
+        const dayIndex = now.getDay();
 
         const titleEl = document.getElementById('timetableHeaderTitle');
         const listEl = document.getElementById('timetableList');
