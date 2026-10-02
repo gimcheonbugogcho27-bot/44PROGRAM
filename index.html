@@ -134,13 +134,21 @@
                     <i class="fa-solid fa-chevron-right text-xs text-pink-400 opacity-60 group-hover:translate-x-1 transition-transform"></i>
                 </button>
 
-                <!-- Newly added 돌맹이 Button -->
                 <button onclick="openModal('stone')" class="w-full py-3 px-4 rounded-xl bg-amber-600/30 hover:bg-amber-600/50 border border-amber-500/40 text-amber-200 text-sm font-medium transition-all duration-300 flex items-center justify-between group active:scale-[0.98]">
                     <span class="flex items-center gap-2">
                         <i class="fa-solid fa-gem text-amber-400 group-hover:rotate-12 transition-transform"></i>
                         <span>돌맹이</span>
                     </span>
                     <i class="fa-solid fa-chevron-right text-xs text-amber-400 opacity-60 group-hover:translate-x-1 transition-transform"></i>
+                </button>
+
+                <!-- Newly added 가오리 Button -->
+                <button onclick="openModal('ray')" class="w-full py-3 px-4 rounded-xl bg-teal-600/30 hover:bg-teal-600/50 border border-teal-500/40 text-teal-200 text-sm font-medium transition-all duration-300 flex items-center justify-between group active:scale-[0.98]">
+                    <span class="flex items-center gap-2">
+                        <i class="fa-solid fa-water text-teal-400 group-hover:rotate-12 transition-transform"></i>
+                        <span>가오리</span>
+                    </span>
+                    <i class="fa-solid fa-chevron-right text-xs text-teal-400 opacity-60 group-hover:translate-x-1 transition-transform"></i>
                 </button>
             </div>
 
@@ -163,7 +171,7 @@
                 <!-- Response message inserted dynamically -->
             </p>
 
-            <button onclick="closeModal()" class="w-full py-2.5 rounded-xl bg-gradient-to-r from-indigo-600 via-purple-600 to-amber-600 hover:from-indigo-500 hover:to-amber-500 text-white text-sm font-semibold shadow-lg shadow-indigo-500/25 transition-all duration-200 active:scale-95">
+            <button onclick="closeModal()" class="w-full py-2.5 rounded-xl bg-gradient-to-r from-indigo-600 via-purple-600 to-teal-600 hover:from-indigo-500 hover:to-teal-500 text-white text-sm font-semibold shadow-lg shadow-indigo-500/25 transition-all duration-200 active:scale-95">
                 확인
             </button>
         </div>
@@ -174,7 +182,8 @@
             identity: "전 김지유님이 만드신 AI업무자동화 에이전트 GALAXY입니다",
             schedule: "김지유님이 서버안정화작업중입니다 빠른시간안에 북구하겠습니다 죄송합니다",
             nashi: "안녕하세요 나시님 지유님이 당신에게 약올리라고 했습니다 😝메롱이다",
-            stone: "안녕하세요 정유재님 당신은정말 딱딱하군요!"
+            stone: "안녕하세요 정유재님 당신은정말 딱딱하군요!",
+            ray: "안재현님 당신은 정말 가오이군요 와우"
         };
 
         function openModal(type) {
@@ -197,6 +206,9 @@
             } else if (type === 'stone') {
                 modalIcon.innerHTML = '<i class="fa-solid fa-cubes-stacked text-amber-300"></i>';
                 modalIcon.className = "w-12 h-12 rounded-full mx-auto mb-4 flex items-center justify-center bg-amber-500/20 border border-amber-500/40 text-xl";
+            } else if (type === 'ray') {
+                modalIcon.innerHTML = '<i class="fa-solid fa-fish-fins text-teal-300"></i>';
+                modalIcon.className = "w-12 h-12 rounded-full mx-auto mb-4 flex items-center justify-center bg-teal-500/20 border border-teal-500/40 text-xl";
             }
 
             modal.classList.remove('opacity-0', 'pointer-events-none');
