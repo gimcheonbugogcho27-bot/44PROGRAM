@@ -3,150 +3,122 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>서비스 이용 제한 안내</title>
-    <!-- Tailwind CSS CDN -->
+    <title>AI GALAXY - 서비스 이용 제한 안내</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Inter Font -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <!-- FontAwesome for Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome for Tech Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                    },
-                }
-            }
-        }
-    </script>
+    
     <style>
         body {
-            font-family: 'Inter', sans-serif;
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
+            background-color: #0b0d19;
+            overflow-x: hidden;
+        }
+
+        /* Glowing background orb animations */
+        .glow-orb-1 {
+            position: absolute;
+            top: 20%;
+            left: 15%;
+            width: 350px;
+            height: 350px;
+            background: radial-gradient(circle, rgba(99, 102, 241, 0.35) 0%, rgba(0, 0, 0, 0) 70%);
+            border-radius: 50%;
+            filter: blur(50px);
+            animation: float 8s ease-in-out infinite alternate;
+        }
+
+        .glow-orb-2 {
+            position: absolute;
+            bottom: 20%;
+            right: 15%;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(168, 85, 247, 0.3) 0%, rgba(0, 0, 0, 0) 70%);
+            border-radius: 50%;
+            filter: blur(60px);
+            animation: float 10s ease-in-out infinite alternate-reverse;
+        }
+
+        @keyframes float {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(30px, -40px) scale(1.1); }
+        }
+
+        /* Glassmorphism Card Style */
+        .glass-card {
+            background: rgba(18, 22, 41, 0.65);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5), inset 0 1px 1px rgba(255, 255, 255, 0.1);
+        }
+
+        /* AI Star Pulse */
+        .star-pulse {
+            animation: pulseGlow 2.5s infinite ease-in-out;
+        }
+
+        @keyframes pulseGlow {
+            0%, 100% { transform: scale(1); opacity: 0.9; filter: drop-shadow(0 0 10px rgba(168, 85, 247, 0.6)); }
+            50% { transform: scale(1.08); opacity: 1; filter: drop-shadow(0 0 22px rgba(99, 102, 241, 0.9)); }
         }
     </style>
 </head>
-<body class="bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-100 min-h-screen flex items-center justify-center p-4 transition-colors duration-300">
+<body class="min-h-screen flex items-center justify-center p-4 relative select-none">
 
-    <div class="w-full max-w-md bg-white dark:bg-slate-900 shadow-2xl rounded-3xl border border-slate-100 dark:border-slate-800 p-8 text-center relative overflow-hidden transition-all duration-300">
-        
-        <!-- Top decorative gradient bar -->
-        <div class="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-red-500 via-rose-500 to-amber-500"></div>
+    <div class="glow-orb-1"></div>
+    <div class="glow-orb-2"></div>
 
-        <!-- Theme Toggle Button -->
-        <div class="absolute top-4 right-4">
-            <button onclick="toggleDarkMode()" aria-label="다크모드 전환" class="p-2.5 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition">
-                <i id="theme-icon" class="fa-solid fa-moon text-sm"></i>
-            </button>
-        </div>
-
-        <!-- Warning Icon Container -->
-        <div class="w-20 h-20 mx-auto mb-6 bg-red-50 dark:bg-red-950/50 rounded-full flex items-center justify-center border border-red-100 dark:border-red-900/50 shadow-inner">
-            <i class="fa-solid fa-triangle-exclamation text-3xl text-red-500 dark:text-red-400 animate-pulse"></i>
-        </div>
-
-        <!-- Title & Subtitle -->
-        <h1 class="text-2xl font-bold tracking-tight text-slate-900 dark:text-white mb-2">
-            서비스 이용이 제한되었습니다
-        </h1>
-        <p class="text-sm text-slate-500 dark:text-slate-400 mb-6 leading-relaxed">
-            보안 정책 위반 또는 이용약관에 의거하여<br>현재 해당 계정 또는 IP에서의 서비스 접근이 차단되었습니다.
-        </p>
-
-        <!-- Details Card -->
-        <div class="bg-slate-50 dark:bg-slate-800/50 rounded-2xl p-4 mb-6 text-left border border-slate-100 dark:border-slate-800 text-xs space-y-2">
-            <div class="flex justify-between">
-                <span class="text-slate-400 font-medium">제한 사유:</span>
-                <span class="text-slate-700 dark:text-slate-300 font-semibold">비정상적인 접근 시도 감지</span>
+    <main class="relative z-10 w-full max-w-lg">
+        <div class="glass-card rounded-3xl p-8 sm:p-10 text-center relative overflow-hidden">
+            
+            <!-- Top Alert Badge -->
+            <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-red-500/10 border border-red-500/30 text-red-400 text-xs sm:text-sm font-semibold mb-8 tracking-wide">
+                <span class="w-2 h-2 rounded-full bg-red-500 animate-ping"></span>
+                <i class="fa-solid font-bold fa-triangle-exclamation"></i>
+                <span>서비스 이용이 제한됩니다</span>
             </div>
-            <div class="flex justify-between">
-                <span class="text-slate-400 font-medium">오류 코드:</span>
-                <span class="text-slate-700 dark:text-slate-300 font-mono font-semibold">ERR_ACCESS_DENIED_403</span>
+
+            <!-- Galaxy AI Graphic Icon -->
+            <div class="flex justify-center mb-6">
+                <div class="relative w-24 h-24 sm:w-28 sm:h-28 flex items-center justify-center rounded-2xl bg-gradient-to-tr from-indigo-900/60 via-purple-900/40 to-slate-900/80 border border-purple-500/30 shadow-2xl">
+                    <i class="fa-solid fa-wand-magic-sparkles text-4xl sm:text-5xl text-purple-300 star-pulse"></i>
+                </div>
             </div>
-            <div class="flex justify-between">
-                <span class="text-slate-400 font-medium">발생 일시:</span>
-                <span id="timestamp" class="text-slate-700 dark:text-slate-300 font-mono">2026-06-06 00:00:00</span>
+
+            <!-- Main Notice Text Content -->
+            <div class="space-y-3 mb-8">
+                <p class="text-gray-200 text-base sm:text-lg font-medium leading-relaxed">
+                    안녕하세요 저는 <span class="text-indigo-300 font-semibold">김지유님</span>의 <span class="text-purple-300 font-semibold">AI GALAXY</span>입니다.
+                </p>
+                <p class="text-gray-300 text-sm sm:text-base leading-relaxed">
+                    서버 다운으로 불편을 드려 죄송합니다.
+                </p>
+                <p class="text-gray-300 text-sm sm:text-base leading-relaxed">
+                    빠른 시간 안에 복구하겠습니다.
+                </p>
             </div>
+
+            <!-- Signature Divider & Signature Line -->
+            <div class="pt-6 border-t border-white/10">
+                <p class="text-purple-400/90 text-sm tracking-wider font-semibold">
+                    - 김지유 GALAXY AI -
+                </p>
+            </div>
+
         </div>
 
-        <!-- Action Buttons -->
-        <div class="space-y-3">
-            <button onclick="handleSupportClick()" class="w-full py-3.5 px-4 bg-slate-900 hover:bg-slate-800 dark:bg-white dark:hover:bg-slate-100 dark:text-slate-900 text-white font-medium rounded-xl shadow-lg shadow-slate-900/10 dark:shadow-none transition duration-200 flex items-center justify-center space-x-2">
-                <i class="fa-solid fa-headset text-sm"></i>
-                <span>고객센터 문의하기</span>
-            </button>
-            <button onclick="handleHomeClick()" class="w-full py-3.5 px-4 bg-transparent hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-400 font-medium rounded-xl transition duration-200 border border-slate-200 dark:border-slate-700">
-                메인 페이지로 이동
-            </button>
+        <!-- Subtle Copyright / Status Footer -->
+        <div class="mt-6 text-center">
+            <p class="text-xs text-slate-500 tracking-wide">
+                SYSTEM STATUS: <span class="text-amber-400 font-medium">UNDER MAINTENANCE</span>
+            </p>
         </div>
+    </main>
 
-        <!-- Footer Help Text -->
-        <p class="text-xs text-slate-400 dark:text-slate-500 mt-6">
-            본 조치가 부당하다고 생각되시면 고객센터로 문의해 주세요.
-        </p>
-
-    </div>
-
-    <!-- Custom Notification Toast -->
-    <div id="toast" class="fixed bottom-6 left-1/2 transform -translate-x-1/2 bg-slate-900 dark:bg-slate-800 text-white text-xs px-4 py-2.5 rounded-xl shadow-xl opacity-0 transition-opacity duration-300 pointer-events-none">
-        안내 센터로 이동합니다...
-    </div>
-
-    <script>
-        // Set dynamic current timestamp
-        function updateTimestamp() {
-            const now = new Date();
-            const year = now.getFullYear();
-            const month = String(now.getMonth() + 1).padStart(2, '0');
-            const day = String(now.getDate()).padStart(2, '0');
-            const hours = String(now.getHours()).padStart(2, '0');
-            const minutes = String(now.getMinutes()).padStart(2, '0');
-            const seconds = String(now.getSeconds()).padStart(2, '0');
-            document.getElementById('timestamp').innerText = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
-        }
-        updateTimestamp();
-
-        // Dark mode toggle functionality
-        function toggleDarkMode() {
-            const html = document.documentElement;
-            const icon = document.getElementById('theme-icon');
-            html.classList.toggle('dark');
-            if (html.classList.contains('dark')) {
-                icon.className = "fa-solid fa-sun text-sm text-amber-400";
-            } else {
-                icon.className = "fa-solid fa-moon text-sm text-slate-600";
-            }
-        }
-
-        // Auto check system preference for dark mode on load
-        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-            document.documentElement.classList.add('dark');
-            document.getElementById('theme-icon').className = "fa-solid fa-sun text-sm text-amber-400";
-        }
-
-        // Show interactive notification (no alert used)
-        function showToast(message) {
-            const toast = document.getElementById('toast');
-            toast.innerText = message;
-            toast.classList.remove('opacity-0');
-            toast.classList.add('opacity-100');
-            setTimeout(() => {
-                toast.classList.remove('opacity-100');
-                toast.classList.add('opacity-0');
-            }, 2500);
-        }
-
-        function handleSupportClick() {
-            showToast('고객센터 페이지로 이동합니다.');
-            // location.href = '/support'; // 실제 연결시 주석 해제
-        }
-
-        function handleHomeClick() {
-            showToast('메인 페이지로 이동합니다.');
-            // location.href = '/'; // 실제 연결시 주석 해제
-        }
-    </script>
 </body>
 </html>
