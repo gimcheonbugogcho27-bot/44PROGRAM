@@ -21,8 +21,8 @@
         /* Glowing background orb animations */
         .glow-orb-1 {
             position: absolute;
-            top: 20%;
-            left: 15%;
+            top: 15%;
+            left: 10%;
             width: 350px;
             height: 350px;
             background: radial-gradient(circle, rgba(99, 102, 241, 0.35) 0%, rgba(0, 0, 0, 0) 70%);
@@ -33,8 +33,8 @@
 
         .glow-orb-2 {
             position: absolute;
-            bottom: 20%;
-            right: 15%;
+            bottom: 15%;
+            right: 10%;
             width: 400px;
             height: 400px;
             background: radial-gradient(circle, rgba(168, 85, 247, 0.3) 0%, rgba(0, 0, 0, 0) 70%);
@@ -50,7 +50,7 @@
 
         /* Glassmorphism Card Style */
         .glass-card {
-            background: rgba(18, 22, 41, 0.65);
+            background: rgba(18, 22, 41, 0.7);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
             border: 1px solid rgba(255, 255, 255, 0.1);
@@ -90,7 +90,6 @@
                 </div>
             </div>
 
-            <!-- Main Notice Text Content -->
             <div class="space-y-3 mb-8">
                 <p class="text-gray-200 text-base sm:text-lg font-medium leading-relaxed">
                     안녕하세요 저는 <span class="text-indigo-300 font-semibold">김지유님</span>의 <span class="text-purple-300 font-semibold">AI GALAXY</span>입니다.
@@ -110,7 +109,6 @@
                 </p>
             </div>
 
-            <!-- Interactive Quick Question Buttons -->
             <div class="space-y-3">
                 <button onclick="openModal('identity')" class="w-full py-3 px-4 rounded-xl bg-indigo-600/30 hover:bg-indigo-600/50 border border-indigo-500/40 text-indigo-200 text-sm font-medium transition-all duration-300 flex items-center justify-between group active:scale-[0.98]">
                     <span class="flex items-center gap-2">
@@ -135,11 +133,19 @@
                     </span>
                     <i class="fa-solid fa-chevron-right text-xs text-pink-400 opacity-60 group-hover:translate-x-1 transition-transform"></i>
                 </button>
+
+                <!-- Newly added 돌맹이 Button -->
+                <button onclick="openModal('stone')" class="w-full py-3 px-4 rounded-xl bg-amber-600/30 hover:bg-amber-600/50 border border-amber-500/40 text-amber-200 text-sm font-medium transition-all duration-300 flex items-center justify-between group active:scale-[0.98]">
+                    <span class="flex items-center gap-2">
+                        <i class="fa-solid fa-gem text-amber-400 group-hover:rotate-12 transition-transform"></i>
+                        <span>돌맹이</span>
+                    </span>
+                    <i class="fa-solid fa-chevron-right text-xs text-amber-400 opacity-60 group-hover:translate-x-1 transition-transform"></i>
+                </button>
             </div>
 
         </div>
 
-        <!-- Subtle Copyright / Status Footer -->
         <div class="mt-6 text-center">
             <p class="text-xs text-slate-500 tracking-wide">
                 SYSTEM STATUS: <span class="text-amber-400 font-medium">UNDER MAINTENANCE</span>
@@ -147,7 +153,6 @@
         </div>
     </main>
 
-    <!-- Response Modal Component -->
     <div id="responseModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-md opacity-0 pointer-events-none transition-opacity duration-300">
         <div id="modalCard" class="glass-card rounded-2xl p-6 sm:p-8 w-full max-w-sm text-center transform scale-95 transition-transform duration-300 border border-purple-500/30">
             <div id="modalIcon" class="w-12 h-12 rounded-full mx-auto mb-4 flex items-center justify-center bg-indigo-500/20 text-indigo-300 text-xl border border-indigo-500/40">
@@ -155,10 +160,10 @@
             </div>
             
             <p id="modalText" class="text-gray-100 text-sm sm:text-base leading-relaxed font-medium mb-6">
-                <!-- Response message dynamically inserted -->
+                <!-- Response message inserted dynamically -->
             </p>
 
-            <button onclick="closeModal()" class="w-full py-2.5 rounded-xl bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 hover:from-indigo-500 hover:to-pink-500 text-white text-sm font-semibold shadow-lg shadow-indigo-500/25 transition-all duration-200 active:scale-95">
+            <button onclick="closeModal()" class="w-full py-2.5 rounded-xl bg-gradient-to-r from-indigo-600 via-purple-600 to-amber-600 hover:from-indigo-500 hover:to-amber-500 text-white text-sm font-semibold shadow-lg shadow-indigo-500/25 transition-all duration-200 active:scale-95">
                 확인
             </button>
         </div>
@@ -168,7 +173,8 @@
         const messages = {
             identity: "전 김지유님이 만드신 AI업무자동화 에이전트 GALAXY입니다",
             schedule: "김지유님이 서버안정화작업중입니다 빠른시간안에 북구하겠습니다 죄송합니다",
-            nashi: "안녕하세요 나시님 지유님이 당신에게 약올리라고 했습니다 😝메롱이다"
+            nashi: "안녕하세요 나시님 지유님이 당신에게 약올리라고 했습니다 😝메롱이다",
+            stone: "안녕하세요 정유재님 당신은정말 딱딱하군요!"
         };
 
         function openModal(type) {
@@ -188,6 +194,9 @@
             } else if (type === 'nashi') {
                 modalIcon.innerHTML = '<i class="fa-solid fa-face-grin-tears text-pink-300"></i>';
                 modalIcon.className = "w-12 h-12 rounded-full mx-auto mb-4 flex items-center justify-center bg-pink-500/20 border border-pink-500/40 text-xl";
+            } else if (type === 'stone') {
+                modalIcon.innerHTML = '<i class="fa-solid fa-cubes-stacked text-amber-300"></i>';
+                modalIcon.className = "w-12 h-12 rounded-full mx-auto mb-4 flex items-center justify-center bg-amber-500/20 border border-amber-500/40 text-xl";
             }
 
             modal.classList.remove('opacity-0', 'pointer-events-none');
@@ -204,7 +213,7 @@
             modalCard.classList.add('scale-95');
         }
 
-        // Close on backdrop click
+        // Close when clicking outside modal card
         document.getElementById('responseModal').addEventListener('click', function(e) {
             if (e.target === this) {
                 closeModal();
