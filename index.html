@@ -3,234 +3,393 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI GALAXY - 서비스 이용 제한 안내</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <!-- FontAwesome for Tech Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
+    <title>AI GALAXY - 서비스 안내</title>
     <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, 'Helvetica Neue', 'Segoe UI', 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif;
+        }
+
         body {
-            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
-            background-color: #0b0d19;
-            overflow-x: hidden;
+            background-color: #0b0f19;
+            background-image: 
+                radial-gradient(at 10% 10%, rgba(99, 102, 241, 0.15) 0px, transparent 50%),
+                radial-gradient(at 90% 90%, rgba(168, 85, 247, 0.15) 0px, transparent 50%);
+            color: #f3f4f6;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
         }
 
-        /* Glowing background orb animations */
-        .glow-orb-1 {
-            position: absolute;
-            top: 15%;
-            left: 10%;
-            width: 350px;
-            height: 350px;
-            background: radial-gradient(circle, rgba(99, 102, 241, 0.35) 0%, rgba(0, 0, 0, 0) 70%);
-            border-radius: 50%;
-            filter: blur(50px);
-            animation: float 8s ease-in-out infinite alternate;
+        .container {
+            display: flex;
+            gap: 24px;
+            max-width: 1000px;
+            width: 100%;
+            flex-wrap: wrap;
         }
 
-        .glow-orb-2 {
-            position: absolute;
-            bottom: 15%;
-            right: 10%;
-            width: 400px;
-            height: 400px;
-            background: radial-gradient(circle, rgba(168, 85, 247, 0.3) 0%, rgba(0, 0, 0, 0) 70%);
-            border-radius: 50%;
-            filter: blur(60px);
-            animation: float 10s ease-in-out infinite alternate-reverse;
-        }
-
-        @keyframes float {
-            0% { transform: translate(0, 0) scale(1); }
-            100% { transform: translate(30px, -40px) scale(1.1); }
-        }
-
-        /* Glassmorphism Card Style */
-        .glass-card {
-            background: rgba(18, 22, 41, 0.7);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
+        .card {
+            background: rgba(17, 24, 39, 0.7);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
             border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5), inset 0 1px 1px rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            padding: 32px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+            flex: 1 1 450px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
         }
 
-        /* AI Star Pulse */
-        .star-pulse {
-            animation: pulseGlow 2.5s infinite ease-in-out;
+        .notice-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(239, 68, 68, 0.15);
+            color: #f87171;
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            padding: 6px 14px;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            width: fit-content;
         }
 
-        @keyframes pulseGlow {
-            0%, 100% { transform: scale(1); opacity: 0.9; filter: drop-shadow(0 0 10px rgba(168, 85, 247, 0.6)); }
-            50% { transform: scale(1.08); opacity: 1; filter: drop-shadow(0 0 22px rgba(99, 102, 241, 0.9)); }
+        .notice-badge::before {
+            content: '';
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background-color: #ef4444;
+            border-radius: 50%;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.4; transform: scale(1.2); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+
+        h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            line-height: 1.5;
+            color: #ffffff;
+            margin-bottom: 24px;
+            word-break: keep-all;
+        }
+
+        .btn-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #e5e7eb;
+            padding: 14px 20px;
+            border-radius: 14px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .btn:hover {
+            background: rgba(255, 255, 255, 0.12);
+            border-color: rgba(255, 255, 255, 0.25);
+            transform: translateY(-2px);
+            color: #ffffff;
+        }
+
+        /* 춤추는 고양이 패널 */
+        .cat-panel {
+            background: rgba(17, 24, 39, 0.7);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            padding: 32px;
+            flex: 1 1 320px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            min-height: 400px;
+        }
+
+        .cat-container {
+            position: relative;
+            width: 160px;
+            height: 160px;
+            margin-bottom: 20px;
+        }
+
+        .cat-disco-glow {
+            position: absolute;
+            width: 180px;
+            height: 180px;
+            top: -10px;
+            left: -10px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(168, 85, 247, 0.4) 0%, rgba(59, 130, 246, 0.1) 70%, transparent 100%);
+            animation: disco 2s infinite alternate;
+        }
+
+        @keyframes disco {
+            0% { transform: scale(0.9); opacity: 0.5; filter: hue-rotate(0deg); }
+            100% { transform: scale(1.15); opacity: 0.9; filter: hue-rotate(360deg); }
+        }
+
+        .cat-svg {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            z-index: 2;
+            animation: dance 0.6s ease-in-out infinite alternate;
+            transform-origin: bottom center;
+        }
+
+        @keyframes dance {
+            0% { transform: translateY(0) rotate(-6deg) scaleY(0.95); }
+            100% { transform: translateY(-12px) rotate(6deg) scaleY(1.05); }
+        }
+
+        .left-paw {
+            animation: wave-left 0.3s ease-in-out infinite alternate;
+            transform-origin: 35px 85px;
+        }
+
+        .right-paw {
+            animation: wave-right 0.3s ease-in-out infinite alternate-reverse;
+            transform-origin: 125px 85px;
+        }
+
+        @keyframes wave-left {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(-35deg); }
+        }
+
+        @keyframes wave-right {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(35deg); }
+        }
+
+        .music-note {
+            position: absolute;
+            font-size: 20px;
+            opacity: 0;
+            z-index: 3;
+            animation: float-note 2s infinite linear;
+        }
+
+        .note1 { top: 10px; left: 10px; animation-delay: 0s; }
+        .note2 { top: 20px; right: 10px; animation-delay: 0.7s; }
+        .note3 { top: 50px; left: -10px; animation-delay: 1.4s; }
+
+        @keyframes float-note {
+            0% { opacity: 0; transform: translateY(10px) scale(0.8); }
+            50% { opacity: 1; }
+            100% { opacity: 0; transform: translateY(-40px) scale(1.2) rotate(20deg); }
+        }
+
+        .cat-title {
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: #ffffff;
+            margin-bottom: 8px;
+        }
+
+        .cat-sub {
+            font-size: 0.875rem;
+            color: #9ca3af;
+        }
+
+        /* 모달 팝업 */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(8px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.25s ease;
+            padding: 20px;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-content {
+            background: rgba(23, 31, 50, 0.95);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 20px;
+            padding: 28px;
+            max-width: 420px;
+            width: 100%;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            transform: scale(0.9);
+            transition: transform 0.25s ease;
+            text-align: center;
+        }
+
+        .modal-overlay.active .modal-content {
+            transform: scale(1);
+        }
+
+        .modal-text {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: #f3f4f6;
+            margin-bottom: 24px;
+            word-break: keep-all;
+            white-space: pre-wrap;
+        }
+
+        .modal-close-btn {
+            background: #6366f1;
+            color: #ffffff;
+            border: none;
+            padding: 10px 24px;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s ease;
+        }
+
+        .modal-close-btn:hover {
+            background: #4f46e5;
         }
     </style>
 </head>
-<body class="min-h-screen flex items-center justify-center p-4 relative select-none">
+<body>
 
-    <div class="glow-orb-1"></div>
-    <div class="glow-orb-2"></div>
-
-    <main class="relative z-10 w-full max-w-lg my-6">
-        <div class="glass-card rounded-3xl p-8 sm:p-10 text-center relative overflow-hidden">
-            
-            <!-- Top Alert Badge -->
-            <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-red-500/10 border border-red-500/30 text-red-400 text-xs sm:text-sm font-semibold mb-8 tracking-wide">
-                <span class="w-2 h-2 rounded-full bg-red-500 animate-ping"></span>
-                <i class="fa-solid font-bold fa-triangle-exclamation"></i>
-                <span>서비스 이용이 제한됩니다</span>
+    <div class="container">
+        <!-- 기존 메인 카드 -->
+        <div class="card">
+            <div>
+                <div class="notice-badge">서비스이용이 제한됩니다</div>
+                <h1>안녕하세요저는 김지유님의 AI GALAXY입니다 서버다운으로 불편을드려 죄송합니다 빠른시간안에 북구하겠습니다 김지유GALAXY AI</h1>
             </div>
 
-            <!-- Galaxy AI Graphic Icon -->
-            <div class="flex justify-center mb-6">
-                <div class="relative w-24 h-24 sm:w-28 sm:h-28 flex items-center justify-center rounded-2xl bg-gradient-to-tr from-indigo-900/60 via-purple-900/40 to-slate-900/80 border border-purple-500/30 shadow-2xl">
-                    <i class="fa-solid fa-wand-magic-sparkles text-4xl sm:text-5xl text-purple-300 star-pulse"></i>
-                </div>
-            </div>
-
-            <div class="space-y-3 mb-8">
-                <p class="text-gray-200 text-base sm:text-lg font-medium leading-relaxed">
-                    안녕하세요 저는 <span class="text-indigo-300 font-semibold">김지유님</span>의 <span class="text-purple-300 font-semibold">AI GALAXY</span>입니다.
-                </p>
-                <p class="text-gray-300 text-sm sm:text-base leading-relaxed">
-                    서버다운으로 불편을드려 죄송합니다.
-                </p>
-                <p class="text-gray-300 text-sm sm:text-base leading-relaxed">
-                    빠른시간안에 북구하겠습니다.
-                </p>
-            </div>
-
-            <!-- Signature Divider & Signature Line -->
-            <div class="pt-6 border-t border-white/10 mb-8">
-                <p class="text-purple-400/90 text-sm tracking-wider font-semibold">
-                    - 김지유GALAXY AI -
-                </p>
-            </div>
-
-            <div class="space-y-3">
-                <button onclick="openModal('identity')" class="w-full py-3 px-4 rounded-xl bg-indigo-600/30 hover:bg-indigo-600/50 border border-indigo-500/40 text-indigo-200 text-sm font-medium transition-all duration-300 flex items-center justify-between group active:scale-[0.98]">
-                    <span class="flex items-center gap-2">
-                        <i class="fa-regular fa-circle-question text-indigo-400 group-hover:rotate-12 transition-transform"></i>
-                        <span>넌 누구야</span>
-                    </span>
-                    <i class="fa-solid fa-chevron-right text-xs text-indigo-400 opacity-60 group-hover:translate-x-1 transition-transform"></i>
+            <div class="btn-group">
+                <button class="btn" onclick="openModal('전김지유님이 제작하신 AI에이전트 GALAXY입니다')">
+                    <span>넌 누구야</span>
+                    <span>🤖</span>
                 </button>
-
-                <button onclick="openModal('schedule')" class="w-full py-3 px-4 rounded-xl bg-purple-600/30 hover:bg-purple-600/50 border border-purple-500/40 text-purple-200 text-sm font-medium transition-all duration-300 flex items-center justify-between group active:scale-[0.98]">
-                    <span class="flex items-center gap-2">
-                        <i class="fa-regular fa-clock text-purple-400 group-hover:rotate-12 transition-transform"></i>
-                        <span>언제쯤 돌아와</span>
-                    </span>
-                    <i class="fa-solid fa-chevron-right text-xs text-purple-400 opacity-60 group-hover:translate-x-1 transition-transform"></i>
+                <button class="btn" onclick="openModal('김지유님이 서버 안정화작업 중입니다 이용에 불편을 드려 죄송합니다')">
+                    <span>언제쯤 돌아와</span>
+                    <span>⏳</span>
                 </button>
-
-                <button onclick="openModal('nashi')" class="w-full py-3 px-4 rounded-xl bg-pink-600/30 hover:bg-pink-600/50 border border-pink-500/40 text-pink-200 text-sm font-medium transition-all duration-300 flex items-center justify-between group active:scale-[0.98]">
-                    <span class="flex items-center gap-2">
-                        <i class="fa-regular fa-face-smile-wink text-pink-400 group-hover:rotate-12 transition-transform"></i>
-                        <span>나시</span>
-                    </span>
-                    <i class="fa-solid fa-chevron-right text-xs text-pink-400 opacity-60 group-hover:translate-x-1 transition-transform"></i>
+                <button class="btn" onclick="openModal('나시님 김지유님이 당신을 약올리라고 했습니다 😝메롱이다 ㅋㅋ')">
+                    <span>나시</span>
+                    <span>😜</span>
                 </button>
-
-                <button onclick="openModal('stone')" class="w-full py-3 px-4 rounded-xl bg-amber-600/30 hover:bg-amber-600/50 border border-amber-500/40 text-amber-200 text-sm font-medium transition-all duration-300 flex items-center justify-between group active:scale-[0.98]">
-                    <span class="flex items-center gap-2">
-                        <i class="fa-solid fa-gem text-amber-400 group-hover:rotate-12 transition-transform"></i>
-                        <span>돌맹이</span>
-                    </span>
-                    <i class="fa-solid fa-chevron-right text-xs text-amber-400 opacity-60 group-hover:translate-x-1 transition-transform"></i>
+                <button class="btn" onclick="openModal('안녕하세요 정유재님 당신은 정말 딱딱하군요')">
+                    <span>돌맹이</span>
+                    <span>🪨</span>
                 </button>
-
-                <!-- Newly added 가오리 Button -->
-                <button onclick="openModal('ray')" class="w-full py-3 px-4 rounded-xl bg-teal-600/30 hover:bg-teal-600/50 border border-teal-500/40 text-teal-200 text-sm font-medium transition-all duration-300 flex items-center justify-between group active:scale-[0.98]">
-                    <span class="flex items-center gap-2">
-                        <i class="fa-solid fa-water text-teal-400 group-hover:rotate-12 transition-transform"></i>
-                        <span>가오리</span>
-                    </span>
-                    <i class="fa-solid fa-chevron-right text-xs text-teal-400 opacity-60 group-hover:translate-x-1 transition-transform"></i>
+                <button class="btn" onclick="openModal('안재현님 안녕하세요 당신은 정말 가오이군요 와우!!!')">
+                    <span>가오리</span>
+                    <span>🌊</span>
                 </button>
             </div>
-
         </div>
 
-        <div class="mt-6 text-center">
-            <p class="text-xs text-slate-500 tracking-wide">
-                SYSTEM STATUS: <span class="text-amber-400 font-medium">UNDER MAINTENANCE</span>
-            </p>
-        </div>
-    </main>
+        <!-- 신나게 춤추는 고양이 패널 -->
+        <div class="cat-panel">
+            <div class="cat-container">
+                <div class="cat-disco-glow"></div>
+                <div class="music-note note1">🎵</div>
+                <div class="music-note note2">🎶</div>
+                <div class="music-note note3">✨</div>
+                <svg class="cat-svg" viewBox="0 0 160 160">
+                    <!-- 귀 -->
+                    <polygon points="45,45 30,15 65,35" fill="#f472b6" />
+                    <polygon points="115,45 130,15 95,35" fill="#f472b6" />
+                    <polygon points="48,42 37,20 62,35" fill="#fbcfe8" />
+                    <polygon points="112,42 123,20 98,35" fill="#fbcfe8" />
+                    
+                    <!-- 얼굴 & 몸통 -->
+                    <ellipse cx="80" cy="65" rx="45" ry="35" fill="#f472b6" />
+                    <path d="M 50 85 Q 80 75 110 85 L 120 140 Q 80 150 40 140 Z" fill="#f472b6" />
+                    <ellipse cx="80" cy="115" rx="25" ry="20" fill="#fbcfe8" />
 
-    <div id="responseModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-md opacity-0 pointer-events-none transition-opacity duration-300">
-        <div id="modalCard" class="glass-card rounded-2xl p-6 sm:p-8 w-full max-w-sm text-center transform scale-95 transition-transform duration-300 border border-purple-500/30">
-            <div id="modalIcon" class="w-12 h-12 rounded-full mx-auto mb-4 flex items-center justify-center bg-indigo-500/20 text-indigo-300 text-xl border border-indigo-500/40">
-                <i class="fa-solid fa-robot"></i>
+                    <!-- 눈 -->
+                    <ellipse cx="65" cy="60" rx="5" ry="7" fill="#1f2937" />
+                    <ellipse cx="95" cy="60" rx="5" ry="7" fill="#1f2937" />
+                    <circle cx="63" cy="58" r="2" fill="#ffffff" />
+                    <circle cx="93" cy="58" r="2" fill="#ffffff" />
+
+                    <!-- 볼터치 & 코/입 -->
+                    <ellipse cx="55" cy="68" rx="6" ry="4" fill="#f43f5e" opacity="0.6" />
+                    <ellipse cx="105" cy="68" rx="6" ry="4" fill="#f43f5e" opacity="0.6" />
+                    <polygon points="80,66 77,70 83,70" fill="#9f1239" />
+                    <path d="M 77 72 Q 80 75 83 72" stroke="#9f1239" stroke-width="2" fill="none" />
+
+                    <!-- 수염 -->
+                    <line x1="30" y1="60" x2="48" y2="63" stroke="#ffffff" stroke-width="2" stroke-linecap="round" />
+                    <line x1="28" y1="70" x2="48" y2="68" stroke="#ffffff" stroke-width="2" stroke-linecap="round" />
+                    <line x1="130" y1="60" x2="112" y2="63" stroke="#ffffff" stroke-width="2" stroke-linecap="round" />
+                    <line x1="132" y1="70" x2="112" y2="68" stroke="#ffffff" stroke-width="2" stroke-linecap="round" />
+
+                    <!-- 춤추는 앞발 -->
+                    <ellipse class="left-paw" cx="35" cy="85" rx="10" ry="16" fill="#f472b6" />
+                    <ellipse class="right-paw" cx="125" cy="85" rx="10" ry="16" fill="#f472b6" />
+                </svg>
             </div>
-            
-            <p id="modalText" class="text-gray-100 text-sm sm:text-base leading-relaxed font-medium mb-6">
-                <!-- Response message inserted dynamically -->
-            </p>
+            <div class="cat-title">복구 작업 진행 중...</div>
+            <div class="cat-sub">고양이가 신나게 댄스를 추며 서버 복구를 응원하고 있습니다! 🐾</div>
+        </div>
+    </div>
 
-            <button onclick="closeModal()" class="w-full py-2.5 rounded-xl bg-gradient-to-r from-indigo-600 via-purple-600 to-teal-600 hover:from-indigo-500 hover:to-teal-500 text-white text-sm font-semibold shadow-lg shadow-indigo-500/25 transition-all duration-200 active:scale-95">
-                확인
-            </button>
+    <!-- 공통 모달 팝업 -->
+    <div class="modal-overlay" id="modalOverlay" onclick="closeModalOnOverlay(event)">
+        <div class="modal-content">
+            <div class="modal-text" id="modalText"></div>
+            <button class="modal-close-btn" onclick="closeModal()">확인</button>
         </div>
     </div>
 
     <script>
-        const messages = {
-            identity: "전 김지유님이 만드신 AI업무자동화 에이전트 GALAXY입니다",
-            schedule: "김지유님이 서버안정화작업중입니다 빠른시간안에 북구하겠습니다 죄송합니다",
-            nashi: "안녕하세요 나시님 지유님이 당신에게 약올리라고 했습니다 😝메롱이다",
-            stone: "안녕하세요 정유재님 당신은정말 딱딱하군요!",
-            ray: "안재현님 당신은 정말 가오이군요 와우"
-        };
-
-        function openModal(type) {
-            const modal = document.getElementById('responseModal');
-            const modalCard = document.getElementById('modalCard');
-            const modalText = document.getElementById('modalText');
-            const modalIcon = document.getElementById('modalIcon');
-
-            modalText.textContent = messages[type];
-
-            if (type === 'identity') {
-                modalIcon.innerHTML = '<i class="fa-solid fa-microchip text-indigo-300"></i>';
-                modalIcon.className = "w-12 h-12 rounded-full mx-auto mb-4 flex items-center justify-center bg-indigo-500/20 border border-indigo-500/40 text-xl";
-            } else if (type === 'schedule') {
-                modalIcon.innerHTML = '<i class="fa-solid fa-screwdriver-wrench text-purple-300"></i>';
-                modalIcon.className = "w-12 h-12 rounded-full mx-auto mb-4 flex items-center justify-center bg-purple-500/20 border border-purple-500/40 text-xl";
-            } else if (type === 'nashi') {
-                modalIcon.innerHTML = '<i class="fa-solid fa-face-grin-tears text-pink-300"></i>';
-                modalIcon.className = "w-12 h-12 rounded-full mx-auto mb-4 flex items-center justify-center bg-pink-500/20 border border-pink-500/40 text-xl";
-            } else if (type === 'stone') {
-                modalIcon.innerHTML = '<i class="fa-solid fa-cubes-stacked text-amber-300"></i>';
-                modalIcon.className = "w-12 h-12 rounded-full mx-auto mb-4 flex items-center justify-center bg-amber-500/20 border border-amber-500/40 text-xl";
-            } else if (type === 'ray') {
-                modalIcon.innerHTML = '<i class="fa-solid fa-fish-fins text-teal-300"></i>';
-                modalIcon.className = "w-12 h-12 rounded-full mx-auto mb-4 flex items-center justify-center bg-teal-500/20 border border-teal-500/40 text-xl";
-            }
-
-            modal.classList.remove('opacity-0', 'pointer-events-none');
-            modalCard.classList.remove('scale-95');
-            modalCard.classList.add('scale-100');
+        function openModal(text) {
+            document.getElementById('modalText').innerText = text;
+            document.getElementById('modalOverlay').classList.add('active');
         }
 
         function closeModal() {
-            const modal = document.getElementById('responseModal');
-            const modalCard = document.getElementById('modalCard');
-
-            modal.classList.add('opacity-0', 'pointer-events-none');
-            modalCard.classList.remove('scale-100');
-            modalCard.classList.add('scale-95');
+            document.getElementById('modalOverlay').classList.remove('active');
         }
 
-        // Close when clicking outside modal card
-        document.getElementById('responseModal').addEventListener('click', function(e) {
-            if (e.target === this) {
+        function closeModalOnOverlay(event) {
+            if (event.target === document.getElementById('modalOverlay')) {
                 closeModal();
             }
-        });
+        }
     </script>
 </body>
 </html>
