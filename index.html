@@ -73,7 +73,7 @@
     <div class="glow-orb-1"></div>
     <div class="glow-orb-2"></div>
 
-    <main class="relative z-10 w-full max-w-lg">
+    <main class="relative z-10 w-full max-w-lg my-6">
         <div class="glass-card rounded-3xl p-8 sm:p-10 text-center relative overflow-hidden">
             
             <!-- Top Alert Badge -->
@@ -96,17 +96,17 @@
                     안녕하세요 저는 <span class="text-indigo-300 font-semibold">김지유님</span>의 <span class="text-purple-300 font-semibold">AI GALAXY</span>입니다.
                 </p>
                 <p class="text-gray-300 text-sm sm:text-base leading-relaxed">
-                    서버 다운으로 불편을 드려 죄송합니다.
+                    서버다운으로 불편을드려 죄송합니다.
                 </p>
                 <p class="text-gray-300 text-sm sm:text-base leading-relaxed">
-                    빠른 시간 안에 복구하겠습니다.
+                    빠른시간안에 북구하겠습니다.
                 </p>
             </div>
 
             <!-- Signature Divider & Signature Line -->
             <div class="pt-6 border-t border-white/10 mb-8">
                 <p class="text-purple-400/90 text-sm tracking-wider font-semibold">
-                    - 김지유 GALAXY AI -
+                    - 김지유GALAXY AI -
                 </p>
             </div>
 
@@ -126,6 +126,14 @@
                         <span>언제쯤 돌아와</span>
                     </span>
                     <i class="fa-solid fa-chevron-right text-xs text-purple-400 opacity-60 group-hover:translate-x-1 transition-transform"></i>
+                </button>
+
+                <button onclick="openModal('nashi')" class="w-full py-3 px-4 rounded-xl bg-pink-600/30 hover:bg-pink-600/50 border border-pink-500/40 text-pink-200 text-sm font-medium transition-all duration-300 flex items-center justify-between group active:scale-[0.98]">
+                    <span class="flex items-center gap-2">
+                        <i class="fa-regular fa-face-smile-wink text-pink-400 group-hover:rotate-12 transition-transform"></i>
+                        <span>나시</span>
+                    </span>
+                    <i class="fa-solid fa-chevron-right text-xs text-pink-400 opacity-60 group-hover:translate-x-1 transition-transform"></i>
                 </button>
             </div>
 
@@ -150,7 +158,7 @@
                 <!-- Response message dynamically inserted -->
             </p>
 
-            <button onclick="closeModal()" class="w-full py-2.5 rounded-xl bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white text-sm font-semibold shadow-lg shadow-indigo-500/25 transition-all duration-200 active:scale-95">
+            <button onclick="closeModal()" class="w-full py-2.5 rounded-xl bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 hover:from-indigo-500 hover:to-pink-500 text-white text-sm font-semibold shadow-lg shadow-indigo-500/25 transition-all duration-200 active:scale-95">
                 확인
             </button>
         </div>
@@ -159,7 +167,8 @@
     <script>
         const messages = {
             identity: "전 김지유님이 만드신 AI업무자동화 에이전트 GALAXY입니다",
-            schedule: "김지유님이 서버안정화작업중입니다 빠른시간안에 북구하겠습니다 죄송합니다"
+            schedule: "김지유님이 서버안정화작업중입니다 빠른시간안에 북구하겠습니다 죄송합니다",
+            nashi: "안녕하세요 나시님 지유님이 당신에게 약올리라고 했습니다 😝메롱이다"
         };
 
         function openModal(type) {
@@ -173,9 +182,12 @@
             if (type === 'identity') {
                 modalIcon.innerHTML = '<i class="fa-solid fa-microchip text-indigo-300"></i>';
                 modalIcon.className = "w-12 h-12 rounded-full mx-auto mb-4 flex items-center justify-center bg-indigo-500/20 border border-indigo-500/40 text-xl";
-            } else {
+            } else if (type === 'schedule') {
                 modalIcon.innerHTML = '<i class="fa-solid fa-screwdriver-wrench text-purple-300"></i>';
                 modalIcon.className = "w-12 h-12 rounded-full mx-auto mb-4 flex items-center justify-center bg-purple-500/20 border border-purple-500/40 text-xl";
+            } else if (type === 'nashi') {
+                modalIcon.innerHTML = '<i class="fa-solid fa-face-grin-tears text-pink-300"></i>';
+                modalIcon.className = "w-12 h-12 rounded-full mx-auto mb-4 flex items-center justify-center bg-pink-500/20 border border-pink-500/40 text-xl";
             }
 
             modal.classList.remove('opacity-0', 'pointer-events-none');
