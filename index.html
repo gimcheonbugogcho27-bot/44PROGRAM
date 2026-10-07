@@ -367,6 +367,82 @@
         body:not(.light-mode) .weather-temp { color: #38bdf8; text-shadow: 0 0 8px rgba(56, 189, 248, 0.5); }
         .weather-desc { font-size: 13px; color: var(--td-color); }
 
+        /* 🤖 AI 대화 패널 스타일 */
+        .ai-chat-box {
+            background: var(--card-bg);
+            border: 1px solid rgba(167, 139, 250, 0.4);
+            border-radius: 12px;
+            padding: 12px;
+            box-shadow: inset 0 0 10px rgba(167, 139, 250, 0.1);
+            margin-bottom: 20px;
+            transition: background 0.5s ease;
+        }
+
+        .ai-chat-messages {
+            height: 180px;
+            overflow-y: auto;
+            border: 1px solid rgba(148, 163, 184, 0.2);
+            border-radius: 8px;
+            padding: 8px;
+            margin-bottom: 8px;
+            background: rgba(15, 23, 42, 0.4);
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        body.light-mode .ai-chat-messages {
+            background: rgba(255, 255, 255, 0.5);
+        }
+
+        .chat-msg {
+            font-size: 12px;
+            line-height: 1.4;
+            padding: 6px 10px;
+            border-radius: 10px;
+            max-width: 85%;
+            word-break: break-all;
+        }
+
+        .chat-msg.bot {
+            align-self: flex-start;
+            background: rgba(124, 58, 237, 0.2);
+            border: 1px solid rgba(167, 139, 250, 0.4);
+            color: var(--text-color);
+        }
+
+        .chat-msg.user {
+            align-self: flex-end;
+            background: rgba(2, 132, 199, 0.3);
+            border: 1px solid rgba(56, 189, 248, 0.4);
+            color: #ffffff;
+        }
+        body.light-mode .chat-msg.user { color: #0f172a; }
+
+        .ai-input-group {
+            display: flex;
+            gap: 6px;
+        }
+
+        .ai-input-group input {
+            font-size: 12px !important;
+            padding: 6px 10px !important;
+            border-radius: 6px !important;
+        }
+
+        .ai-send-btn {
+            background: linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%);
+            color: #fff;
+            border: 1px solid #a78bfa;
+            border-radius: 6px;
+            padding: 0 12px;
+            font-size: 12px;
+            font-weight: bold;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: all 0.2s;
+        }
+        .ai-send-btn:hover { opacity: 0.9; transform: scale(1.02); }
+
         .refresh-icon-btn {
             background: transparent;
             border: none;
@@ -794,12 +870,28 @@
 
         .clear-all-btn:hover { background: rgba(239, 68, 68, 0.4); color: #ffffff; }
 
+        /* 🔍 검색 필터 바 스타일 */
+        .search-bar-box {
+            margin-top: 15px;
+            margin-bottom: 5px;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 10px 14px;
+            font-size: 14px !important;
+            border-radius: 8px !important;
+            background: var(--input-bg);
+            border: 1px solid var(--input-border);
+            color: var(--input-color);
+        }
+
         /* 통장 기록 캡처 대상 영역 스타일링 */
         #printableRecordSection {
             background: var(--table-bg);
             padding: 15px;
             border-radius: 12px;
-            margin-top: 15px;
+            margin-top: 10px;
             border: 1px solid var(--table-border);
             transition: background 0.5s ease;
         }
@@ -1237,6 +1329,11 @@
             </div>
         </div>
 
+        <!-- 🔍 실시간 검색 필터 입력창 -->
+        <div class="search-bar-box">
+            <input type="text" id="recordSearchInput" class="search-input" placeholder="🔍 학생 이름 또는 예금 종류로 기록 검색..." onkeyup="filterRecords()">
+        </div>
+
         <!-- 이미지 캡처 영역 -->
         <div id="printableRecordSection">
             <table>
@@ -1306,6 +1403,20 @@
             <div style="font-size: 12px; color: #64748b;">날씨 정보를 불러오는 중...</div>
         </div>
 
+        <!-- 🤖 스마트 AI 뱅킹 도우미 채팅창 패널 (실시간 데이터 연동) -->
+        <h3 class="admin-panel-title" style="color: #c084fc; border-color: rgba(167, 139, 250, 0.3);">
+            <span>🤖 4-4반 스마트 AI 도우미</span>
+        </h3>
+        <div class="ai-chat-box">
+            <div class="ai-chat-messages" id="aiChatMessages">
+                <div class="chat-msg bot">👋 안녕! 날씨, 급식, 학생별 체크리스트, 저금 금액까지 무엇이든 물어봐!</div>
+            </div>
+            <div class="ai-input-group">
+                <input type="text" id="aiInputText" placeholder="질문을 입력하세요..." onkeyup="if(event.key==='Enter') sendAiMessage()">
+                <button class="ai-send-btn" onclick="sendAiMessage()">전송</button>
+            </div>
+        </div>
+
         <!-- 🍱 10월 식단표 연동 패널 -->
         <h3 class="admin-panel-title" style="color: #f59e0b; border-color: rgba(245, 158, 11, 0.3); margin-top: 15px;">
             <span>🍱 10월 김천부곡초 급식</span>
@@ -1346,10 +1457,10 @@
         <h2 class="update-modal-title">🎉 업데이트 안내</h2>
         <div class="update-modal-body">
             <ul>
-                <li><strong>🍱 10월 식단표 완벽 반영:</strong> 제공해주신 10월 이미지 식단표 기준으로 날짜별 급식이 정확하게 연동됩니다[cite: 3].</li>
+                <li><strong>🤖 AI 실시간 데이터 연동 업그레이드:</strong> 이제 AI에게 날씨, 급식, 학생별 체크리스트, 예적금 잔액을 실시간으로 물어보세요!</li>
+                <li><strong>🔍 검색 기능 추가:</strong> 전체 통장 기록에서 학생 이름이나 예금 종류를 검색할 수 있습니다.</li>
+                <li><strong>🍱 10월 식단표 완벽 반영:</strong> 제공해주신 10월 이미지 식단표 기준으로 날짜별 급식이 정확하게 연동됩니다.</li>
                 <li><strong>📋 학생별 체크리스트 추가:</strong> 날씨 패널 아래에서 이름을 클릭해 횟수를 올리고 삭제 버튼으로 내릴 수 있습니다.</li>
-                <li><strong>📅 오늘의 시간표 추가:</strong> 요일별 시간표가 자동으로 표시됩니다.</li>
-                <li><strong>😂 나시 이스터에그 추가:</strong> 은행원 명단의 나혜지(나시) 이름을 3번 클릭해보세요!</li>
             </ul>
         </div>
         <button class="update-confirm-btn" onclick="closeUpdateNotice()">확인하였습니다</button>
@@ -1359,7 +1470,7 @@
 <div class="modal-overlay" id="restoreModal">
     <div class="modal-card" style="border-color: #f59e0b; box-shadow: 0 0 30px rgba(245, 158, 11, 0.4);">
         <div class="modal-header">
-            <h2 class="modal-title" style="color: #d97706;">♻️ 삭제된 통장 기록 복구함</h2>
+            <h2 class="modal-title" style="color: #d97706;">♻ 삭제된 통장 기록 복구함</h2>
             <button class="modal-close" onclick="closeRestoreModal()">✕</button>
         </div>
         <p style="font-size: 13px; margin-bottom: 15px;">
@@ -1465,13 +1576,136 @@
         fetchGimcheonWeather();
         renderTimetable();
         renderChecklist(); 
-        loadSchoolMeal(); // 👈 10월 급식 정보 연동 로드
+        loadSchoolMeal();
     };
+
+    /* 🔍 실시간 기록 검색 기능 */
+    function filterRecords() {
+        const query = document.getElementById('recordSearchInput').value.toLowerCase().trim();
+        const records = JSON.parse(localStorage.getItem('classBankRecords')) || [];
+        const tbody = document.getElementById('recordList');
+        tbody.innerHTML = '';
+
+        const filtered = records.filter(item => 
+            item.name.toLowerCase().includes(query) || 
+            item.type.toLowerCase().includes(query) ||
+            item.date.includes(query)
+        );
+
+        if (filtered.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="5" style="color: #64748b; padding: 15px;">검색 결과가 없습니다.</td></tr>';
+            return;
+        }
+
+        filtered.forEach((item) => {
+            const originalIndex = records.indexOf(item);
+            const formattedAmount = Number(item.amount).toLocaleString() + '원';
+            const newRow = document.createElement('tr');
+
+            newRow.innerHTML = `
+                <td>${item.date}</td>
+                <td>${item.name}</td>
+                <td>${item.type}</td>
+                <td><strong>${formattedAmount}</strong></td>
+                <td><button class="delete-btn" onclick="deleteRecord(${originalIndex})">삭제</button></td>
+            `;
+            tbody.appendChild(newRow);
+        });
+    }
+
+    /* 🤖 스마트 AI 뱅킹 도우미 (날씨, 급식, 체크리스트, 예적금 데이터 실시간 조회 연동) */
+    function sendAiMessage() {
+        const inputEl = document.getElementById('aiInputText');
+        const text = inputEl.value.trim();
+        if (!text) return;
+
+        const messagesBox = document.getElementById('aiChatMessages');
+
+        const userMsg = document.createElement('div');
+        userMsg.className = 'chat-msg user';
+        userMsg.textContent = text;
+        messagesBox.appendChild(userMsg);
+
+        inputEl.value = '';
+        messagesBox.scrollTop = messagesBox.scrollHeight;
+
+        setTimeout(() => {
+            const botMsg = document.createElement('div');
+            botMsg.className = 'chat-msg bot';
+            botMsg.textContent = getSmartAiResponse(text);
+            messagesBox.appendChild(botMsg);
+            messagesBox.scrollTop = messagesBox.scrollHeight;
+        }, 300);
+    }
+
+    function getSmartAiResponse(input) {
+        const q = input.toLowerCase();
+
+        // 🌤️ 1. 날씨 물어보는 경우
+        if (q.includes("날씨") || q.includes("기온") || q.includes("비 오냐") || q.includes("비와") || q.includes("눈와")) {
+            const weatherBox = document.getElementById('weatherBox');
+            const weatherText = weatherBox ? weatherBox.innerText.replace(/\n/g, ' ') : '';
+            if (weatherText && !weatherText.includes("불러오는 중")) {
+                return `🌤️ [실시간 김천 날씨] ${weatherText}`;
+            }
+            return "🌤️ 오늘의 김천 날씨 패널을 확인해보세요! 상단 새로고침 🔄 버튼으로 최신 기온을 불러올 수 있습니다.";
+        }
+
+        // 🍱 2. 급식 물어보는 경우
+        if (q.includes("급식") || q.includes("밥") || q.includes("메뉴") || q.includes("반찬") || q.includes("맛있는")) {
+            const mealBox = document.getElementById('mobileMealBox');
+            const mealText = mealBox ? mealBox.innerText.replace(/\n/g, ' ') : '';
+            if (mealText && !mealText.includes("불러오는 중")) {
+                return `🍱 [선택한 날짜 급식 정보] ${mealText}`;
+            }
+            return "🍱 날짜를 선택하시면 해당 날짜의 10월 김천부곡초 급식 메뉴를 바로 안내해 드릴 수 있습니다!";
+        }
+
+        // 👤 질문에서 학생 이름 찾기
+        const matchedStudent = studentList.find(s => q.includes(s.toLowerCase()));
+
+        // 📋 3. 학생 체크리스트 물어보는 경우
+        if (q.includes("체크") || q.includes("체크리스트") || q.includes("횟수") || q.includes("몇 번")) {
+            const counts = JSON.parse(localStorage.getItem('classBankChecklistCounts')) || {};
+            if (matchedStudent) {
+                const cnt = counts[matchedStudent] || 0;
+                return `📋 '${matchedStudent}' 학생의 체크리스트 누적 횟수는 총 ${cnt}회 입니다!`;
+            } else {
+                return "📋 체크리스트 전체 현황: 패널에서 이름을 눌러 횟수를 추가하실 수 있습니다. 특정 학생의 이름을 함께 적어 질문해 보세요! (예: 김예은 체크 몇번이야?)";
+            }
+        }
+
+        // 💰 4. 학생 저금/예금/적금 금액 물어보는 경우
+        if (matchedStudent || q.includes("저금") || q.includes("얼마") || q.includes("돈") || q.includes("잔액") || q.includes("모았어")) {
+            if (matchedStudent) {
+                const records = JSON.parse(localStorage.getItem('classBankRecords')) || [];
+                let dep = 0, sav = 0;
+                records.forEach(r => {
+                    if (r.name === matchedStudent) {
+                        const amt = Number(r.amount) || 0;
+                        if (r.type === '정기예금') dep += amt;
+                        if (r.type === '정기적금') sav += amt;
+                    }
+                });
+                const total = dep + sav;
+                return `💰 '${matchedStudent}' 학생 저금 현황: 정기예금 ${dep.toLocaleString()}원, 정기적금 ${sav.toLocaleString()}원 (총합 ${total.toLocaleString()}원) 저금했습니다!`;
+            }
+        }
+
+        // 🚀 5. 일반 금융 규칙 및 이스터에그 답변
+        if (q.includes("예금 한도") || q.includes("예금 금액")) return "🪐 정기예금은 1회 최대 1,000원, 총 합계 3,000원까지 가능합니다!";
+        if (q.includes("적금") || q.includes("이자")) return "🌟 정기적금은 주 1회 최대 200원! 3번 연속 저금 시 4주째 800원(200원 이자)으로 돌려받습니다!";
+        if (q.includes("나시") || q.includes("나혜지")) return "🤪 나혜지(나시) 은행원의 이름을 3번 연속 클릭해보세요! 비바람 이스터에그가 켜집니다!";
+        if (q.includes("안녕") || q.includes("하이")) return "👋 안녕! 오늘도 즐거운 4-4반 알뜰 은행 생활 해보자!";
+        if (q.includes("777")) return "🎰 금액란에 777을 적으시면 잭팟 럭키 코인 비가 내립니다!";
+
+        return "💡 궁금한 내용을 물어보세요! 예: '김천 날씨', '오늘 급식', '김예은 체크 몇번?', '전시은 얼마 넣었어?' 등";
+    }
 
     /* 🍱 2026년 10월 이미지 식단표 데이터 완벽 매핑 */
     function loadSchoolMeal() {
         const mealBox = document.getElementById('mobileMealBox');
-        const selectedDateStr = document.getElementById('date').value; // YYYY-MM-DD
+        const selectedDateStr = document.getElementById('date').value;
         
         if (!selectedDateStr) {
             mealBox.innerHTML = '<div style="font-size: 12px; color: #64748b;">날짜를 선택해 주세요.</div>';
@@ -1482,12 +1716,11 @@
         const year = dateObj.getFullYear();
         const month = dateObj.getMonth() + 1;
         const day = dateObj.getDate();
-        const dayIndex = dateObj.getDay(); // 0: 일, 1: 월, ... 6: 토
+        const dayIndex = dateObj.getDay();
 
         const days = ['일', '월', '화', '수', '목', '금', '토'];
         const dateDisplayStr = `${month}월 ${day}일 (${days[dayIndex]})`;
 
-        // 2026년 10월이 아니거나 주말인 경우 처리
         if (year !== 2026 || month !== 10) {
             mealBox.innerHTML = `
                 <div style="font-weight: bold; color: #f59e0b; margin-bottom: 6px;">📅 ${dateDisplayStr}</div>
@@ -1504,7 +1737,6 @@
             return;
         }
 
-        // 2026년 10월 일자별 식단 데이터베이스 (제공해주신 이미지 기준 정확한 메뉴 반영)[cite: 3]
         const octoberMeals = {
             1: "찹쌀밥(자유)<br>쇠고기들깨미역국(5.6.16)<br>효두단호박조림(5.6.13.14)<br>고구마치즈돈가스/소스(1.2.5.6.10.12.13.16.18)<br>깍두기담김(9)<br>배추김치(자율)(9)<br>구이/구주/성참(자율)(5.6.13)<br>우리밀초코파이(1.2.5.6)<br>카페라떼샐러드(유)(2.13.12)",
             2: "쌀밥(자유)<br>잔치국수/양념장(1.5.6.9)<br>콩나물무침(자율)(5)<br>쇠고기육전(1.5.8.16.18)<br>배추김치(자율)(9)<br>초코컵쿠키(1.2.5.6)<br>하루요구르트(사과맛)(7)<br>바나나",
@@ -1531,6 +1763,7 @@
         };
 
         const meal = octoberMeals[day];
+        let menuText = "";
 
         if (!meal) {
             menuText = "해당 날짜의 식단 정보가 등록되어 있지 않습니다.";
@@ -1631,7 +1864,7 @@
             return;
         }
 
-        currentClasses.forEach((cls, idx) => {
+        currentClasses.forEach((cls) => {
             let li = document.createElement('li');
             li.className = 'timetable-item today-class';
             li.innerHTML = `<span>${cls}</span>`;
@@ -1749,7 +1982,7 @@
                     weatherBox.innerHTML = '<div style="font-size: 12px; color: #ef4444;">날씨 불러오기 실패</div>';
                 }
             })
-            .catch(err => {
+            .catch(() => {
                 weatherBox.innerHTML = '<div style="font-size: 12px; color: #ef4444;">네트워크 연결을 확인하세요</div>';
             });
     }
@@ -1760,7 +1993,7 @@
         if (code >= 45 && code <= 48) return { icon: '🌫️', text: '안개' };
         if (code >= 51 && code <= 67) return { icon: '🌧️', text: '비' };
         if (code >= 71 && code <= 77) return { icon: '❄️', text: '눈' };
-        if (code >= 80 && code <= 82) return { icon: '🌦️️', text: '소나기' };
+        if (code >= 80 && code <= 82) return { icon: '🌦', text: '소나기' };
         if (code >= 95) return { icon: '🌩️', text: '뇌우' };
         return { icon: '🌡️', text: '기온 정보' };
     }
