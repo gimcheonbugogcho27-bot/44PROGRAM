@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI GALAXY - 서비스 이용 제한 안내</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font & Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        body {
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
+            background-color: #0b0d19;
+            color: #ffffff;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        /* Ambient Glow Background Orbs */
+        .glow-orb-1 {
+            position: absolute;
+            top: 5%;
+            left: 5%;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(99, 102, 241, 0.35) 0%, rgba(0, 0, 0, 0) 70%);
+            border-radius: 50%;
+            filter: blur(60px);
+            animation: float 8s ease-in-out infinite alternate;
+            z-index: 0;
+        }
+
+        .glow-orb-2 {
+            position: absolute;
+            bottom: 5%;
+            right: 5%;
+            width: 450px;
+            height: 450px;
+            background: radial-gradient(circle, rgba(168, 85, 247, 0.3) 0%, rgba(0, 0, 0, 0) 70%);
+            border-radius: 50%;
+            filter: blur(70px);
+            animation: float 10s ease-in-out infinite alternate-reverse;
+            z-index: 0;
+        }
+
+        @keyframes float {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(40px, -40px) scale(1.15); }
+        }
+
+        /* Glassmorphism Card Style */
+        .glass-card {
+            background: rgba(18, 22, 41, 0.78);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6), inset 0 1px 1px rgba(255, 255, 255, 0.15);
+        }
+
+        /* Pulsing Galaxy Star Icon */
+        .star-pulse {
+            animation: pulseGlow 2.5s infinite ease-in-out;
+        }
+
+        @keyframes pulseGlow {
+            0%, 100% { transform: scale(1); opacity: 0.9; filter: drop-shadow(0 0 12px rgba(168, 85, 247, 0.6)); }
+            50% { transform: scale(1.08); opacity: 1; filter: drop-shadow(0 0 24px rgba(99, 102, 241, 0.95)); }
+        }
+
+        /* Cat Dancing Keyframes & Modes */
+        .cat-container {
+            transform-origin: bottom center;
+        }
+
+        /* Dance Mode 1: Groovy Bounce */
+        .dance-groovy .cat-container {
+            animation: catGroove 0.6s infinite ease-in-out alternate;
+        }
+        .dance-groovy .cat-tail {
+            animation: tailWag 0.6s infinite ease-in-out alternate;
+            transform-origin: bottom left;
+        }
+        .dance-groovy .cat-arm-left {
+            animation: armLeftWave 0.6s infinite ease-in-out alternate;
+            transform-origin: top right;
+        }
+        .dance-groovy .cat-arm-right {
+            animation: armRightWave 0.6s infinite ease-in-out alternate;
+            transform-origin: top left;
+        }
+
+        /* Dance Mode 2: Fast Disco */
+        .dance-fast .cat-container {
+            animation: catFastJiggle 0.25s infinite ease-in-out alternate;
+        }
+        .dance-fast .cat-tail {
+            animation: tailWag 0.2s infinite ease-in-out alternate;
+            transform-origin: bottom left;
+        }
+        .dance-fast .cat-arm-left {
+            animation: armPumpLeft 0.25s infinite ease-in-out alternate;
+            transform-origin: top right;
+        }
+        .dance-fast .cat-arm-right {
+            animation: armPumpRight 0.25s infinite ease-in-out alternate;
+            transform-origin: top left;
+        }
+
+        /* Dance Mode 3: Breakdance Spin & Bounce */
+        .dance-spin .cat-container {
+            animation: catBreakdance 0.8s infinite ease-in-out;
+        }
+
+        @keyframes catGroove {
+            0% { transform: translateY(0) rotate(-4deg); }
+            100% { transform: translateY(-18px) rotate(4deg); }
+        }
+
+        @keyframes catFastJiggle {
+            0% { transform: translateY(0) rotate(-8deg) scaleX(0.95); }
+            100% { transform: translateY(-12px) rotate(8deg) scaleX(1.05); }
+        }
+
+        @keyframes catBreakdance {
+            0% { transform: translateY(0) rotate(0deg) scale(1); }
+            25% { transform: translateY(-25px) rotate(90deg) scale(0.9); }
+            50% { transform: translateY(0) rotate(180deg) scale(1.1); }
+            75% { transform: translateY(-25px) rotate(270deg) scale(0.9); }
+            100% { transform: translateY(0) rotate(360deg) scale(1); }
+        }
+
+        @keyframes tailWag {
+            0% { transform: rotate(-15deg); }
+            100% { transform: rotate(25deg); }
+        }
+
+        @keyframes armLeftWave {
+            0% { transform: rotate(-10deg); }
+            100% { transform: rotate(-70deg); }
+        }
+
+        @keyframes armRightWave {
+            0% { transform: rotate(70deg); }
+            100% { transform: rotate(10deg); }
+        }
+
+        @keyframes armPumpLeft {
+            0% { transform: rotate(-80deg); }
+            100% { transform: rotate(10deg); }
+        }
+
+        @keyframes armPumpRight {
+            0% { transform: rotate(-10deg); }
+            100% { transform: rotate(-80deg); }
+        }
+
+        /* Floating Musical Notes */
+        .music-note {
+            position: absolute;
+            color: #c084fc;
+            font-size: 1.5rem;
+            opacity: 0;
+            animation: floatNote 2.5s infinite linear;
+            z-index: 10;
+        }
+
+        .music-note:nth-child(1) { left: 15%; animation-delay: 0s; }
+        .music-note:nth-child(2) { left: 45%; animation-delay: 0.8s; }
+        .music-note:nth-child(3) { left: 75%; animation-delay: 1.6s; }
+
+        @keyframes floatNote {
+            0% { transform: translateY(20px) scale(0.6) rotate(0deg); opacity: 0; }
+            50% { opacity: 0.9; }
+            100% { transform: translateY(-90px) scale(1.2) rotate(25deg); opacity: 0; }
+        }
+
+        /* Modal Overlay Animation */
+        .modal-enter {
+            animation: modalPop 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        }
+
+        @keyframes modalPop {
+            0% { opacity: 0; transform: scale(0.85) translateY(10px); }
+            100% { opacity: 1; transform: scale(1) translateY(0); }
+        }
+    </style>
+</head>
+<body class="relative flex items-center justify-center p-4 sm:p-6 md:p-10 min-h-screen">
+
+    <!-- Background Orbs -->
+    <div class="glow-orb-1"></div>
+    <div class="glow-orb-2"></div>
+
+    <!-- Main Container: Side-by-Side on LG screens, Stacked on Mobile -->
+    <div class="relative z-10 w-full max-w-6xl grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
+
+        <!-- Left Panel: Original Galaxy AI Service Notice & All 5 Interactive Buttons -->
+        <div class="lg:col-span-7 glass-card rounded-3xl p-6 sm:p-8 flex flex-col justify-between">
+            <div>
+                <!-- Service Limit Badge Header -->
+                <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-red-500/10 border border-red-500/30 text-red-400 text-xs sm:text-sm font-semibold mb-6">
+                    <span class="w-2.5 h-2.5 rounded-full bg-red-500 animate-ping"></span>
+                    <i class="fa-solid font-bold fa-triangle-exclamation"></i>
+                    <span>서비스 이용이 제한됩니다</span>
+                </div>
+
+                <!-- Main Galaxy Logo / Header -->
+                <div class="flex items-center gap-4 mb-6">
+                    <div class="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-gradient-to-tr from-indigo-600 via-purple-600 to-pink-500 flex items-center justify-center shadow-lg star-pulse">
+                        <i class="fa-solid fa-wand-magic-sparkles text-2xl sm:text-3xl text-white"></i>
+                    </div>
+                    <div>
+                        <h2 class="text-xs uppercase tracking-widest text-indigo-400 font-bold">GALAXY AI SYSTEM</h2>
+                        <h1 class="text-xl sm:text-2xl font-extrabold text-white">김지유 GALAXY AI</h1>
+                    </div>
+                </div>
+
+                <!-- Main Exact Content Banner Box -->
+                <div class="p-5 rounded-2xl bg-indigo-950/40 border border-indigo-500/20 mb-8 space-y-3">
+                    <div class="flex items-start gap-3">
+                        <i class="fa-solid fa-circle-info text-indigo-400 mt-1"></i>
+                        <p class="text-base sm:text-lg font-medium leading-relaxed text-slate-200">
+                            안녕하세요저는 <span class="text-indigo-300 font-bold underline decoration-indigo-500/50 underline-offset-4">김지유님의 AI GALAXY</span>입니다 서버다운으로 불편을드려 죄송합니다 빠른시간안에 북구하겠습니다 김지유GALAXY AI
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Interactive Question Buttons Title -->
+                <div class="mb-3 flex items-center justify-between">
+                    <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">자주 묻는 질문 (클릭해보세요)</span>
+                    <span class="text-xs text-indigo-400"><i class="fa-solid fa-hand-pointer mr-1"></i>버튼 선택</span>
+                </div>
+
+                <!-- All 5 Buttons Grid (100% Original Requirements Preserved) -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-6">
+                    <!-- Button 1: 넌 누구야 -->
+                    <button onclick="openModal('who')" class="group flex items-center justify-between px-4 py-3.5 rounded-xl bg-slate-800/60 hover:bg-indigo-600/30 border border-slate-700/60 hover:border-indigo-500/50 transition-all duration-200 active:scale-95 text-left">
+                        <span class="text-sm font-semibold text-slate-200 group-hover:text-indigo-200 flex items-center gap-2">
+                            <i class="fa-solid fa-robot text-indigo-400"></i> 넌 누구야
+                        </span>
+                        <i class="fa-solid fa-chevron-right text-xs text-slate-500 group-hover:text-indigo-300 transform group-hover:translate-x-1 transition-transform"></i>
+                    </button>
+
+                    <!-- Button 2: 언제쯤 돌아와 -->
+                    <button onclick="openModal('when')" class="group flex items-center justify-between px-4 py-3.5 rounded-xl bg-slate-800/60 hover:bg-purple-600/30 border border-slate-700/60 hover:border-purple-500/50 transition-all duration-200 active:scale-95 text-left">
+                        <span class="text-sm font-semibold text-slate-200 group-hover:text-purple-200 flex items-center gap-2">
+                            <i class="fa-solid fa-clock-rotate-left text-purple-400"></i> 언제쯤 돌아와
+                        </span>
+                        <i class="fa-solid fa-chevron-right text-xs text-slate-500 group-hover:text-purple-300 transform group-hover:translate-x-1 transition-transform"></i>
+                    </button>
+
+                    <!-- Button 3: 나시 -->
+                    <button onclick="openModal('nasi')" class="group flex items-center justify-between px-4 py-3.5 rounded-xl bg-slate-800/60 hover:bg-pink-600/30 border border-slate-700/60 hover:border-pink-500/50 transition-all duration-200 active:scale-95 text-left">
+                        <span class="text-sm font-semibold text-slate-200 group-hover:text-pink-200 flex items-center gap-2">
+                            <i class="fa-solid fa-face-laugh-squint text-pink-400"></i> 나시
+                        </span>
+                        <i class="fa-solid fa-chevron-right text-xs text-slate-500 group-hover:text-pink-300 transform group-hover:translate-x-1 transition-transform"></i>
+                    </button>
+
+                    <!-- Button 4: 돌맹이 -->
+                    <button onclick="openModal('stone')" class="group flex items-center justify-between px-4 py-3.5 rounded-xl bg-slate-800/60 hover:bg-amber-600/30 border border-slate-700/60 hover:border-amber-500/50 transition-all duration-200 active:scale-95 text-left">
+                        <span class="text-sm font-semibold text-slate-200 group-hover:text-amber-200 flex items-center gap-2">
+                            <i class="fa-solid fa-gem text-amber-400"></i> 돌맹이
+                        </span>
+                        <i class="fa-solid fa-chevron-right text-xs text-slate-500 group-hover:text-amber-300 transform group-hover:translate-x-1 transition-transform"></i>
+                    </button>
+
+                    <!-- Button 5: 가오리 (Full Width on Small Screen to Balance Grid) -->
+                    <button onclick="openModal('gaori')" class="group sm:col-span-2 flex items-center justify-between px-4 py-3.5 rounded-xl bg-slate-800/60 hover:bg-emerald-600/30 border border-slate-700/60 hover:border-emerald-500/50 transition-all duration-200 active:scale-95 text-left">
+                        <span class="text-sm font-semibold text-slate-200 group-hover:text-emerald-200 flex items-center gap-2">
+                            <i class="fa-solid fa-fish text-emerald-400"></i> 가오리
+                        </span>
+                        <i class="fa-solid fa-chevron-right text-xs text-slate-500 group-hover:text-emerald-300 transform group-hover:translate-x-1 transition-transform"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Footer Timestamp Tag -->
+            <div class="pt-4 border-t border-slate-800 flex items-center justify-between text-xs text-slate-400">
+                <span><i class="fa-solid fa-server mr-1 text-slate-500"></i>시스템 복구작업 진행 중</span>
+                <span class="font-mono text-indigo-400">STATUS: 503 SERVICE MAINTENANCE</span>
+            </div>
+        </div>
+
+        <!-- Right Panel: Dancing Cat Interactive Disco Stage -->
+        <div id="catPanel" class="lg:col-span-5 glass-card rounded-3xl p-6 sm:p-8 flex flex-col justify-between items-center text-center relative overflow-hidden dance-groovy">
+            
+            <!-- Disco Lights Background Glow inside Panel -->
+            <div class="absolute inset-0 bg-gradient-to-b from-indigo-500/10 via-purple-500/5 to-pink-500/10 pointer-events-none"></div>
+
+            <!-- Panel Header -->
+            <div class="relative z-10 w-full flex items-center justify-between mb-2">
+                <span class="text-xs font-bold uppercase tracking-widest text-purple-300 flex items-center gap-1.5">
+                    <i class="fa-solid fa-music text-purple-400 animate-bounce"></i> DANCING CAT STAGE
+                </span>
+                <span id="danceStatusTag" class="px-2.5 py-0.5 rounded-full bg-purple-500/20 text-purple-300 text-xs border border-purple-500/30">
+                    신나는 댄스 타임
+                </span>
+            </div>
+
+            <!-- Cat Stage Stage Viewport -->
+            <div class="relative w-full h-64 sm:h-72 my-4 flex items-center justify-center bg-slate-950/50 rounded-2xl border border-purple-500/20 overflow-hidden shadow-inner">
+                
+                <!-- Floating Musical Notes -->
+                <div class="music-note"><i class="fa-solid fa-music"></i></div>
+                <div class="music-note"><i class="fa-solid fa-note-sticky"></i></div>
+                <div class="music-note"><i class="fa-solid fa-compact-disc"></i></div>
+
+                <!-- Stage Light Floor Effect -->
+                <div class="absolute bottom-2 w-40 h-8 bg-purple-500/30 rounded-full filter blur-md"></div>
+
+                <!-- Animated SVG Dancing Cat -->
+                <div class="cat-container relative z-10 w-40 h-48 sm:w-44 sm:h-52">
+                    <svg viewBox="0 0 200 240" class="w-full h-full drop-shadow-[0_10px_15px_rgba(168,85,247,0.4)]">
+                        <!-- Tail -->
+                        <path class="cat-tail" d="M 130 170 Q 170 160 160 120 Q 150 90 170 80" fill="none" stroke="#f43f5e" stroke-width="12" stroke-linecap="round"/>
+                        
+                        <!-- Cat Feet / Legs -->
+                        <ellipse cx="75" cy="205" rx="14" ry="10" fill="#fb7185"/>
+                        <ellipse cx="125" cy="205" rx="14" ry="10" fill="#fb7185"/>
+                        <ellipse cx="75" cy="205" rx="10" ry="6" fill="#ffe4e6"/>
+                        <ellipse cx="125" cy="205" rx="10" ry="6" fill="#ffe4e6"/>
+
+                        <!-- Cat Body -->
+                        <ellipse cx="100" cy="150" rx="42" ry="50" fill="#fda4af"/>
+                        <!-- White Tummy -->
+                        <ellipse cx="100" cy="155" rx="28" ry="34" fill="#fff1f2"/>
+
+                        <!-- Left Arm (Waving Paw) -->
+                        <g class="cat-arm-left">
+                            <path d="M 62 130 Q 30 110 35 85" fill="none" stroke="#fda4af" stroke-width="14" stroke-linecap="round"/>
+                            <circle cx="35" cy="85" r="9" fill="#ffe4e6"/>
+                        </g>
+
+                        <!-- Right Arm (Waving Paw) -->
+                        <g class="cat-arm-right">
+                            <path d="M 138 130 Q 170 110 165 85" fill="none" stroke="#fda4af" stroke-width="14" stroke-linecap="round"/>
+                            <circle cx="165" cy="85" r="9" fill="#ffe4e6"/>
+                        </g>
+
+                        <!-- Ears -->
+                        <polygon points="50,80 72,30 90,75" fill="#f43f5e"/>
+                        <polygon points="58,75 72,40 84,72" fill="#ffe4e6"/>
+
+                        <polygon points="150,80 128,30 110,75" fill="#f43f5e"/>
+                        <polygon points="142,75 128,40 116,72" fill="#ffe4e6"/>
+
+                        <!-- Head -->
+                        <ellipse cx="100" cy="90" rx="48" ry="40" fill="#fda4af"/>
+
+                        <!-- Cheeks (Blush) -->
+                        <circle cx="70" cy="100" r="8" fill="#f43f5e" opacity="0.4"/>
+                        <circle cx="130" cy="100" r="8" fill="#f43f5e" opacity="0.4"/>
+
+                        <!-- Cute Anime Eyes (Happy Wink & Open) -->
+                        <circle
